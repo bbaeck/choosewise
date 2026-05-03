@@ -7,299 +7,253 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#f7f5f0;--surface:#ffffff;--border:#e8e4dc;--border2:#d4cfc4;
+  --bg:#f7f5f0;--surface:#fff;--border:#e8e4dc;--border2:#d4cfc4;
   --text:#111;--text2:#555;--text3:#888;
   --gold:#c9a84c;--gold-dark:#a07830;
-  --blue:#378ADD;--green:#27500A;--green-light:#EAF3DE;
+  --blue:#378ADD;--green:#27500A;--green-bg:#EAF3DE;
   --purple:#7F77DD;--orange:#D85A30;--red:#c00;
-  --radius:12px;--radius-sm:8px;
+  --r:12px;--r-sm:8px;
 }
 html{scroll-behavior:smooth}
 body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);min-height:100vh}
 
-/* ── TOP NAV ── */
-.topnav{background:#fff;border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:100}
-.topnav-brand{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
-.topnav-back{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--text3);text-decoration:none}
-.topnav-back:hover{color:var(--text)}
-.compare-btn{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:6px 14px;border:1px solid var(--border2);border-radius:99px;background:#fff;color:var(--text2);cursor:pointer;transition:all .15s}
-.compare-btn:hover{background:var(--bg);border-color:var(--text3)}
-.compare-btn.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+/* NAV */
+.nav{background:#fff;border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav-brand{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
+.nav-back{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--text3);text-decoration:none}
+.nav-back:hover{color:var(--text)}
 
-/* ── PAGE HEADER ── */
-.page-header{padding:32px 20px 0;max-width:1200px;margin:0 auto}
-.page-header h1{font-size:clamp(22px,3vw,32px);font-weight:400;margin-bottom:6px}
-.page-header p{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;color:var(--text3);margin-bottom:24px}
+/* PAGE HEADER */
+.ph{padding:28px 20px 0;max-width:1200px;margin:0 auto}
+.ph h1{font-size:clamp(20px,3vw,30px);font-weight:400;margin-bottom:4px}
+.ph p{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--text3);margin-bottom:20px}
 
-/* ── CONTROLS ── */
-.controls{max-width:1200px;margin:0 auto;padding:0 20px}
-.search-wrap{position:relative;margin-bottom:12px}
-.search-wrap input{width:100%;padding:11px 16px 11px 40px;font-size:14px;border:1px solid var(--border2);border-radius:var(--radius);background:#fff;font-family:"Georgia",serif;outline:none;transition:border-color .15s}
+/* CONTROLS */
+.ctrl{max-width:1200px;margin:0 auto;padding:0 20px}
+.search-wrap{position:relative;margin-bottom:10px}
+.search-wrap input{width:100%;padding:10px 14px 10px 38px;font-size:14px;border:1px solid var(--border2);border-radius:var(--r);background:#fff;font-family:"Georgia",serif;outline:none;transition:border-color .15s}
 .search-wrap input:focus{border-color:var(--gold)}
-.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px}
-.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;align-items:center}
-.tool-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.si{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px}
+.toolbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:8px;align-items:center}
+.tl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
 .sb{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:5px 12px;border:1px solid var(--border2);border-radius:99px;background:#fff;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap}
 .sb:hover{border-color:var(--text3);background:var(--bg)}
 .sb.on{background:var(--text);color:#fff;border-color:var(--text)}
-.sb-em{border-color:#639922;color:#27500A;background:var(--green-light)}
+.sb-em{border-color:#639922;color:#27500A;background:var(--green-bg)}
 .sb-em.on{background:#27500A;color:#fff;border-color:#27500A}
 .sb-bm{border-color:var(--gold);color:var(--gold-dark);background:#FDF8EC}
-.sb-bm.on{background:var(--gold);color:#fff;border-color:var(--gold)}
-.divider{width:1px;height:20px;background:var(--border2);flex-shrink:0}
-
-.sector-wrap{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
-.st{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--border);background:#fff;color:var(--text3);cursor:pointer;transition:all .12s;white-space:nowrap}
+.sb-bm.on{background:var(--gold);color:#fff}
+.divider{width:1px;height:18px;background:var(--border2);flex-shrink:0}
+.stabs{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+.st{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--border);background:#fff;color:var(--text3);cursor:pointer;white-space:nowrap;transition:all .12s}
 .st:hover{background:var(--bg);border-color:var(--border2)}
 .st.on{background:var(--text);color:#fff;border-color:var(--text)}
-
-.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:10px}
 .leg{display:flex;align-items:center;gap:4px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3)}
 .ld{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cnt{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text3);margin-bottom:10px}
 
-.cnt{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text3);margin-bottom:12px}
+/* GRID */
+.grid{max-width:1200px;margin:0 auto;padding:0 20px 40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
 
-/* ── GRID ── */
-.grid{max-width:1200px;margin:0 auto;padding:0 20px 40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
-
-/* ── CARD ── */
-.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .15s,box-shadow .15s;cursor:pointer}
-.card:hover{border-color:var(--border2);box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.card.open{border-color:var(--gold);box-shadow:0 4px 20px rgba(201,168,76,.12)}
-.card.emerging{border-left:3px solid #639922}
-.card.comparing{border-color:var(--blue);background:#F0F6FF}
+/* CARD */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.card:hover{border-color:var(--border2);box-shadow:0 2px 10px rgba(0,0,0,.05)}
+.card.em{border-left:3px solid #639922}
 .card.bookmarked .bm-dot{opacity:1}
 
-/* card header */
-.ch{padding:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
-.ch-left{flex:1}
-.ct{font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px;line-height:1.3}
-.cs{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
-.ch-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
-.etag{font-size:10px;font-weight:600;background:var(--green-light);color:#27500A;padding:2px 7px;border-radius:4px}
-.bm-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .15s;flex-shrink:0}
-.tog{font-size:16px;color:var(--text3);line-height:1}
-.cmp-check{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;flex-shrink:0;transition:all .15s}
-.comparing .cmp-check{background:var(--blue);border-color:var(--blue)}
+/* card top — always visible */
+.ct-wrap{padding:14px 14px 0;cursor:pointer}
+.ct-head{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:10px}
+.ct-left{flex:1}
+.ct-name{font-size:15px;font-weight:600;color:var(--text);line-height:1.3}
+.ct-sector{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.ct-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.etag{font-size:10px;font-weight:600;background:var(--green-bg);color:#27500A;padding:2px 6px;border-radius:3px}
+.bm-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .15s}
 
 /* bars */
-.bars{padding:0 16px 12px;display:flex;flex-direction:column;gap:5px}
-.br{display:flex;align-items:center;gap:8px}
+.bars{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.br{display:flex;align-items:center;gap:7px}
 .bl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;color:var(--text3);width:52px;flex-shrink:0;text-transform:uppercase;letter-spacing:.04em}
 .bt{flex:1;height:5px;background:var(--bg);border-radius:99px;overflow:hidden}
-.bf{height:100%;border-radius:99px;transition:width .4s ease}
-.bv{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;color:var(--text3);width:22px;text-align:right;flex-shrink:0}
+.bf{height:100%;border-radius:99px}
+.bv{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;color:var(--text3);width:20px;text-align:right;flex-shrink:0}
 
-/* quick tags */
-.qtags{padding:0 16px 14px;display:flex;gap:5px;flex-wrap:wrap}
-.qtag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;padding:3px 8px;border-radius:99px;border:1px solid var(--border);color:var(--text3)}
+/* card body text — always visible */
+.card-body{padding:0 14px 12px;border-top:1px solid var(--border);padding-top:12px}
+.cb-item{margin-bottom:8px}
+.cb-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:3px}
+.cb-text{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.55}
+.cb-tags{display:flex;gap:4px;flex-wrap:wrap}
+.cb-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;padding:2px 8px;border-radius:99px;background:var(--bg);border:1px solid var(--border);color:var(--text3)}
 
-/* ── EXPANDED DETAIL ── */
-.det{border-top:1px solid var(--border);padding:0 16px}
-.det-loading{padding:20px 0;text-align:center;font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--text3)}
-.det-loading .spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin-right:8px;vertical-align:middle}
+/* card footer — always visible */
+.card-foot{padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.btn-deep{flex:1;font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:600;padding:8px 12px;border-radius:var(--r-sm);border:none;background:var(--text);color:#fff;cursor:pointer;transition:background .15s;text-align:center}
+.btn-deep:hover{background:#333}
+.btn-deep.loading{background:#888;cursor:wait}
+.btn-deep.loaded{background:var(--gold-dark)}
+.btn-yt{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:600;padding:8px 12px;border-radius:var(--r-sm);background:var(--red);color:#fff;text-decoration:none;white-space:nowrap;transition:background .15s}
+.btn-yt:hover{background:#a00}
+.btn-bm{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:8px 10px;border:1px solid var(--border2);border-radius:var(--r-sm);background:#fff;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .15s}
+.btn-bm:hover{background:var(--bg)}
+.btn-bm.saved{background:#FDF8EC;border-color:var(--gold);color:var(--gold-dark)}
+
+/* DEEP ANALYSIS PANEL */
+.deep-panel{padding:14px;border-top:1px solid var(--border);background:var(--bg);display:none}
+.deep-panel.open{display:block}
+.dp-loading{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--text3);text-align:center;padding:16px 0;display:flex;align-items:center;justify-content:center;gap:8px}
+.spinner{width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
+.dp-error{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--red);text-align:center;padding:12px 0}
 
-/* sections */
-.det-section{padding:14px 0;border-bottom:1px solid var(--border)}
-.det-section:last-child{border-bottom:none}
-.det-title{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
-.det-title-icon{font-size:12px}
+/* deep sections */
+.ds{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border2)}
+.ds:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.ds-title{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:5px}
+.ds-icon{font-size:12px}
 
 /* fit tags */
-.fit-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
-.fit-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:4px 10px;border-radius:99px;background:#F0F6FF;color:#185FA5;border:1px solid #B5D4F4}
-.fit-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
-.fit-item{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text2);background:var(--bg);padding:6px 10px;border-radius:var(--radius-sm)}
-.fit-item strong{color:var(--text);display:block;font-size:10px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+.fit-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
+.fit-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:3px 9px;border-radius:99px;background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4}
+.fit-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+.fit-cell{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text2);background:#fff;padding:6px 9px;border-radius:var(--r-sm);border:1px solid var(--border)}
+.fit-cell strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin-bottom:2px}
 
 /* reality */
-.reality-list{list-style:none;display:flex;flex-direction:column;gap:5px}
-.reality-list li{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);padding-left:16px;position:relative;line-height:1.5}
-.reality-list li::before{content:"—";position:absolute;left:0;color:var(--text3)}
-.reality-note{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);margin-top:8px;padding:8px 10px;background:var(--bg);border-radius:var(--radius-sm);line-height:1.5}
+.r-list{list-style:none;display:flex;flex-direction:column;gap:4px}
+.r-list li{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);padding-left:14px;position:relative;line-height:1.5}
+.r-list li::before{content:"—";position:absolute;left:0;color:var(--text3)}
+.r-note{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);margin-top:7px;padding:7px 10px;background:#fff;border-radius:var(--r-sm);border:1px solid var(--border);line-height:1.5}
 
 /* timeline */
-.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
-.tl-block{background:var(--bg);border-radius:var(--radius-sm);padding:10px}
-.tl-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:4px}
-.tl-sal{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px}
+.tl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.tl-block{background:#fff;border-radius:var(--r-sm);padding:9px;border:1px solid var(--border)}
+.tl-period{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:3px}
+.tl-sal{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:700;color:#27500A;margin-bottom:3px}
 .tl-desc{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text2);line-height:1.45}
 
 /* wealth */
-.wealth-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}
-.wealth-block{text-align:center;padding:10px 6px;background:var(--bg);border-radius:var(--radius-sm)}
-.wealth-block .wl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:4px}
-.wealth-block .wv{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:700;color:var(--text)}
-.variance-note{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);padding:6px 10px;background:var(--bg);border-radius:var(--radius-sm)}
+.w-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px}
+.w-block{text-align:center;padding:9px 6px;background:#fff;border-radius:var(--r-sm);border:1px solid var(--border)}
+.w-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:3px}
+.w-val{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:700;color:var(--text)}
+.w-note{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);padding:6px 9px;background:#fff;border-radius:var(--r-sm);border:1px solid var(--border)}
 
 /* paths */
-.paths-list{display:flex;flex-direction:column;gap:6px}
-.path-item{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.5}
-.path-item strong{color:var(--text);font-weight:600}
-.subject-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
-.subject-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;padding:3px 8px;border-radius:99px;background:#FDF8EC;color:var(--gold-dark);border:1px solid #F0E4B8}
+.path-rows{display:flex;flex-direction:column;gap:5px}
+.path-row{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.5}
+.path-row strong{color:var(--text);font-weight:600}
+.subj-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
+.subj-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;padding:2px 8px;border-radius:99px;background:#FDF8EC;color:var(--gold-dark);border:1px solid #F0E4B8}
 
 /* adjacent */
 .adj-list{display:flex;gap:5px;flex-wrap:wrap}
-.adj-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:5px 10px;border-radius:99px;border:1px solid var(--border2);background:#fff;color:var(--text2);cursor:pointer;transition:all .12s}
+.adj-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--border2);background:#fff;color:var(--text2);cursor:pointer;transition:all .12s}
 .adj-tag:hover{background:var(--bg);border-color:var(--text3)}
 
 /* where */
-.where-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.where-block{background:var(--bg);padding:10px;border-radius:var(--radius-sm)}
-.where-block .wl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:6px}
+.where-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.where-block{background:#fff;padding:9px;border-radius:var(--r-sm);border:1px solid var(--border)}
+.where-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:5px}
 .where-list{list-style:none;display:flex;flex-direction:column;gap:3px}
 .where-list li{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text2)}
 
-/* ai detail */
-.ai-blocks{display:flex;flex-direction:column;gap:6px}
-.ai-block{padding:8px 12px;border-radius:var(--radius-sm);font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.5}
+/* ai blocks */
+.ai-blocks{display:flex;flex-direction:column;gap:5px}
+.ai-block{padding:8px 11px;border-radius:var(--r-sm);font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.5}
 .ai-block.cant{background:#FCEBEB;border-left:3px solid #E24B4A}
 .ai-block.future{background:#FDF8EC;border-left:3px solid var(--gold)}
-.ai-block.augment{background:var(--green-light);border-left:3px solid #639922}
+.ai-block.augment{background:var(--green-bg);border-left:3px solid #639922}
 .ai-block strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;color:var(--text)}
 
 /* steps */
-.steps-list{list-style:none;display:flex;flex-direction:column;gap:6px;counter-reset:steps}
-.steps-list li{display:flex;align-items:flex-start;gap:10px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.5;counter-increment:steps}
-.steps-list li::before{content:counter(steps);width:20px;height:20px;background:var(--text);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+.steps-list{list-style:none;display:flex;flex-direction:column;gap:5px;counter-reset:steps}
+.steps-list li{display:flex;align-items:flex-start;gap:9px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.5;counter-increment:steps}
+.steps-list li::before{content:counter(steps);min-width:20px;height:20px;background:var(--text);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
 
-/* decision block */
-.decision{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.dec-block{padding:12px;border-radius:var(--radius-sm)}
-.dec-block.yes{background:var(--green-light)}
+/* decision */
+.dec-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.dec-block{padding:10px;border-radius:var(--r-sm)}
+.dec-block.yes{background:var(--green-bg)}
 .dec-block.no{background:#FCEBEB}
-.dec-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.dec-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;margin-bottom:6px}
 .dec-block.yes .dec-label{color:#27500A}
 .dec-block.no .dec-label{color:#791F1F}
-.dec-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+.dec-list{list-style:none;display:flex;flex-direction:column;gap:4px}
 .dec-list li{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text2);line-height:1.45;padding-left:12px;position:relative}
 .dec-list li::before{position:absolute;left:0}
 .dec-block.yes .dec-list li::before{content:"✓";color:#27500A}
 .dec-block.no .dec-list li::before{content:"✗";color:#791F1F}
 
-/* card footer */
-.card-footer{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
-.vlink{display:block;font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:600;color:#fff;background:var(--red);padding:8px 14px;border-radius:var(--radius-sm);text-decoration:none;text-align:center;transition:background .15s}
-.vlink:hover{background:#a00}
-.vlink.community{background:#111;color:#fff}
-.vlink.community:hover{background:#333}
-.video-wrap{flex:1;display:flex;flex-direction:column;gap:6px}
-.submit-video-btn{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:5px 10px;border:1px solid var(--border2);border-radius:var(--radius-sm);background:#fff;color:var(--text2);cursor:pointer;text-align:center}
-.submit-video-btn:hover{background:var(--bg)}
-.video-input-row{display:flex;gap:6px;margin-top:4px}
-.video-input{flex:1;font-size:12px;padding:6px 10px;border:1px solid var(--border2);border-radius:var(--radius-sm);outline:none;font-family:"Helvetica Neue",Arial,sans-serif}
+/* video section */
+.video-wrap{display:flex;flex-direction:column;gap:5px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border2)}
+.video-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:4px}
+.video-thumb img{width:100%;border-radius:var(--r-sm);display:block;margin-bottom:5px}
+.btn-paste{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:5px 10px;border:1px dashed var(--border2);border-radius:var(--r-sm);background:transparent;color:var(--text3);cursor:pointer;width:100%;text-align:center;transition:all .15s}
+.btn-paste:hover{border-color:var(--gold);color:var(--gold-dark)}
+.video-input-row{display:flex;gap:6px;margin-top:5px}
+.video-input{flex:1;font-size:12px;padding:6px 10px;border:1px solid var(--border2);border-radius:var(--r-sm);outline:none;font-family:"Helvetica Neue",Arial,sans-serif}
 .video-input:focus{border-color:var(--gold)}
-.video-submit-btn{font-size:12px;padding:6px 12px;background:var(--gold);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;font-weight:600;white-space:nowrap}
-.video-submit-btn:hover{background:var(--gold-dark)}
-.bm-btn{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:8px 14px;border:1px solid var(--border2);border-radius:var(--radius-sm);background:#fff;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap}
-.bm-btn:hover{background:var(--bg)}
-.bm-btn.saved{background:#FDF8EC;border-color:var(--gold);color:var(--gold-dark)}
-.cmp-btn{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:8px 14px;border:1px solid var(--border2);border-radius:var(--radius-sm);background:#fff;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap}
-.cmp-btn:hover{background:var(--bg)}
-.cmp-btn.added{background:#F0F6FF;border-color:var(--blue);color:var(--blue)}
-
-/* ── COMPARE PANEL ── */
-.compare-panel{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--blue);padding:12px 20px;display:flex;gap:10px;align-items:center;z-index:200;transform:translateY(100%);transition:transform .25s ease}
-.compare-panel.visible{transform:translateY(0)}
-.cp-slots{display:flex;gap:8px;flex:1;flex-wrap:wrap}
-.cp-slot{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:6px 14px;background:var(--bg);border:1px solid var(--border2);border-radius:99px;color:var(--text2);display:flex;align-items:center;gap:6px}
-.cp-slot .rm{cursor:pointer;color:var(--text3);font-weight:700}
-.cp-slot .rm:hover{color:var(--text)}
-.cp-go{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;font-weight:600;padding:10px 20px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;white-space:nowrap}
-.cp-go:hover{background:#2568b5}
-.cp-clear{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:10px;color:var(--text3);background:none;border:none;cursor:pointer}
-.cp-clear:hover{color:var(--text)}
-
-/* ── COMPARE VIEW ── */
-.compare-view{display:none;max-width:1200px;margin:0 auto;padding:20px}
-.compare-view.visible{display:block}
-.compare-table{display:grid;gap:1px;background:var(--border)}
-.compare-row{display:grid;background:#fff;gap:1px}
-.compare-row.header{background:var(--bg)}
-.compare-cell{padding:12px 16px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px}
-.compare-cell.label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);background:var(--bg)}
-.compare-cell.career-name{font-size:15px;font-weight:600;color:var(--text)}
-.back-to-list{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--text3);background:none;border:none;cursor:pointer;padding:0 0 16px;display:flex;align-items:center;gap:6px}
-.back-to-list:hover{color:var(--text)}
-
-/* ── BOOKMARKS VIEW ── */
-.bm-empty{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;color:var(--text3);text-align:center;padding:40px 20px}
+.btn-save-vid{font-size:12px;padding:6px 12px;background:var(--gold);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;font-weight:600;white-space:nowrap}
+.btn-save-vid:hover{background:var(--gold-dark)}
 
 @media(max-width:640px){
   .grid{grid-template-columns:1fr;padding:0 12px 40px}
-  .controls{padding:0 12px}
-  .page-header{padding:20px 12px 0}
-  .timeline,.wealth-grid,.decision,.where-grid,.fit-meta{grid-template-columns:1fr}
-  .compare-view{padding:12px}
-  .topnav{padding:10px 12px}
+  .ctrl{padding:0 12px}
+  .ph{padding:20px 12px 0}
+  .tl-grid,.w-grid,.dec-grid,.where-grid,.fit-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
 
-<nav class="topnav">
-  <a href="index.html" class="topnav-back">&#8592; Home</a>
-  <a href="index.html" class="topnav-brand">Choose Wise</a>
-  <button class="compare-btn" id="cmp-toggle" onclick="toggleCompareMode()">&#9776; Compare</button>
+<nav class="nav">
+  <a href="index.html" class="nav-back">&#8592; Home</a>
+  <a href="index.html" class="nav-brand">Choose Wise</a>
 </nav>
 
-<div id="main-view">
-  <div class="page-header">
-    <h1>Career Encyclopedia</h1>
-    <p id="page-desc">235 careers across 28 sectors &middot; Click any card to expand with AI-powered deep analysis &middot; Compare up to 3 careers</p>
+<div class="ph">
+  <h1>Career Encyclopedia</h1>
+  <p>235 careers &middot; Basic info always visible &middot; Click "Deep Analysis" for AI-powered detail</p>
+</div>
+
+<div class="ctrl">
+  <div class="search-wrap">
+    <span class="si">&#9906;</span>
+    <input type="text" id="search" placeholder="Search careers, sectors, roles..." autocomplete="off">
   </div>
-
-  <div class="controls">
-    <div class="search-wrap">
-      <span class="search-icon">&#9906;</span>
-      <input type="text" id="search" placeholder="Search careers, sectors, example roles..." autocomplete="off">
-    </div>
-    <div class="toolbar">
-      <span class="tool-label">Sort</span>
-      <button class="sb on" id="s-ai" data-sort="ai">AI-proof</button>
-      <button class="sb" id="s-w" data-sort="w">Wealth</button>
-      <button class="sb" id="s-m" data-sort="m">Meaning</button>
-      <button class="sb" id="s-imp" data-sort="imp">Impact</button>
-      <button class="sb" id="s-n" data-sort="n">A&ndash;Z</button>
-      <button class="sb" id="s-dir" data-dir="desc">&#9660; High&rarr;Low</button>
-      <div class="divider"></div>
-      <button class="sb sb-em" id="s-em">&#127807; Emerging</button>
-      <button class="sb sb-bm" id="s-bm">&#9733; Saved</button>
-    </div>
-    <div class="legend">
-      <span class="leg"><span class="ld" style="background:#378ADD"></span>AI-proof</span>
-      <span class="leg"><span class="ld" style="background:#639922"></span>Wealth</span>
-      <span class="leg"><span class="ld" style="background:#7F77DD"></span>Meaning</span>
-      <span class="leg"><span class="ld" style="background:#D85A30"></span>Impact</span>
-      <span class="leg"><span class="ld" style="background:#EAF3DE;border:1px solid #639922;border-radius:2px"></span>Emerging</span>
-    </div>
-    <div class="sector-wrap" id="stabs"></div>
-    <div class="cnt" id="cnt"></div>
+  <div class="toolbar">
+    <span class="tl">Sort</span>
+    <button class="sb on" id="s-ai" data-sort="ai">AI-proof</button>
+    <button class="sb" id="s-w" data-sort="w">Wealth</button>
+    <button class="sb" id="s-m" data-sort="m">Meaning</button>
+    <button class="sb" id="s-imp" data-sort="imp">Impact</button>
+    <button class="sb" id="s-n" data-sort="n">A&ndash;Z</button>
+    <button class="sb" id="s-dir" data-dir="desc">&#9660; High&rarr;Low</button>
+    <div class="divider"></div>
+    <button class="sb sb-em" id="s-em">&#127807; Emerging</button>
+    <button class="sb sb-bm" id="s-bm">&#9733; Saved</button>
   </div>
-
-  <div class="grid" id="grid"></div>
+  <div class="legend">
+    <span class="leg"><span class="ld" style="background:#378ADD"></span>AI-proof</span>
+    <span class="leg"><span class="ld" style="background:#639922"></span>Wealth</span>
+    <span class="leg"><span class="ld" style="background:#7F77DD"></span>Meaning</span>
+    <span class="leg"><span class="ld" style="background:#D85A30"></span>Impact</span>
+    <span class="leg"><span class="ld" style="background:var(--green-bg);border:1px solid #639922;border-radius:2px"></span>Emerging</span>
+  </div>
+  <div class="stabs" id="stabs"></div>
+  <div class="cnt" id="cnt"></div>
 </div>
 
-<!-- Compare panel (bottom bar) -->
-<div class="compare-panel" id="compare-panel">
-  <div class="cp-slots" id="cp-slots"></div>
-  <button class="cp-go" onclick="showCompare()">Compare &rarr;</button>
-  <button class="cp-clear" onclick="clearCompare()">Clear</button>
-</div>
-
-<!-- Compare view -->
-<div class="compare-view" id="compare-view">
-  <button class="back-to-list" onclick="hideCompare()">&#8592; Back to list</button>
-  <div id="compare-table"></div>
-</div>
+<div class="grid" id="grid"></div>
 
 <script>
 var D=[
   {n:"AI engineer",s:"Technology",ai:92,w:92,m:80,imp:95,em:1,why:"Builds AI systems - people who understand these tools will always be needed to direct them.",study:"Maths, computer science, Python. University or self-taught via online courses.",ex:"LLM engineer, ML researcher, AI product engineer, robotics engineer",imp_t:"Shapes the most transformative technology in human history."},
-  {n:"AI safety researcher",s:"Technology",ai:95,w:78,m:90,imp:98,em:1,why:"Ensures AI doesn\'t go wrong at scale. The field barely exists yet - huge demand coming.",study:"Maths, philosophy, computer science. PhD usually required.",ex:"Alignment researcher, interpretability researcher, red-teamer",imp_t:"Could be the most important job of the 21st century."},
-  {n:"Software engineer",s:"Technology",ai:80,w:90,m:72,imp:85,em:0,why:"AI assists coding but can\'t own systems, architecture, or client relationships.",study:"Computer science degree or bootcamp. Self-taught increasingly viable.",ex:"Backend, frontend, mobile, DevOps, game developer",imp_t:"Builds the tools billions use every day."},
+  {n:"AI safety researcher",s:"Technology",ai:95,w:78,m:90,imp:98,em:1,why:"Ensures AI doesn t go wrong at scale. The field barely exists yet - huge demand coming.",study:"Maths, philosophy, computer science. PhD usually required.",ex:"Alignment researcher, interpretability researcher, red-teamer",imp_t:"Could be the most important job of the 21st century."},
+  {n:"Software engineer",s:"Technology",ai:80,w:90,m:72,imp:85,em:0,why:"AI assists coding but can t own systems, architecture, or client relationships.",study:"Computer science degree or bootcamp. Self-taught increasingly viable.",ex:"Backend, frontend, mobile, DevOps, game developer",imp_t:"Builds the tools billions use every day."},
   {n:"Cybersecurity specialist",s:"Technology",ai:90,w:85,m:72,imp:88,em:0,why:"Attackers and defenders constantly evolve. Human creativity is essential on both sides.",study:"Computer science, ethical hacking, certifications. Self-study viable.",ex:"Penetration tester, CISO, security analyst, cloud security engineer",imp_t:"Protects hospitals, banks, governments, and critical infrastructure."},
   {n:"Robotics engineer",s:"Technology",ai:90,w:85,m:82,imp:90,em:0,why:"Designing machines for physical space requires judgment no AI can replicate alone.",study:"Mechanical engineering + software. University standard.",ex:"Industrial robotics, surgical robots, autonomous vehicles, humanoid robots",imp_t:"Automates dangerous physical work - frees humans for better things."},
   {n:"Data scientist",s:"Technology",ai:72,w:85,m:68,imp:80,em:0,why:"Interpretation, storytelling, and domain expertise keep humans relevant. Pure analysis at risk.",study:"Statistics, maths, Python, SQL. University or bootcamp.",ex:"Business analyst, ML engineer, research scientist, product analyst",imp_t:"Turns raw data into decisions that affect millions of people."},
@@ -313,9 +267,9 @@ var D=[
   {n:"Psychiatrist",s:"Healthcare",ai:88,w:85,m:95,imp:92,em:0,why:"Mental health requires deep human relationship and judgment. Cannot be automated.",study:"Medicine + psychiatry specialisation (8-10 years total).",ex:"Child psychiatrist, addiction psychiatrist, forensic psychiatrist",imp_t:"Treats invisible illness that destroys lives when left untreated."},
   {n:"Nurse",s:"Healthcare",ai:85,w:60,m:90,imp:90,em:0,why:"Physical care, emotional presence, and hands-on treatment cannot be replicated by machines.",study:"Nursing degree (3-4 years). Multiple specialisation routes.",ex:"ICU nurse, community nurse, theatre nurse, paediatric nurse",imp_t:"The backbone of healthcare. Patients remember nurses more than doctors."},
   {n:"Physiotherapist",s:"Healthcare",ai:88,w:65,m:85,imp:82,em:0,why:"Hands-on rehabilitation, movement analysis, and motivation. Profoundly physical work.",study:"Physiotherapy degree (3-4 years).",ex:"Sports physio, neuro-rehab, paediatric physio, musculoskeletal",imp_t:"Restores mobility and independence to people after injury or illness."},
-  {n:"Radiologist",s:"Healthcare",ai:55,w:88,m:70,imp:82,em:0,why:"AI reads scans well - radiologists who work with AI will thrive; those who don\'t are at risk.",study:"Medicine + radiology specialisation (10+ years total).",ex:"Diagnostic radiologist, interventional radiologist, nuclear medicine",imp_t:"Finds cancer, injury, and disease before it becomes fatal."},
+  {n:"Radiologist",s:"Healthcare",ai:55,w:88,m:70,imp:82,em:0,why:"AI reads scans well - radiologists who work with AI will thrive; those who don t are at risk.",study:"Medicine + radiology specialisation (10+ years total).",ex:"Diagnostic radiologist, interventional radiologist, nuclear medicine",imp_t:"Finds cancer, injury, and disease before it becomes fatal."},
   {n:"Dentist",s:"Healthcare",ai:82,w:80,m:72,imp:78,em:0,why:"Manual dexterity inside the human mouth. Highly resistant to automation.",study:"Dentistry degree (5 years) + optional specialisation.",ex:"General dentist, orthodontist, oral surgeon, periodontist",imp_t:"Oral health directly affects overall health and quality of life."},
-  {n:"Veterinarian",s:"Healthcare",ai:85,w:72,m:88,imp:80,em:0,why:"Animal medicine needs hands, judgment, and empathy across species that can\'t communicate.",study:"Veterinary degree (5-6 years).",ex:"Small animal vet, large animal vet, zoo vet, wildlife conservation vet",imp_t:"Cares for animals and the human bonds people have with them."},
+  {n:"Veterinarian",s:"Healthcare",ai:85,w:72,m:88,imp:80,em:0,why:"Animal medicine needs hands, judgment, and empathy across species that can t communicate.",study:"Veterinary degree (5-6 years).",ex:"Small animal vet, large animal vet, zoo vet, wildlife conservation vet",imp_t:"Cares for animals and the human bonds people have with them."},
   {n:"Genetic counsellor",s:"Healthcare",ai:78,w:72,m:88,imp:88,em:1,why:"As genome sequencing becomes universal, humans are needed to interpret results with empathy.",study:"Genetics degree + genetic counselling postgrad.",ex:"Prenatal counsellor, oncogenetics specialist, rare disease counsellor",imp_t:"Helps families understand and prepare for genetic conditions."},
   {n:"Longevity researcher",s:"Healthcare",ai:90,w:80,m:88,imp:95,em:1,why:"Targeting the biology of ageing is an entirely new field. Decades of human insight needed.",study:"Biology, biochemistry, medicine. PhD standard.",ex:"Senescence researcher, rejuvenation biotech scientist, clinical longevity doctor",imp_t:"Could add decades of healthy life to the human lifespan."},
   {n:"Pharmacist",s:"Healthcare",ai:68,w:72,m:72,imp:80,em:0,why:"Dispensing automates; clinical pharmacists who advise on complex drug interactions are safer.",study:"Pharmacy degree (4-5 years) + registration.",ex:"Clinical pharmacist, hospital pharmacist, research pharmacist",imp_t:"Prevents dangerous drug errors. Advises on medication for millions."},
@@ -325,7 +279,7 @@ var D=[
   {n:"Legal tech lawyer",s:"Legal",ai:90,w:88,m:72,imp:80,em:1,why:"The intersection of law and technology is booming. Lawyers who understand AI are rare.",study:"Law degree + computer science or AI knowledge.",ex:"Legal AI product manager, regulatory tech lawyer, data privacy counsel",imp_t:"Shapes the legal framework governing the most powerful technology ever built."},
   {n:"Policy analyst",s:"Legal",ai:72,w:65,m:78,imp:88,em:0,why:"Policy requires judgment, stakeholder navigation, and democratic accountability.",study:"Politics, economics, law, public administration. University standard.",ex:"Government policy adviser, think-tank researcher, EU regulatory analyst",imp_t:"Writes the rules that govern how millions of people live."},
   {n:"Primary school teacher",s:"Education",ai:82,w:52,m:92,imp:90,em:0,why:"Child development, mentoring, and classroom management are profoundly human skills.",study:"Teaching degree + QTS/PGCE (3-4 years).",ex:"Reception teacher, SENCO, primary head teacher",imp_t:"Shapes the formative years of every child who passes through a classroom."},
-  {n:"Secondary school teacher",s:"Education",ai:75,w:55,m:90,imp:88,em:0,why:"Inspiring teenagers through a difficult period is irreplaceable human work.",study:"Degree in subject + PGCE or equivalent. Subject mastery required.",ex:"Maths teacher, science teacher, history teacher, PE teacher",imp_t:"The person who changes the direction of a young person\'s life."},
+  {n:"Secondary school teacher",s:"Education",ai:75,w:55,m:90,imp:88,em:0,why:"Inspiring teenagers through a difficult period is irreplaceable human work.",study:"Degree in subject + PGCE or equivalent. Subject mastery required.",ex:"Maths teacher, science teacher, history teacher, PE teacher",imp_t:"The person who changes the direction of a young person s life."},
   {n:"University professor",s:"Education",ai:72,w:70,m:85,imp:85,em:0,why:"Original research, deep mentorship, and academic leadership cannot be automated.",study:"Degree + master + PhD + research career. 10+ years to professorship.",ex:"Economics professor, medical researcher, physics lecturer",imp_t:"Advances human knowledge and trains the next generation of experts."},
   {n:"Special needs educator",s:"Education",ai:92,w:55,m:95,imp:90,em:0,why:"Adapting to highly individual needs requires extraordinary human sensitivity.",study:"Education degree + SEND specialisation.",ex:"Autism specialist teacher, speech therapist, learning support assistant",imp_t:"Unlocks potential in children who would otherwise be left behind."},
   {n:"Educational psychologist",s:"Education",ai:85,w:68,m:88,imp:85,em:0,why:"Assessing learning needs and designing interventions is deeply human and contextual.",study:"Psychology degree + postgrad + doctoral training.",ex:"School psychologist, learning difficulty specialist, trauma-informed educator",imp_t:"Identifies why children struggle and gives them a path forward."},
@@ -339,24 +293,24 @@ var D=[
   {n:"VR / spatial designer",s:"Design",ai:80,w:78,m:82,imp:80,em:1,why:"Designing virtual and augmented reality environments is a new creative profession.",study:"Game design, architecture, or 3D design. Portfolio-led entry.",ex:"VR world designer, metaverse architect, spatial computing designer",imp_t:"Designs the immersive environments billions of people will increasingly inhabit."},
   {n:"Civil engineer",s:"Engineering",ai:78,w:78,m:78,imp:88,em:0,why:"Site management, safety responsibility, and community context require human engineers.",study:"Civil engineering degree (4 years) + professional accreditation.",ex:"Structural engineer, bridge engineer, geotechnical engineer, environmental engineer",imp_t:"Builds the infrastructure billions depend on - roads, bridges, clean water."},
   {n:"Electrical engineer",s:"Engineering",ai:80,w:80,m:75,imp:85,em:0,why:"Power systems, circuit design, and grid management require human oversight.",study:"Electrical engineering degree + accreditation.",ex:"Power systems engineer, electronics engineer, control systems engineer",imp_t:"Keeps the lights on. Powers hospitals, schools, and every device you own."},
-  {n:"Aerospace engineer",s:"Engineering",ai:85,w:85,m:82,imp:88,em:0,why:"Safety-critical design with extreme consequences. Human certification required.",study:"Aerospace engineering degree + industry experience.",ex:"Aerodynamics engineer, avionics engineer, spacecraft systems engineer",imp_t:"Makes flight safe and enables humanity\'s expansion beyond Earth."},
+  {n:"Aerospace engineer",s:"Engineering",ai:85,w:85,m:82,imp:88,em:0,why:"Safety-critical design with extreme consequences. Human certification required.",study:"Aerospace engineering degree + industry experience.",ex:"Aerodynamics engineer, avionics engineer, spacecraft systems engineer",imp_t:"Makes flight safe and enables humanity s expansion beyond Earth."},
   {n:"Nuclear engineer",s:"Engineering",ai:90,w:85,m:78,imp:92,em:0,why:"Safety-critical work with legal and physical consequences. Cannot be delegated to AI.",study:"Nuclear engineering or physics degree + extensive training.",ex:"Reactor engineer, nuclear safety analyst, fusion energy researcher",imp_t:"Could provide unlimited clean energy. Also carries civilisational risk if mishandled."},
   {n:"Biomedical engineer",s:"Engineering",ai:85,w:82,m:88,imp:92,em:0,why:"Designing medical devices requires clinical knowledge no AI can substitute.",study:"Biomedical engineering degree + often clinical training.",ex:"Prosthetics engineer, MRI designer, wearable health device engineer",imp_t:"Invents the tools that diagnose and treat disease."},
   {n:"Climate / energy engineer",s:"Engineering",ai:85,w:80,m:88,imp:98,em:1,why:"Decarbonising the global energy system is the defining engineering challenge of this century.",study:"Electrical, mechanical, or chemical engineering + energy focus.",ex:"Solar farm engineer, offshore wind engineer, grid storage engineer, hydrogen engineer",imp_t:"Prevents civilisational climate collapse. The most important engineering job."},
   {n:"Materials scientist",s:"Engineering",ai:85,w:78,m:80,imp:90,em:0,why:"Discovering new materials requires physical intuition and creative experimentation.",study:"Materials science degree + PhD for research roles.",ex:"Battery materials researcher, semiconductor engineer, biomaterials scientist",imp_t:"New materials enable every other technology - batteries, chips, medicines."},
   {n:"Mechanical engineer",s:"Engineering",ai:78,w:78,m:72,imp:82,em:0,why:"Physical systems, manufacturing, and real-world tolerances require hands-on expertise.",study:"Mechanical engineering degree (4 years).",ex:"Automotive engineer, HVAC engineer, manufacturing engineer, product engineer",imp_t:"Makes machines that do human work - from cars to medical devices."},
-  {n:"Neuroscientist",s:"Science",ai:88,w:68,m:90,imp:95,em:0,why:"Brain science requires physical experiments, animal models, and creative hypothesis generation.",study:"Biology / neuroscience degree + PhD.",ex:"Cognitive neuroscientist, clinical neuroscientist, computational neuroscientist",imp_t:"Unlocking the brain is key to treating depression, Alzheimer\'s, and addiction."},
+  {n:"Neuroscientist",s:"Science",ai:88,w:68,m:90,imp:95,em:0,why:"Brain science requires physical experiments, animal models, and creative hypothesis generation.",study:"Biology / neuroscience degree + PhD.",ex:"Cognitive neuroscientist, clinical neuroscientist, computational neuroscientist",imp_t:"Unlocking the brain is key to treating depression, Alzheimer s, and addiction."},
   {n:"Climate scientist",s:"Science",ai:85,w:65,m:88,imp:98,em:0,why:"Interpreting complex Earth systems data requires physical intuition and domain expertise.",study:"Physics, maths, Earth sciences + postgrad.",ex:"Atmospheric scientist, oceanographer, glaciologist, climate modeller",imp_t:"Provides the data governments need to act on the climate crisis."},
   {n:"Biochemist",s:"Science",ai:85,w:70,m:85,imp:90,em:0,why:"Lab work, hypothesis generation, and experimental design require human creativity.",study:"Biochemistry degree + PhD for research.",ex:"Enzyme researcher, metabolomics scientist, structural biologist",imp_t:"Understands the chemical machinery of life. Foundation of medicine and biotech."},
   {n:"Epidemiologist",s:"Science",ai:80,w:68,m:85,imp:95,em:0,why:"Disease tracking requires field work, population judgment, and government communication.",study:"Medicine or public health + epidemiology postgrad.",ex:"Infectious disease epidemiologist, cancer epidemiologist, global health researcher",imp_t:"Tracks and stops outbreaks before they become pandemics."},
   {n:"Synthetic biologist",s:"Science",ai:88,w:82,m:88,imp:95,em:1,why:"Engineering biology to produce medicines, materials, and food is entirely new science.",study:"Biology, genetics, bioengineering + PhD.",ex:"Gene circuit designer, biosafety researcher, fermentation engineer",imp_t:"Could eliminate disease, grow meat without animals, and clean up pollution."},
   {n:"Astrophysicist",s:"Science",ai:88,w:62,m:88,imp:80,em:0,why:"Original theory and observation of the cosmos require human intellectual creativity.",study:"Physics degree + PhD. Very competitive.",ex:"Cosmologist, exoplanet researcher, gravitational wave physicist",imp_t:"Answers the deepest questions about the origin and fate of the universe."},
-  {n:"Marine biologist",s:"Science",ai:82,w:55,m:85,imp:88,em:0,why:"Ocean fieldwork, species identification, and ecosystem understanding need humans on the water.",study:"Marine biology or zoology degree + fieldwork experience.",ex:"Coral reef ecologist, deep sea researcher, fisheries scientist",imp_t:"Monitors and protects ocean ecosystems that produce half the world\'s oxygen."},
+  {n:"Marine biologist",s:"Science",ai:82,w:55,m:85,imp:88,em:0,why:"Ocean fieldwork, species identification, and ecosystem understanding need humans on the water.",study:"Marine biology or zoology degree + fieldwork experience.",ex:"Coral reef ecologist, deep sea researcher, fisheries scientist",imp_t:"Monitors and protects ocean ecosystems that produce half the world s oxygen."},
   {n:"Bioinformatician",s:"Science",ai:88,w:80,m:85,imp:92,em:1,why:"Analysing genomic data at scale requires both biological knowledge and computational skill.",study:"Biology + computer science. Bioinformatics postgrad increasingly standard.",ex:"Genomics data scientist, proteomics researcher, clinical bioinformatician",imp_t:"Finds the genetic causes of disease. Enables personalised medicine."},
   {n:"Computational drug designer",s:"Science",ai:88,w:85,m:88,imp:95,em:1,why:"AI-accelerated drug discovery is revolutionising medicine. Humans direct the search.",study:"Biochemistry or pharmacology + computational chemistry + machine learning.",ex:"Protein structure-based drug designer, AI drug discovery researcher",imp_t:"Discovers medicines in months that previously took decades."},
   {n:"Entrepreneur",s:"Business",ai:82,w:90,m:88,imp:90,em:0,why:"Vision, risk-taking, team leadership, and creativity are deeply human. AI is a leverage tool.",study:"No formal requirement. Business, tech, or domain expertise all work. Learn by doing.",ex:"Tech startup, restaurant chain, creative studio, social enterprise",imp_t:"Creates jobs, products, and wealth. Changes industries that were stuck."},
   {n:"Investment banker",s:"Business",ai:58,w:95,m:50,imp:65,em:0,why:"Relationship-driven deals and client trust remain human. Routine analysis automates fast.",study:"Finance, economics, or maths degree + intense graduate recruitment.",ex:"M&A banker, capital markets, leveraged finance, IPO specialist",imp_t:"Allocates capital that funds the companies and infrastructure of tomorrow."},
-  {n:"Venture capitalist",s:"Business",ai:72,w:92,m:68,imp:82,em:0,why:"Pattern recognition about people and markets. Judgment requiring lived experience.",study:"Finance background + operator experience. Relationship-driven entry.",ex:"Early-stage VC, deep tech investor, impact investor",imp_t:"Funds the companies that change the world - or doesn\'t, if they get it wrong."},
+  {n:"Venture capitalist",s:"Business",ai:72,w:92,m:68,imp:82,em:0,why:"Pattern recognition about people and markets. Judgment requiring lived experience.",study:"Finance background + operator experience. Relationship-driven entry.",ex:"Early-stage VC, deep tech investor, impact investor",imp_t:"Funds the companies that change the world - or doesn t, if they get it wrong."},
   {n:"Accountant",s:"Business",ai:48,w:72,m:52,imp:65,em:0,why:"Bookkeeping automates fast. Tax strategy, advisory, and complex audit remain human.",study:"Accounting degree + ACA/ACCA/CPA qualification.",ex:"Audit partner, tax adviser, CFO, forensic accountant",imp_t:"Keeps businesses solvent and honest. Finds fraud that costs societies billions."},
   {n:"ESG analyst",s:"Business",ai:75,w:72,m:85,imp:90,em:1,why:"New field measuring corporate environmental and social impact. Growing fast with regulation.",study:"Finance + sustainability. Degree in either plus CFA or CESGA.",ex:"ESG ratings analyst, sustainable finance banker, impact investment manager",imp_t:"Redirects capital from harmful to beneficial activities at global scale."},
   {n:"Financial planner",s:"Business",ai:65,w:75,m:72,imp:72,em:0,why:"Trusted relationships and life-stage complexity keep humans relevant.",study:"Finance or economics + CFP qualification.",ex:"Wealth manager, pension adviser, independent financial adviser",imp_t:"Helps ordinary people build security and avoid devastating financial mistakes."},
@@ -365,7 +319,7 @@ var D=[
   {n:"Journalist",s:"Media",ai:58,w:52,m:82,imp:85,em:0,why:"Investigation, source relationships, and editorial judgment remain human. Commodity writing automates.",study:"Journalism degree or English + portfolio. Many routes in.",ex:"Investigative journalist, war correspondent, data journalist, editor",imp_t:"Holds power to account. Without journalism, corruption goes unchecked."},
   {n:"Documentary filmmaker",s:"Media",ai:72,w:58,m:85,imp:82,em:0,why:"Storytelling, subject trust, and visual narrative are human creative skills.",study:"Film degree or self-taught. Portfolio essential.",ex:"Nature documentary, political documentary, social issue film",imp_t:"Changes public opinion and policy. The best documentaries reshape society."},
   {n:"Science communicator",s:"Media",ai:75,w:60,m:85,imp:88,em:1,why:"Public understanding of science has never mattered more. Humans do this with authenticity.",study:"Science degree + communication skills. Often self-built platform.",ex:"Science YouTuber, museum curator, science writer, public health communicator",imp_t:"Bridges the gap between researchers and the public."},
-  {n:"Podcast / video creator",s:"Media",ai:68,w:65,m:78,imp:72,em:0,why:"Audience relationship, editorial voice, and authenticity are resistant to AI.",study:"No formal requirement. Build an audience.",ex:"Educational YouTuber, interview podcaster, news creator, comedy creator",imp_t:"Educates and entertains audiences traditional media can\'t reach."},
+  {n:"Podcast / video creator",s:"Media",ai:68,w:65,m:78,imp:72,em:0,why:"Audience relationship, editorial voice, and authenticity are resistant to AI.",study:"No formal requirement. Build an audience.",ex:"Educational YouTuber, interview podcaster, news creator, comedy creator",imp_t:"Educates and entertains audiences traditional media can t reach."},
   {n:"PR / communications director",s:"Media",ai:58,w:75,m:62,imp:70,em:0,why:"Crisis management, stakeholder relationships, and message strategy need human judgment.",study:"Communications, journalism, or marketing degree.",ex:"Corporate PR, political communications, crisis PR, NGO communications",imp_t:"Shapes how organisations and governments communicate in critical moments."},
   {n:"Psychologist / therapist",s:"Social",ai:88,w:68,m:95,imp:92,em:0,why:"Mental health requires trust, nuance, and human relationship. AI tools exist but cannot substitute.",study:"Psychology degree + therapy training + clinical hours.",ex:"Clinical psychologist, CBT therapist, child psychologist, trauma therapist",imp_t:"Treats invisible illness that ruins lives when untreated."},
   {n:"Social worker",s:"Social",ai:82,w:48,m:90,imp:92,em:0,why:"Child protection and crisis support require physical presence and authority.",study:"Social work degree (3-4 years) + registration.",ex:"Child protection officer, addiction counsellor, family support worker",imp_t:"Protects the most vulnerable people in society."},
@@ -404,7 +358,7 @@ var D=[
   {n:"Musician / composer",s:"Arts",ai:70,w:52,m:88,imp:78,em:0,why:"Authentic human emotion and cultural context in music cannot be faked by AI for audiences who care.",study:"Music degree or self-taught. Instrument mastery takes 10+ years.",ex:"Classical composer, music producer, session musician, film score composer",imp_t:"Music is the most universal language. It heals, unites, and defines cultures."},
   {n:"Visual artist",s:"Arts",ai:58,w:50,m:85,imp:72,em:0,why:"Original vision and cultural voice survive. Commodity illustration is heavily disrupted by AI.",study:"Fine art degree or self-taught. Portfolio essential.",ex:"Fine artist, concept artist, graphic novelist, muralist",imp_t:"Art shapes how societies understand themselves and their history."},
   {n:"Film director",s:"Arts",ai:72,w:68,m:88,imp:80,em:0,why:"Vision, leadership, and storytelling authority are human. AI generates assets, not films.",study:"Film degree or self-taught. Short film experience essential.",ex:"Feature director, documentary director, TV director, commercial director",imp_t:"Films shape culture, empathy, and political opinion at massive scale."},
-  {n:"Author / novelist",s:"Arts",ai:60,w:48,m:88,imp:78,em:0,why:"Distinctive voice, lived experience, and original ideas separate great writers from AI text.",study:"No formal requirement. English or creative writing degree helpful.",ex:"Literary novelist, genre fiction author, children\'s author, non-fiction author",imp_t:"Books change minds. The best ones reshape entire civilisations."},
+  {n:"Author / novelist",s:"Arts",ai:60,w:48,m:88,imp:78,em:0,why:"Distinctive voice, lived experience, and original ideas separate great writers from AI text.",study:"No formal requirement. English or creative writing degree helpful.",ex:"Literary novelist, genre fiction author, children s author, non-fiction author",imp_t:"Books change minds. The best ones reshape entire civilisations."},
   {n:"Sports coach",s:"Sport",ai:85,w:55,m:82,imp:75,em:0,why:"Motivation, psychological insight, and real-time human observation cannot be automated.",study:"Sports science degree + coaching qualifications + playing experience.",ex:"Elite football coach, athletics coach, sports psychologist, youth development coach",imp_t:"Shapes elite performance and the development of young people through sport."},
   {n:"Sports medicine doctor",s:"Sport",ai:82,w:78,m:80,imp:78,em:0,why:"Clinical judgment for athletes in complex biomechanical situations requires human expertise.",study:"Medicine + sports medicine specialisation.",ex:"Team doctor, injury rehabilitation specialist, performance medicine physician",imp_t:"Keeps athletes performing safely and extends careers that inspire millions."},
   {n:"Performance data analyst",s:"Sport",ai:65,w:65,m:68,imp:72,em:1,why:"AI processes data but humans interpret what it means for specific athletes and tactics.",study:"Statistics, data science, or sports science degree.",ex:"Football analyst, cricket data scientist, Formula 1 performance engineer",imp_t:"Provides the marginal gains that decide championships."},
@@ -538,27 +492,33 @@ var sectors=["All"];
 D.forEach(function(c){if(sectors.indexOf(c.s)===-1)sectors.push(c.s);});
 
 var sortKey="ai", sortDir="desc", emergingOnly=false, bookmarksOnly=false;
-var activeSector="All", openIdx=null;
-var compareMode=false, compareList=[];
-var bookmarks=JSON.parse(localStorage.getItem("cw_bookmarks")||"[]");
-var enrichCache={};
+var activeSector="All";
+var bookmarks=JSON.parse(localStorage.getItem("cw_bm")||"[]");
+var deepCache={};
+var deepOpen={};
+var videoCache={};
 
-// ── RENDER TABS ──
+function isBookmarked(n){return bookmarks.indexOf(n)>-1;}
+function toggleBookmark(idx){
+  var n=D[idx].n;
+  var i=bookmarks.indexOf(n);
+  if(i>-1)bookmarks.splice(i,1);else bookmarks.push(n);
+  localStorage.setItem("cw_bm",JSON.stringify(bookmarks));
+  render();
+}
+
 function renderTabs(){
   var el=document.getElementById("stabs");
   el.innerHTML=sectors.map(function(s){
     return'<button class="st'+(s===activeSector?" on":"")+'" data-sector="'+s.replace(/"/g,"&quot;")+'">'+s+'</button>';
   }).join("");
   el.querySelectorAll(".st").forEach(function(b){
-    b.addEventListener("click",function(){setSector(this.dataset.sector);});
+    b.addEventListener("click",function(){activeSector=this.dataset.sector;render();renderTabs();});
   });
 }
 
-function setSector(s){activeSector=s;openIdx=null;render();renderTabs();}
-
-// ── SORT ──
 function setSort(k){
-  sortKey=k;openIdx=null;
+  sortKey=k;
   ["ai","w","m","imp","n"].forEach(function(x){
     var b=document.getElementById("s-"+x);
     if(b)b.className="sb"+(x===k?" on":"");
@@ -566,138 +526,53 @@ function setSort(k){
   render();
 }
 
-var sortDirState="desc";
 function toggleDir(){
-  sortDirState=sortDirState==="desc"?"asc":"desc";
+  sortDir=sortDir==="desc"?"asc":"desc";
   var btn=document.getElementById("s-dir");
-  if(btn){
-    btn.textContent=sortDirState==="desc"?"\u25bc High\u2192Low":"\u25b2 Low\u2192High";
-    btn.className="sb"+(sortDirState==="asc"?" on":"");
-  }
-  openIdx=null;render();
+  if(btn){btn.textContent=sortDir==="desc"?"\u25bc High\u2192Low":"\u25b2 Low\u2192High";btn.className="sb"+(sortDir==="asc"?" on":"");}
+  render();
 }
 
 function toggleEmerging(){
   emergingOnly=!emergingOnly;
   var b=document.getElementById("s-em");
   if(b)b.className="sb sb-em"+(emergingOnly?" on":"");
-  openIdx=null;render();
+  render();
 }
 
 function toggleBookmarksOnly(){
   bookmarksOnly=!bookmarksOnly;
   var b=document.getElementById("s-bm");
   if(b)b.className="sb sb-bm"+(bookmarksOnly?" on":"");
-  openIdx=null;render();
-}
-
-// ── BOOKMARKS ──
-function isBookmarked(n){return bookmarks.indexOf(n)>-1;}
-function toggleBookmark(n,e){
-  e.stopPropagation();
-  var i=bookmarks.indexOf(n);
-  if(i>-1)bookmarks.splice(i,1);else bookmarks.push(n);
-  localStorage.setItem("cw_bookmarks",JSON.stringify(bookmarks));
   render();
 }
 
-// ── COMPARE ──
-function toggleCompareMode(){
-  compareMode=!compareMode;
-  var btn=document.getElementById("cmp-toggle");
-  btn.className="compare-btn"+(compareMode?" active":"");
-  btn.textContent=compareMode?"\u2715 Done":"\u2630 Compare";
-  if(!compareMode){clearCompare();}
-  openIdx=null;render();
-}
-
-function toggleCompare(n,e){
-  e.stopPropagation();
-  var i=compareList.indexOf(n);
-  if(i>-1){compareList.splice(i,1);}
-  else if(compareList.length<3){compareList.push(n);}
-  render();renderComparePanel();
-}
-
-function renderComparePanel(){
-  var panel=document.getElementById("compare-panel");
-  var slots=document.getElementById("cp-slots");
-  if(compareList.length===0){panel.className="compare-panel";return;}
-  panel.className="compare-panel visible";
-  slots.innerHTML=compareList.map(function(n,i){
-    return'<span class="cp-slot">'+n+'<span class="rm" data-cpi="'+i+'">&times;</span></span>';
-  }).join("");
-  slots.querySelectorAll('.rm').forEach(function(btn){
-    btn.addEventListener('click',function(){
-      removeCompare(compareList[parseInt(this.dataset.cpi)]);
-    });
-  });
-}
-
-function removeCompare(n){
-  compareList=compareList.filter(function(x){return x!==n;});
-  render();renderComparePanel();
-}
-function clearCompare(){compareList=[];renderComparePanel();render();}
-
-function showCompare(){
-  if(compareList.length<2){alert("Pick at least 2 careers to compare.");return;}
-  document.getElementById("main-view").style.display="none";
-  document.getElementById("compare-panel").className="compare-panel";
-  var view=document.getElementById("compare-view");
-  view.className="compare-view visible";
-  buildCompareTable();
-}
-function hideCompare(){
-  document.getElementById("main-view").style.display="";
-  document.getElementById("compare-view").className="compare-view";
-}
-
-function buildCompareTable(){
-  var careers=compareList.map(function(n){return D.find(function(c){return c.n===n;});}).filter(Boolean);
-  var cols=careers.length+1;
-  var rows=[
-    {label:"Career",fn:function(c){return'<strong>'+c.n+'</strong><br><span style="font-size:11px;color:#888">'+c.s+'</span>';}  },
-    {label:"AI-proof",fn:function(c){return bar(c.ai,"#378ADD");}  },
-    {label:"Wealth",fn:function(c){return bar(c.w,"#639922");}  },
-    {label:"Meaning",fn:function(c){return bar(c.m,"#7F77DD");}  },
-    {label:"Impact",fn:function(c){return bar(c.imp,"#D85A30");}  },
-    {label:"Why AI won&#39;t replace",fn:function(c){return c.why;}  },
-    {label:"How to get there",fn:function(c){return c.study;}  },
-    {label:"Example roles",fn:function(c){return c.ex;}  },
-    {label:"Impact on world",fn:function(c){return c.imp_t;}  },
-  ];
-  function bar(v,col){
-    return'<div style="display:flex;align-items:center;gap:6px"><div style="flex:1;height:6px;background:#f0f0f0;border-radius:99px;overflow:hidden"><div style="width:'+v+'%;height:100%;background:'+col+';border-radius:99px"></div></div><span style="font-size:11px;color:#888">'+v+'</span></div>';
-  }
-  var html='<div class="compare-table" style="grid-template-columns:repeat('+cols+',1fr)">';
-  rows.forEach(function(row){
-    html+='<div class="compare-row" style="grid-template-columns:repeat('+cols+',1fr)">';
-    html+='<div class="compare-cell label">'+row.label+'</div>';
-    careers.forEach(function(c){html+='<div class="compare-cell">'+row.fn(c)+'</div>';});
-    html+='</div>';
-  });
-  html+='</div>';
-  document.getElementById("compare-table").innerHTML=html;
-}
-
-// ── ENRICH ──
-function enrich(idx){
+function openDeep(idx){
+  var panel=document.getElementById("dp-"+idx);
+  if(!panel)return;
   var c=D[idx];
   var key=c.n;
-  var container=document.getElementById("det-"+idx);
-  if(!container)return;
 
-  // Check browser cache first (sessionStorage)
-  var cached=sessionStorage.getItem("cw_"+key);
-  if(cached){
-    try{
-      renderEnriched(container,JSON.parse(cached),c);
-      return;
-    }catch(e){}
+  // Toggle
+  if(panel.classList.contains("open")){
+    panel.classList.remove("open");
+    deepOpen[idx]=false;
+    var btn=document.getElementById("db-"+idx);
+    if(btn){btn.textContent="\uD83D\uDD0D Deep Analysis";btn.className="btn-deep";}
+    return;
   }
 
-  container.innerHTML='<div class="det-loading"><span class="spinner"></span>Generating deep analysis for '+c.n+'...</div>';
+  panel.classList.add("open");
+  deepOpen[idx]=true;
+  var btn=document.getElementById("db-"+idx);
+  if(btn)btn.className="btn-deep loaded";
+
+  // Already cached
+  if(deepCache[key]){renderDeep(panel,deepCache[key],idx);return;}
+
+  // Show loading
+  panel.innerHTML='<div class="dp-loading"><span class="spinner"></span>Generating deep analysis for '+c.n+'...</div>';
+  if(btn){btn.textContent="Generating...";btn.className="btn-deep loading";}
 
   fetch("/.netlify/functions/enrich",{
     method:"POST",
@@ -707,109 +582,154 @@ function enrich(idx){
   .then(function(r){return r.json();})
   .then(function(resp){
     if(resp.error){
-      if(document.getElementById("det-"+idx)){
-        document.getElementById("det-"+idx).innerHTML='<div class="det-loading" style="color:#c00">Could not load analysis: '+resp.error+'</div>';
-      }
+      panel.innerHTML='<div class="dp-error">Could not load analysis: '+resp.error+'</div>';
+      if(btn){btn.textContent="\uD83D\uDD0D Deep Analysis";btn.className="btn-deep";}
       return;
     }
-    var data=resp.data;
-    // Cache in sessionStorage so re-opens are instant
-    try{sessionStorage.setItem("cw_"+key,JSON.stringify(data));}catch(e){}
-    enrichCache[key]=data;
-    if(document.getElementById("det-"+idx)){
-      renderEnriched(document.getElementById("det-"+idx),data,c);
-    }
+    deepCache[key]=resp.data;
+    try{sessionStorage.setItem("cw_"+key,JSON.stringify(resp.data));}catch(e){}
+    if(btn){btn.textContent="\u2713 Analysis loaded";btn.className="btn-deep loaded";}
+    renderDeep(panel,resp.data,idx);
+    loadVideo(idx);
   })
-  .catch(function(err){
-    if(document.getElementById("det-"+idx)){
-      document.getElementById("det-"+idx).innerHTML='<div class="det-loading" style="color:#c00">Could not load deep analysis. Check your connection.</div>';
-    }
+  .catch(function(){
+    panel.innerHTML='<div class="dp-error">Connection error. Try again.</div>';
+    if(btn){btn.textContent="\uD83D\uDD0D Deep Analysis";btn.className="btn-deep";}
   });
 }
 
-
-function renderEnriched(container,d,c){
+function renderDeep(panel,d,idx){
+  var c=D[idx];
   var h="";
 
-  // FIT PROFILE
-  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#129300;</span>Fit Profile</div>';
-  h+='<div class="fit-tags">'+(d.fit.traits||[]).map(function(t){return'<span class="fit-tag">'+t+'</span>';}).join("")+'</div>';
-  h+='<div class="fit-meta">';
-  h+='<div class="fit-item"><strong>Style</strong>'+(d.fit.style||"")+'</div>';
-  h+='<div class="fit-item"><strong>Risk tolerance</strong>'+(d.fit.risk||"")+'</div>';
-  h+='<div class="fit-item"><strong>Payoff horizon</strong>'+(d.fit.horizon||"")+'</div>';
+  // FIT
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83E\uDD14</span>Fit Profile</div>';
+  h+='<div class="fit-tags">'+(d.fit&&d.fit.traits||[]).map(function(t){return'<span class="fit-tag">'+t+'</span>';}).join("")+'</div>';
+  h+='<div class="fit-grid">';
+  h+='<div class="fit-cell"><strong>Style</strong>'+(d.fit&&d.fit.style||"")+'</div>';
+  h+='<div class="fit-cell"><strong>Risk</strong>'+(d.fit&&d.fit.risk||"")+'</div>';
+  h+='<div class="fit-cell"><strong>Payoff</strong>'+(d.fit&&d.fit.horizon||"")+'</div>';
   h+='</div></div>';
 
-  // REALITY CHECK
-  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#9888;</span>Reality Check</div>';
-  h+='<ul class="reality-list">'+(d.reality.downsides||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul>';
-  h+='<div class="reality-note">&#128683; <strong>Biggest barrier:</strong> '+(d.reality.barrier||"")+'<br>&#128683; <strong>Most common failure:</strong> '+(d.reality.failure||"")+'<br>&#128683; <strong>Market reality:</strong> '+(d.reality.market||"")+'</div></div>';
+  // REALITY
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u26A0</span>Reality Check</div>';
+  h+='<ul class="r-list">'+(d.reality&&d.reality.downsides||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul>';
+  h+='<div class="r-note">\uD83D\uDED1 <strong>Barrier:</strong> '+(d.reality&&d.reality.barrier||"")+'<br>\uD83D\uDED1 <strong>Failure:</strong> '+(d.reality&&d.reality.failure||"")+'<br>\uD83D\uDED1 <strong>Market:</strong> '+(d.reality&&d.reality.market||"")+'</div></div>';
 
   // TIMELINE
-  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#128337;</span>Time-to-Reward</div>';
-  h+='<div class="timeline">';
-  h+='<div class="tl-block"><div class="tl-label">0&ndash;3 years</div><div class="tl-sal">'+(d.timeline.sal_early||"")+'</div><div class="tl-desc">'+(d.timeline.y0_3||"")+'</div></div>';
-  h+='<div class="tl-block"><div class="tl-label">3&ndash;7 years</div><div class="tl-sal">'+(d.timeline.sal_mid||"")+'</div><div class="tl-desc">'+(d.timeline.y3_7||"")+'</div></div>';
-  h+='<div class="tl-block"><div class="tl-label">7+ years</div><div class="tl-sal">'+(d.timeline.sal_top||"")+'</div><div class="tl-desc">'+(d.timeline.y7plus||"")+'</div></div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u23F1</span>Time-to-Reward</div>';
+  h+='<div class="tl-grid">';
+  h+='<div class="tl-block"><div class="tl-period">0&ndash;3 years</div><div class="tl-sal">'+(d.timeline&&d.timeline.sal_early||"")+'</div><div class="tl-desc">'+(d.timeline&&d.timeline.y0_3||"")+'</div></div>';
+  h+='<div class="tl-block"><div class="tl-period">3&ndash;7 years</div><div class="tl-sal">'+(d.timeline&&d.timeline.sal_mid||"")+'</div><div class="tl-desc">'+(d.timeline&&d.timeline.y3_7||"")+'</div></div>';
+  h+='<div class="tl-block"><div class="tl-period">7+ years</div><div class="tl-sal">'+(d.timeline&&d.timeline.sal_top||"")+'</div><div class="tl-desc">'+(d.timeline&&d.timeline.y7plus||"")+'</div></div>';
   h+='</div></div>';
 
-  // WEALTH BREAKDOWN
-  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#128176;</span>Wealth Breakdown</div>';
-  h+='<div class="wealth-grid">';
-  h+='<div class="wealth-block"><div class="wl">Early career</div><div class="wv">'+(d.wealth.early||"")+'</div></div>';
-  h+='<div class="wealth-block"><div class="wl">Mid career</div><div class="wv">'+(d.wealth.mid||"")+'</div></div>';
-  h+='<div class="wealth-block"><div class="wl">Top potential</div><div class="wv">'+(d.wealth.top||"")+'</div></div>';
-  h+='</div>';
-  h+='<div class="variance-note">Variance: <strong>'+(d.wealth.variance||"")+'</strong> &mdash; '+(d.wealth.variance_note||"")+'</div></div>';
+  // WEALTH
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83D\uDCB0</span>Wealth Breakdown</div>';
+  h+='<div class="w-grid">';
+  h+='<div class="w-block"><div class="w-label">Early</div><div class="w-val">'+(d.wealth&&d.wealth.early||"")+'</div></div>';
+  h+='<div class="w-block"><div class="w-label">Mid career</div><div class="w-val">'+(d.wealth&&d.wealth.mid||"")+'</div></div>';
+  h+='<div class="w-block"><div class="w-label">Top</div><div class="w-val">'+(d.wealth&&d.wealth.top||"")+'</div></div>';
+  h+='</div><div class="w-note">Variance: <strong>'+(d.wealth&&d.wealth.variance||"")+'</strong> &mdash; '+(d.wealth&&d.wealth.variance_note||"")+'</div></div>';
 
-  // ENTRY PATHS
-  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#128218;</span>How to Get There</div>';
-  h+='<div class="paths-list">';
-  h+='<div class="path-item"><strong>Academic:</strong> '+(d.paths.academic||"")+'</div>';
-  h+='<div class="path-item"><strong>Alternative:</strong> '+(d.paths.alternative||"")+'</div>';
-  if(d.paths.subjects&&d.paths.subjects.length){
-    h+='<div class="subject-tags">'+(d.paths.subjects||[]).map(function(s){return'<span class="subject-tag">'+s+'</span>';}).join("")+'</div>';
+  // PATHS
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83D\uDCDA</span>How to Get There</div>';
+  h+='<div class="path-rows">';
+  h+='<div class="path-row"><strong>Academic:</strong> '+(d.paths&&d.paths.academic||"")+'</div>';
+  h+='<div class="path-row"><strong>Alternative:</strong> '+(d.paths&&d.paths.alternative||"")+'</div>';
+  if(d.paths&&d.paths.subjects&&d.paths.subjects.length){
+    h+='<div class="subj-tags">'+(d.paths.subjects||[]).map(function(s){return'<span class="subj-tag">'+s+'</span>';}).join("")+'</div>';
   }
   h+='</div></div>';
 
-  // ADJACENT CAREERS
-  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#8618;</span>Adjacent Careers</div>';
-  h+='<div class="adj-list">';
-  (d.adjacent||[]).forEach(function(r){
-    h+='<span class="adj-tag" data-search="'+r.replace(/"/g,'&quot;')+'" title="Search for this career">'+r+'</span>';
-  });
-  h+='</div></div>';
+  // ADJACENT
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">&#8618;</span>Adjacent Careers</div>';
+  h+='<div class="adj-list">'+(d.adjacent||[]).map(function(r){
+    return'<span class="adj-tag" data-search="'+r.replace(/"/g,"&quot;")+'">'+r+'</span>';
+  }).join("")+'</div></div>';
 
-  // WHERE YOU WORK
-  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#127970;</span>Where You Work</div>';
+  // WHERE
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83C\uDFEB</span>Where You Work</div>';
   h+='<div class="where-grid">';
-  h+='<div class="where-block"><div class="wl">Companies</div><ul class="where-list">'+(d.where.companies||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
-  h+='<div class="where-block"><div class="wl">Industries</div><ul class="where-list">'+(d.where.industries||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='<div class="where-block"><div class="where-label">Companies</div><ul class="where-list">'+(d.where&&d.where.companies||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='<div class="where-block"><div class="where-label">Industries</div><ul class="where-list">'+(d.where&&d.where.industries||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
   h+='</div></div>';
 
   // AI DETAIL
-  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#129302;</span>Why AI Won&#8217;t Replace This</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83E\uDD16</span>Why AI Won&#8217;t Replace This</div>';
   h+='<div class="ai-blocks">';
-  h+='<div class="ai-block cant"><strong>Cannot do today</strong>'+(d.ai_detail.cant_do||"")+'</div>';
-  h+='<div class="ai-block future"><strong>Will automate in 5 years</strong>'+(d.ai_detail.near_future||"")+'</div>';
-  h+='<div class="ai-block augment"><strong>AI will make you more powerful</strong>'+(d.ai_detail.augment||"")+'</div>';
+  h+='<div class="ai-block cant"><strong>Cannot do today</strong>'+(d.ai_detail&&d.ai_detail.cant_do||"")+'</div>';
+  h+='<div class="ai-block future"><strong>Will automate in 5 years</strong>'+(d.ai_detail&&d.ai_detail.near_future||"")+'</div>';
+  h+='<div class="ai-block augment"><strong>AI makes you more powerful</strong>'+(d.ai_detail&&d.ai_detail.augment||"")+'</div>';
   h+='</div></div>';
 
-  // 5 STEPS
-  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#9989;</span>Next 5 Steps — Start This Year</div>';
+  // STEPS
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u2705</span>Next 5 Steps</div>';
   h+='<ol class="steps-list">'+(d.steps||[]).map(function(s){return'<li>'+s+'</li>';}).join("")+'</ol></div>';
 
-  // DECISION BLOCK
-  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#127919;</span>Should You Choose This?</div>';
-  h+='<div class="decision">';
-  h+='<div class="dec-block yes"><div class="dec-label">&#10003; Choose this if...</div><ul class="dec-list">'+(d.choose_if||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
-  h+='<div class="dec-block no"><div class="dec-label">&#10007; Avoid this if...</div><ul class="dec-list">'+(d.avoid_if||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  // DECISION
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83C\uDFAF</span>Should You Choose This?</div>';
+  h+='<div class="dec-grid">';
+  h+='<div class="dec-block yes"><div class="dec-label">&#10003; Choose this if</div><ul class="dec-list">'+(d.choose_if||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='<div class="dec-block no"><div class="dec-label">&#10007; Avoid this if</div><ul class="dec-list">'+(d.avoid_if||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
   h+='</div></div>';
 
-  container.innerHTML=h;
+  // VIDEO
+  h+='<div class="video-wrap" id="vw-'+idx+'"><div class="video-label">&#9654; Day in the life</div>';
+  h+='<div id="vthumb-'+idx+'"></div>';
+  h+='<button class="btn-paste" onclick="showVideoInput('+idx+')">\uD83D\uDD17 Paste a better YouTube video</button>';
+  h+='<div id="vinput-'+idx+'"></div>';
+  h+='</div>';
+
+  panel.innerHTML=h;
+  loadVideo(idx);
 }
 
-// ── RENDER ──
+function loadVideo(idx){
+  var c=D[idx];
+  fetch("/.netlify/functions/video?career="+encodeURIComponent(c.n))
+  .then(function(r){return r.json();})
+  .then(function(resp){
+    if(resp.video&&resp.video.youtube_url){
+      var m=resp.video.youtube_url.match(/(?:v=|youtu\.be\/|embed\/|shorts\/|watch\?v=)([\w-]+)/);
+      if(m){
+        var thumb=document.getElementById("vthumb-"+idx);
+        if(thumb)thumb.innerHTML='<div class="video-thumb"><a href="'+resp.video.youtube_url+'" target="_blank" onclick="event.stopPropagation()"><img src="https://img.youtube.com/vi/'+m[1]+'/mqdefault.jpg" alt="Video thumbnail"></a></div>';
+      }
+    }
+  }).catch(function(){});
+}
+
+function showVideoInput(idx){
+  var el=document.getElementById("vinput-"+idx);
+  if(!el)return;
+  if(el.innerHTML){el.innerHTML="";return;}
+  el.innerHTML='<div class="video-input-row"><input type="text" class="video-input" placeholder="Paste YouTube URL..." id="vi-'+idx+'"><button class="btn-save-vid" onclick="saveVideo('+idx+')">Save</button></div>';
+  var inp=document.getElementById("vi-"+idx);
+  if(inp){inp.onclick=function(e){e.stopPropagation();};inp.focus();}
+}
+
+function saveVideo(idx){
+  var inp=document.getElementById("vi-"+idx);
+  if(!inp)return;
+  var url=inp.value.trim();
+  if(!url){alert("Please paste a YouTube URL");return;}
+  inp.disabled=true;
+  fetch("/.netlify/functions/video",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({career_name:D[idx].n,youtube_url:url})
+  })
+  .then(function(r){return r.json();})
+  .then(function(resp){
+    if(resp.error){alert("Error: "+resp.error);inp.disabled=false;return;}
+    var el=document.getElementById("vinput-"+idx);
+    if(el)el.innerHTML='<div style="font-size:12px;color:#27500A;padding:4px 0">\u2713 Saved! Reloading...</div>';
+    setTimeout(function(){loadVideo(idx);},800);
+  })
+  .catch(function(){alert("Could not save. Try again.");inp.disabled=false;});
+}
+
 function render(){
   var q=(document.getElementById("search").value||"").toLowerCase().trim();
   var list=D.filter(function(c){
@@ -817,162 +737,79 @@ function render(){
     if(emergingOnly&&!c.em)return false;
     if(bookmarksOnly&&!isBookmarked(c.n))return false;
     if(!q)return true;
-    return c.n.toLowerCase().indexOf(q)>-1||c.s.toLowerCase().indexOf(q)>-1||c.ex.toLowerCase().indexOf(q)>-1;
+    return c.n.toLowerCase().indexOf(q)>-1||c.s.toLowerCase().indexOf(q)>-1||(c.ex&&c.ex.toLowerCase().indexOf(q)>-1);
   });
+  if(sortKey==="n")list.sort(function(a,b){var r=a.n.localeCompare(b.n);return sortDir==="asc"?-r:r;});
+  else list.sort(function(a,b){return sortDir==="desc"?b[sortKey]-a[sortKey]:a[sortKey]-b[sortKey];});
 
-  if(sortKey==="n"){
-    list.sort(function(a,b){var r=a.n.localeCompare(b.n);return sortDirState==="asc"?-r:r;});
-  }else{
-    list.sort(function(a,b){return sortDirState==="desc"?b[sortKey]-a[sortKey]:a[sortKey]-b[sortKey];});
-  }
-
-  document.getElementById("cnt").textContent=list.length+" career"+(list.length!==1?"s":"")+(q?' matching "'+q+'"':"");
+  document.getElementById("cnt").textContent=list.length+" career"+(list.length!==1?"s":"")+(q?' matching "'+q+'"':"")+'  —  click any card for details, “Deep Analysis” for AI insight';
 
   var html="";
   for(var i=0;i<list.length;i++){
     var c=list[i];
     var idx=D.indexOf(c);
-    var open=openIdx===idx;
     var bm=isBookmarked(c.n);
-    var inCmp=compareList.indexOf(c.n)>-1;
-    html+='<div class="card'+(open?" open":"")+(c.em?" emerging":"")+(bm?" bookmarked":"")+(inCmp&&compareMode?" comparing":"")+'" data-idx="'+idx+'">';
-    html+='<div class="ch"><div class="ch-left">';
-    html+='<div class="ct">'+c.n+(c.em?'<span class="etag" style="margin-left:6px">New</span>':'')+'</div>';
-    html+='<div class="cs">'+c.s+'</div>';
-    html+='</div><div class="ch-right">';
-    if(compareMode){html+='<div class="cmp-check">'+(inCmp?"&#10003;":"")+'</div>';}
-    html+='<span class="bm-dot"></span>';
-    html+='<span class="tog">'+(open?"&#8722;":"&#43;")+'</span>';
-    html+='</div></div>';
+    var ytUrl="https://www.youtube.com/results?search_query=day+in+the+life+"+encodeURIComponent(c.n);
 
-    // Bars
+    html+='<div class="card'+(c.em?" em":"")+(bm?" bookmarked":"")+'">';
+
+    // Always-visible top section
+    html+='<div class="ct-wrap" onclick="toggleCard('+idx+')">';
+    html+='<div class="ct-head">';
+    html+='<div class="ct-left"><div class="ct-name">'+c.n+(c.em?'<span class="etag" style="margin-left:6px">New</span>':'')+'</div><div class="ct-sector">'+c.s+'</div></div>';
+    html+='<div class="ct-right"><span class="bm-dot"></span></div>';
+    html+='</div>';
     html+='<div class="bars">';
     html+='<div class="br"><span class="bl">AI-proof</span><div class="bt"><div class="bf" style="width:'+c.ai+'%;background:#378ADD"></div></div><span class="bv">'+c.ai+'</span></div>';
     html+='<div class="br"><span class="bl">Wealth</span><div class="bt"><div class="bf" style="width:'+c.w+'%;background:#639922"></div></div><span class="bv">'+c.w+'</span></div>';
     html+='<div class="br"><span class="bl">Meaning</span><div class="bt"><div class="bf" style="width:'+c.m+'%;background:#7F77DD"></div></div><span class="bv">'+c.m+'</span></div>';
     html+='<div class="br"><span class="bl">Impact</span><div class="bt"><div class="bf" style="width:'+c.imp+'%;background:#D85A30"></div></div><span class="bv">'+c.imp+'</span></div>';
+    html+='</div></div>';
+
+    // Always-visible body text
+    html+='<div class="card-body" id="cb-'+idx+'">';
+    if(c.why)html+='<div class="cb-item"><div class="cb-label">Why AI won&#8217;t replace it</div><div class="cb-text">'+c.why+'</div></div>';
+    if(c.imp_t)html+='<div class="cb-item"><div class="cb-label">Impact on the world</div><div class="cb-text">'+c.imp_t+'</div></div>';
+    if(c.study)html+='<div class="cb-item"><div class="cb-label">How to get there</div><div class="cb-text">'+c.study+'</div></div>';
+    if(c.ex){
+      var exList=c.ex.split(",").map(function(e){return e.trim();});
+      html+='<div class="cb-item"><div class="cb-label">Example roles</div><div class="cb-tags">'+exList.map(function(e){return'<span class="cb-tag">'+e+'</span>';}).join("")+'</div></div>';
+    }
     html+='</div>';
 
-    // Open detail
-    if(open){
-      var ytUrl="https://www.youtube.com/results?search_query=day+in+the+life+"+encodeURIComponent(c.n);
-      var bmClass="bm-btn"+(bm?" saved":"");
-      var bmLabel=bm?"&#9733; Saved":"&#9733; Save";
-      html+='<div class="det" id="det-'+idx+'"><div class="det-loading"><span class="spinner"></span>Generating deep analysis...</div></div>';
-      html+='<div class="card-footer">';
-      html+='<div class="video-wrap" id="vwrap-'+idx+'">';
-      html+='<a class="vlink" id="vlink-'+idx+'" href="'+ytUrl+'" target="_blank" onclick="event.stopPropagation()">&#9654; Day in the life on YouTube</a>';
-      html+='</div>';
-      html+='<button class="'+bmClass+'" data-bm="'+idx+'" onclick="event.stopPropagation();bmClick('+idx+')">'+bmLabel+'</button>';
-      if(compareMode){
-        var cmpClass="cmp-btn"+(inCmp?" added":"");
-        var cmpLabel=inCmp?"&#10003; Added":"&#43; Compare";
-        html+='<button class="'+cmpClass+'" data-cmp="'+idx+'" onclick="event.stopPropagation();cmpClick('+idx+')">'+cmpLabel+'</button>';
-      }
-      html+='</div>';
-    }
+    // Footer
+    html+='<div class="card-foot">';
+    html+='<button class="btn-deep" id="db-'+idx+'" onclick="openDeep('+idx+')">\uD83D\uDD0D Deep Analysis</button>';
+    html+='<a class="btn-yt" href="'+ytUrl+'" target="_blank" onclick="event.stopPropagation()">&#9654; Watch</a>';
+    html+='<button class="btn-bm'+(bm?" saved":"")+'" onclick="event.stopPropagation();toggleBookmark('+idx+')">'+(bm?"\u2605 Saved":"\u2606 Save")+'</button>';
+    html+='</div>';
+
+    // Deep analysis panel (hidden until clicked)
+    html+='<div class="deep-panel" id="dp-'+idx+'"></div>';
 
     html+='</div>';
   }
   document.getElementById("grid").innerHTML=html;
 
-  // Trigger enrichment after render
-  if(openIdx!==null){
-    setTimeout(function(){enrich(openIdx);},50);
-    setTimeout(function(){loadVideo(openIdx);},100);
-  }
-}
-
-function toggle(idx){
-  openIdx=openIdx===idx?null:idx;
-  render();
-}
-
-function searchFor(term){
-  document.getElementById("search").value=term;
-  openIdx=null;
-  render();
-}
-
-// ── VIDEO FUNCTIONS ──
-function loadVideo(idx){
-  var c=D[idx];
-  fetch("/.netlify/functions/video?career="+encodeURIComponent(c.n))
-  .then(function(r){return r.json();})
-  .then(function(resp){
-    if(resp.video && resp.video.youtube_url){
-      var wrap=document.getElementById("vwrap-"+idx);
-      if(!wrap)return;
-      var videoId=resp.video.youtube_url.match(/(?:v=|youtu\.be\/)([\w-]+)/);
-      if(videoId){
-        wrap.innerHTML=
-          '<a class="vlink community" href="'+resp.video.youtube_url+'" target="_blank" onclick="event.stopPropagation()">'+
-          '<img src="https://img.youtube.com/vi/'+videoId[1]+'/mqdefault.jpg" style="width:100%;border-radius:6px;display:block;margin-bottom:6px">'+
-          '&#9654; Community pick &mdash; Watch on YouTube</a>'+
-          '<button class="submit-video-btn" data-idx="'+idx+'" onclick="event.stopPropagation();showVideoInput('+idx+')">&#128279; Suggest a better video</button>';
-      }
-    } else {
-      var wrap=document.getElementById("vwrap-"+idx);
-      if(wrap){
-        var existing=wrap.querySelector(".vlink");
-        if(existing){
-          var btn=document.createElement("button");
-          btn.className="submit-video-btn";
-          btn.dataset.idx=idx;
-          btn.setAttribute("onclick","event.stopPropagation();showVideoInput("+idx+")");
-          btn.textContent="&#128279; Paste a better YouTube video";
-          wrap.appendChild(btn);
-        }
-      }
+  // Restore any open deep panels
+  Object.keys(deepOpen).forEach(function(idx){
+    if(deepOpen[idx]&&deepCache[D[idx]&&D[idx].n]){
+      var panel=document.getElementById("dp-"+idx);
+      if(panel){panel.classList.add("open");renderDeep(panel,deepCache[D[idx].n],parseInt(idx));}
     }
-  })
-  .catch(function(){});
+  });
 }
 
-function showVideoInput(idx){
-  var wrap=document.getElementById("vwrap-"+idx);
-  if(!wrap)return;
-  var existing=wrap.querySelector(".video-input-row");
-  if(existing){existing.remove();return;}
-  var row=document.createElement("div");
-  row.className="video-input-row";
-  row.onclick=function(e){e.stopPropagation();};
-  row.innerHTML='<input type="text" class="video-input" placeholder="Paste YouTube URL here..." />'+
-    '<button class="video-submit-btn" onclick="event.stopPropagation();submitVideo('+idx+')">Save</button>';
-  wrap.appendChild(row);
-  row.querySelector("input").focus();
+function toggleCard(idx){
+  // Cards don't collapse — clicking just opens deep analysis if wanted
+  // Scrolls to card
 }
 
-function submitVideo(idx){
-  var wrap=document.getElementById("vwrap-"+idx);
-  if(!wrap)return;
-  var input=wrap.querySelector(".video-input");
-  if(!input)return;
-  var url=input.value.trim();
-  if(!url){alert("Please paste a YouTube URL");return;}
-  var c=D[idx];
-  input.disabled=true;
-  fetch("/.netlify/functions/video",{
-    method:"POST",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({career_name:c.n,youtube_url:url})
-  })
-  .then(function(r){return r.json();})
-  .then(function(resp){
-    if(resp.error){alert("Error: "+resp.error);input.disabled=false;return;}
-    // Reload the video section
-    wrap.innerHTML='<div class="det-loading" style="color:#27500A">&#10003; Video saved! Reloading...</div>';
-    setTimeout(function(){loadVideo(idx);},800);
-  })
-  .catch(function(e){alert("Could not save video. Try again.");input.disabled=false;});
-}
-
-// ── CLICK HELPERS (avoid inline quote issues) ──
-function bmClick(idx){ toggleBookmark(D[idx].n, {stopPropagation:function(){}}); }
-function cmpClick(idx){ toggleCompare(D[idx].n, {stopPropagation:function(){}}); }
-
-// ── EVENT LISTENERS ──
-document.getElementById("search").addEventListener("input",function(){openIdx=null;render();});
+// Event delegation
+document.addEventListener("click",function(e){
+  var adj=e.target.closest(".adj-tag");
+  if(adj){document.getElementById("search").value=adj.dataset.search||adj.textContent;render();return;}
+});
 
 document.querySelector(".toolbar").addEventListener("click",function(e){
   var s=e.target.closest("[data-sort]");if(s){setSort(s.dataset.sort);return;}
@@ -981,23 +818,7 @@ document.querySelector(".toolbar").addEventListener("click",function(e){
   var bm=e.target.closest("#s-bm");if(bm){toggleBookmarksOnly();return;}
 });
 
-document.getElementById("stabs").addEventListener("click",function(e){
-  var b=e.target.closest(".st");if(b)setSector(b.dataset.sector);
-});
-
-document.getElementById("grid").addEventListener("click",function(e){
-  if(e.target.tagName==="A"||e.target.closest("a"))return;
-  if(e.target.closest("button"))return;
-  var adj=e.target.closest(".adj-tag");
-  if(adj){searchFor(adj.dataset.search||adj.textContent);return;}
-  var card=e.target.closest(".card");
-  if(!card)return;
-  var idx=parseInt(card.dataset.idx);
-  if(!isNaN(idx)){
-    if(compareMode){toggleCompare(D[idx].n,e);}
-    else{toggle(idx);}
-  }
-});
+document.getElementById("search").addEventListener("input",function(){render();});
 
 renderTabs();
 render();
