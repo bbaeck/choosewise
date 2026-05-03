@@ -199,6 +199,10 @@ body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);min-heig
 .btn-save-vid{font-size:12px;padding:6px 12px;background:var(--gold);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;font-weight:600;white-space:nowrap}
 .btn-save-vid:hover{background:var(--gold-dark)}
 
+.lang-toggle{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:600;padding:5px 12px;border:1px solid var(--border2);border-radius:99px;background:#fff;color:var(--text2);cursor:pointer;transition:all .15s}
+.lang-toggle:hover{background:var(--bg);border-color:var(--text3)}
+.lang-toggle.nl{background:#AE1C28;color:#fff;border-color:#AE1C28}
+
 @media(max-width:640px){
   .grid{grid-template-columns:1fr;padding:0 12px 40px}
   .ctrl{padding:0 12px}
@@ -210,8 +214,9 @@ body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);min-heig
 <body>
 
 <nav class="nav">
-  <a href="index.html" class="nav-back">&#8592; Home</a>
+  <a href="index.html" class="nav-back" id="nav-back">&#8592; Home</a>
   <a href="index.html" class="nav-brand">Choose Wise</a>
+  <button class="lang-toggle" id="lang-btn" onclick="toggleLang()">🇬🇧 EN</button>
 </nav>
 
 <div class="ph">
@@ -507,6 +512,202 @@ function toggleBookmark(idx){
   render();
 }
 
+// ── TRANSLATIONS ──
+var lang = localStorage.getItem("cw_lang") || "nl"; // default Dutch
+
+var T = {
+  en: {
+    title: "Career Encyclopedia",
+    subtitle: "235 careers · Basic info always visible · Click Deep Analysis for AI-powered detail",
+    sort: "Sort",
+    aiproof: "AI-proof",
+    wealth: "Wealth",
+    meaning: "Meaning",
+    impact: "Impact",
+    emerging: "🌱 Emerging",
+    saved: "★ Saved",
+    high_low: "▼ High→Low",
+    low_high: "▲ Low→High",
+    all: "All",
+    careers_suffix: "career",
+    careers_suffix_pl: "careers",
+    matching: "matching",
+    hint: "— click any card for details, Deep Analysis for AI insight",
+    nav_back: "← Home",
+    why_label: "Why AI won't replace it",
+    impact_label: "" + t("impact_label") + "",
+    study_label: "" + t("study_label") + "",
+    roles_label: "" + t("roles_label") + "",
+    deep_btn: "🔍 Deep Analysis",
+    watch_btn: "▶ Watch",
+    save_btn: "☆ Save",
+    unsave_btn: "★ Saved",
+    generating: "" + t("generating") + "",
+    analysis_loaded: "✓ Analysis loaded",
+    conn_error: "" + t("conn_error") + "",
+    // Deep section titles
+    fit_title: "Fit Profile",
+    reality_title: "Reality Check",
+    timeline_title: "Time-to-Reward",
+    wealth_title: "Wealth Breakdown",
+    paths_title: "How to Get There",
+    adjacent_title: "Adjacent Careers",
+    where_title: "Where You Work",
+    ai_title: "Why AI Won't Replace This",
+    steps_title: "Next 5 Steps",
+    decision_title: "Should You Choose This?",
+    // Fit labels
+    style_label: "Style",
+    risk_label: "Risk",
+    payoff_label: "Payoff",
+    // Reality labels
+    barrier_label: "Barrier",
+    failure_label: "Failure",
+    market_label: "Market",
+    // Timeline labels
+    y0_3: "0–3 years",
+    y3_7: "3–7 years",
+    y7plus: "" + t("y7plus") + "",
+    // Wealth labels
+    early_label: "Early",
+    mid_label: "Mid career",
+    top_label: "Top",
+    variance_label: "Variance",
+    // Where labels
+    companies_label: "Companies",
+    industries_label: "Industries",
+    // AI block labels
+    cant_label: "Cannot do today",
+    future_label: "Will automate in 5 years",
+    augment_label: "AI makes you more powerful",
+    // Decision
+    choose_label: "✓ Choose this if",
+    avoid_label: "✗ Avoid this if",
+    // Video
+    video_label: "▶ Day in the life",
+    paste_btn: "🔗 Paste a better YouTube video",
+    save_vid: "Save",
+    vid_saved: "✓ Saved! Reloading...",
+    // Generating
+    generating_deep: "" + t("generating_deep") + "",
+    cant_load: "" + t("cant_load") + "",
+  },
+  nl: {
+    title: "Beroepengids",
+    subtitle: "235 beroepen · Basisinfo altijd zichtbaar · Klik Diepgaande analyse voor AI-inzicht",
+    sort: "Sorteren",
+    aiproof: "AI-bestendig",
+    wealth: "Inkomen",
+    meaning: "Zingeving",
+    impact: "Impact",
+    emerging: "🌱 Opkomend",
+    saved: "★ Bewaard",
+    high_low: "▼ Hoog→Laag",
+    low_high: "▲ Laag→Hoog",
+    all: "Alles",
+    careers_suffix: "beroep",
+    careers_suffix_pl: "beroepen",
+    matching: "overeenkomend met",
+    hint: "— klik op een kaart voor details, Diepgaande analyse voor AI-inzicht",
+    nav_back: "← Startpagina",
+    why_label: "Waarom AI het niet overneemt",
+    impact_label: "Impact op de wereld",
+    study_label: "Hoe kom je er?",
+    roles_label: "Voorbeeldfuncties",
+    deep_btn: "🔍 Diepgaande analyse",
+    watch_btn: "▶ Bekijk",
+    save_btn: "☆ Bewaar",
+    unsave_btn: "★ Bewaard",
+    generating: "Bezig met genereren...",
+    analysis_loaded: "✓ Analyse geladen",
+    conn_error: "Verbindingsfout. Probeer opnieuw.",
+    // Deep section titles
+    fit_title: "Past dit bij mij?",
+    reality_title: "De harde waarheid",
+    timeline_title: "Beloning in de tijd",
+    wealth_title: "Inkomensverdeling",
+    paths_title: "Hoe kom je er?",
+    adjacent_title: "Verwante beroepen",
+    where_title: "Waar werk je?",
+    ai_title: "Waarom AI dit niet overneemt",
+    steps_title: "De volgende 5 stappen",
+    decision_title: "Is dit het juiste beroep voor jou?",
+    // Fit labels
+    style_label: "Stijl",
+    risk_label: "Risicotolerantie",
+    payoff_label: "Looptijd beloning",
+    // Reality labels
+    barrier_label: "Drempel",
+    failure_label: "Valkuil",
+    market_label: "Markt",
+    // Timeline labels
+    y0_3: "0–3 jaar",
+    y3_7: "3–7 jaar",
+    y7plus: "7+ jaar",
+    // Wealth labels
+    early_label: "Begin",
+    mid_label: "Midden",
+    top_label: "Top",
+    variance_label: "Spreiding",
+    // Where labels
+    companies_label: "Bedrijven",
+    industries_label: "Sectoren",
+    // AI block labels
+    cant_label: "Wat AI vandaag niet kan",
+    future_label: "Wat AI in 5 jaar overneemt",
+    augment_label: "Hoe AI jou sterker maakt",
+    // Decision
+    choose_label: "✓ Kies dit als",
+    avoid_label: "✗ Vermijd dit als",
+    // Video
+    video_label: "▶ Dag in het leven",
+    paste_btn: "🔗 Plak een betere YouTube-video",
+    save_vid: "Opslaan",
+    vid_saved: "✓ Opgeslagen! Bezig met laden...",
+    // Generating
+    generating_deep: "Diepgaande analyse genereren voor",
+    cant_load: "Analyse kon niet worden geladen",
+  }
+};
+
+function t(key){ return T[lang][key] || T.en[key] || key; }
+
+function toggleLang(){
+  lang = lang === "en" ? "nl" : "en";
+  localStorage.setItem("cw_lang", lang);
+  applyLang();
+  render();
+  renderTabs();
+}
+
+function applyLang(){
+  var btn = document.getElementById("lang-btn");
+  var back = document.getElementById("nav-back");
+  if(btn){ btn.textContent = lang === "en" ? "🇳🇱 NL" : "🇬🇧 EN"; btn.className = "lang-toggle" + (lang === "nl" ? " nl" : ""); }
+  if(back) back.textContent = t("nav_back");
+  // Update static page text
+  var h1 = document.querySelector(".ph h1");
+  var sub = document.querySelector(".ph p");
+  if(h1) h1.textContent = t("title");
+  if(sub) sub.textContent = t("subtitle");
+  // Update toolbar labels
+  var tl = document.querySelector(".toolbar .tl");
+  if(tl) tl.textContent = t("sort");
+  var sortBtns = {ai: t("aiproof"), w: t("wealth"), m: t("meaning"), imp: t("impact"), n: "A–Z"};
+  Object.keys(sortBtns).forEach(function(k){
+    var b = document.getElementById("s-"+k);
+    if(b) b.textContent = sortBtns[k];
+  });
+  var em = document.getElementById("s-em");
+  if(em && !em.classList.contains("on")) em.textContent = t("emerging");
+  else if(em) em.textContent = t("emerging");
+  var bm = document.getElementById("s-bm");
+  if(bm) bm.textContent = t("saved");
+  // Update dir button
+  var dir = document.getElementById("s-dir");
+  if(dir) dir.textContent = sortDir === "desc" ? t("high_low") : t("low_high");
+}
+
 function renderTabs(){
   var el=document.getElementById("stabs");
   el.innerHTML=sectors.map(function(s){
@@ -558,7 +759,7 @@ function openDeep(idx){
     panel.classList.remove("open");
     deepOpen[idx]=false;
     var btn=document.getElementById("db-"+idx);
-    if(btn){btn.textContent="\uD83D\uDD0D Deep Analysis";btn.className="btn-deep";}
+    if(btn){btn.textContent=t("deep_btn");btn.className="btn-deep";}
     return;
   }
 
@@ -571,8 +772,8 @@ function openDeep(idx){
   if(deepCache[key]){renderDeep(panel,deepCache[key],idx);return;}
 
   // Show loading
-  panel.innerHTML='<div class="dp-loading"><span class="spinner"></span>Generating deep analysis for '+c.n+'...</div>';
-  if(btn){btn.textContent="Generating...";btn.className="btn-deep loading";}
+  panel.innerHTML='<div class="dp-loading"><span class="spinner"></span>" + t("generating_deep") + " '+c.n+'...</div>';
+  if(btn){btn.textContent=t("generating");btn.className="btn-deep loading";}
 
   fetch("/.netlify/functions/enrich",{
     method:"POST",
@@ -582,19 +783,19 @@ function openDeep(idx){
   .then(function(r){return r.json();})
   .then(function(resp){
     if(resp.error){
-      panel.innerHTML='<div class="dp-error">Could not load analysis: '+resp.error+'</div>';
-      if(btn){btn.textContent="\uD83D\uDD0D Deep Analysis";btn.className="btn-deep";}
+      panel.innerHTML='<div class="dp-error">" + t("cant_load") + ": '+resp.error+'</div>';
+      if(btn){btn.textContent=t("deep_btn");btn.className="btn-deep";}
       return;
     }
     deepCache[key]=resp.data;
     try{sessionStorage.setItem("cw_"+key,JSON.stringify(resp.data));}catch(e){}
-    if(btn){btn.textContent="\u2713 Analysis loaded";btn.className="btn-deep loaded";}
+    if(btn){btn.textContent=t("analysis_loaded");btn.className="btn-deep loaded";}
     renderDeep(panel,resp.data,idx);
     loadVideo(idx);
   })
   .catch(function(){
-    panel.innerHTML='<div class="dp-error">Connection error. Try again.</div>';
-    if(btn){btn.textContent="\uD83D\uDD0D Deep Analysis";btn.className="btn-deep";}
+    panel.innerHTML='<div class="dp-error">" + t("conn_error") + "</div>';
+    if(btn){btn.textContent=t("deep_btn");btn.className="btn-deep";}
   });
 }
 
@@ -603,37 +804,37 @@ function renderDeep(panel,d,idx){
   var h="";
 
   // FIT
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83E\uDD14</span>Fit Profile</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83E\uDD14</span>" + t("fit_title") + "</div>';
   h+='<div class="fit-tags">'+(d.fit&&d.fit.traits||[]).map(function(t){return'<span class="fit-tag">'+t+'</span>';}).join("")+'</div>';
   h+='<div class="fit-grid">';
-  h+='<div class="fit-cell"><strong>Style</strong>'+(d.fit&&d.fit.style||"")+'</div>';
-  h+='<div class="fit-cell"><strong>Risk</strong>'+(d.fit&&d.fit.risk||"")+'</div>';
-  h+='<div class="fit-cell"><strong>Payoff</strong>'+(d.fit&&d.fit.horizon||"")+'</div>';
+  h+='<div class="fit-cell"><strong>" + t("style_label") + "</strong>'+(d.fit&&d.fit.style||"")+'</div>';
+  h+='<div class="fit-cell"><strong>" + t("risk_label") + "</strong>'+(d.fit&&d.fit.risk||"")+'</div>';
+  h+='<div class="fit-cell"><strong>" + t("payoff_label") + "</strong>'+(d.fit&&d.fit.horizon||"")+'</div>';
   h+='</div></div>';
 
   // REALITY
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u26A0</span>Reality Check</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u26A0</span>" + t("reality_title") + "</div>';
   h+='<ul class="r-list">'+(d.reality&&d.reality.downsides||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul>';
-  h+='<div class="r-note">\uD83D\uDED1 <strong>Barrier:</strong> '+(d.reality&&d.reality.barrier||"")+'<br>\uD83D\uDED1 <strong>Failure:</strong> '+(d.reality&&d.reality.failure||"")+'<br>\uD83D\uDED1 <strong>Market:</strong> '+(d.reality&&d.reality.market||"")+'</div></div>';
+  h+='<div class="r-note">\uD83D\uDED1 <strong>" + t("barrier_label") + ":</strong> '+(d.reality&&d.reality.barrier||"")+'<br>\uD83D\uDED1 <strong>" + t("failure_label") + ":</strong> '+(d.reality&&d.reality.failure||"")+'<br>\uD83D\uDED1 <strong>" + t("market_label") + ":</strong> '+(d.reality&&d.reality.market||"")+'</div></div>';
 
   // TIMELINE
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u23F1</span>Time-to-Reward</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u23F1</span>" + t("timeline_title") + "</div>';
   h+='<div class="tl-grid">';
-  h+='<div class="tl-block"><div class="tl-period">0&ndash;3 years</div><div class="tl-sal">'+(d.timeline&&d.timeline.sal_early||"")+'</div><div class="tl-desc">'+(d.timeline&&d.timeline.y0_3||"")+'</div></div>';
-  h+='<div class="tl-block"><div class="tl-period">3&ndash;7 years</div><div class="tl-sal">'+(d.timeline&&d.timeline.sal_mid||"")+'</div><div class="tl-desc">'+(d.timeline&&d.timeline.y3_7||"")+'</div></div>';
-  h+='<div class="tl-block"><div class="tl-period">7+ years</div><div class="tl-sal">'+(d.timeline&&d.timeline.sal_top||"")+'</div><div class="tl-desc">'+(d.timeline&&d.timeline.y7plus||"")+'</div></div>';
+  h+='<div class="tl-block"><div class="tl-period">" + t("y0_3") + "</div><div class="tl-sal">'+(d.timeline&&d.timeline.sal_early||"")+'</div><div class="tl-desc">'+(d.timeline&&d.timeline.y0_3||"")+'</div></div>';
+  h+='<div class="tl-block"><div class="tl-period">" + t("y3_7") + "</div><div class="tl-sal">'+(d.timeline&&d.timeline.sal_mid||"")+'</div><div class="tl-desc">'+(d.timeline&&d.timeline.y3_7||"")+'</div></div>';
+  h+='<div class="tl-block"><div class="tl-period">" + t("y7plus") + "</div><div class="tl-sal">'+(d.timeline&&d.timeline.sal_top||"")+'</div><div class="tl-desc">'+(d.timeline&&d.timeline.y7plus||"")+'</div></div>';
   h+='</div></div>';
 
   // WEALTH
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83D\uDCB0</span>Wealth Breakdown</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83D\uDCB0</span>" + t("wealth_title") + "</div>';
   h+='<div class="w-grid">';
-  h+='<div class="w-block"><div class="w-label">Early</div><div class="w-val">'+(d.wealth&&d.wealth.early||"")+'</div></div>';
-  h+='<div class="w-block"><div class="w-label">Mid career</div><div class="w-val">'+(d.wealth&&d.wealth.mid||"")+'</div></div>';
-  h+='<div class="w-block"><div class="w-label">Top</div><div class="w-val">'+(d.wealth&&d.wealth.top||"")+'</div></div>';
-  h+='</div><div class="w-note">Variance: <strong>'+(d.wealth&&d.wealth.variance||"")+'</strong> &mdash; '+(d.wealth&&d.wealth.variance_note||"")+'</div></div>';
+  h+='<div class="w-block"><div class="w-label">" + t("early_label") + "</div><div class="w-val">'+(d.wealth&&d.wealth.early||"")+'</div></div>';
+  h+='<div class="w-block"><div class="w-label">" + t("mid_label") + "</div><div class="w-val">'+(d.wealth&&d.wealth.mid||"")+'</div></div>';
+  h+='<div class="w-block"><div class="w-label">" + t("top_label") + "</div><div class="w-val">'+(d.wealth&&d.wealth.top||"")+'</div></div>';
+  h+='</div><div class="w-note">" + t("variance_label") + ": <strong>'+(d.wealth&&d.wealth.variance||"")+'</strong> &mdash; '+(d.wealth&&d.wealth.variance_note||"")+'</div></div>';
 
   // PATHS
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83D\uDCDA</span>How to Get There</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83D\uDCDA</span>" + t("paths_title") + "</div>';
   h+='<div class="path-rows">';
   h+='<div class="path-row"><strong>Academic:</strong> '+(d.paths&&d.paths.academic||"")+'</div>';
   h+='<div class="path-row"><strong>Alternative:</strong> '+(d.paths&&d.paths.alternative||"")+'</div>';
@@ -643,41 +844,41 @@ function renderDeep(panel,d,idx){
   h+='</div></div>';
 
   // ADJACENT
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">&#8618;</span>Adjacent Careers</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">&#8618;</span>" + t("adjacent_title") + "</div>';
   h+='<div class="adj-list">'+(d.adjacent||[]).map(function(r){
     return'<span class="adj-tag" data-search="'+r.replace(/"/g,"&quot;")+'">'+r+'</span>';
   }).join("")+'</div></div>';
 
   // WHERE
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83C\uDFEB</span>Where You Work</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83C\uDFEB</span>" + t("where_title") + "</div>';
   h+='<div class="where-grid">';
-  h+='<div class="where-block"><div class="where-label">Companies</div><ul class="where-list">'+(d.where&&d.where.companies||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
-  h+='<div class="where-block"><div class="where-label">Industries</div><ul class="where-list">'+(d.where&&d.where.industries||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='<div class="where-block"><div class="where-label">" + t("companies_label") + "</div><ul class="where-list">'+(d.where&&d.where.companies||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='<div class="where-block"><div class="where-label">" + t("industries_label") + "</div><ul class="where-list">'+(d.where&&d.where.industries||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
   h+='</div></div>';
 
   // AI DETAIL
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83E\uDD16</span>Why AI Won&#8217;t Replace This</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83E\uDD16</span>" + t("ai_title") + "</div>';
   h+='<div class="ai-blocks">';
-  h+='<div class="ai-block cant"><strong>Cannot do today</strong>'+(d.ai_detail&&d.ai_detail.cant_do||"")+'</div>';
-  h+='<div class="ai-block future"><strong>Will automate in 5 years</strong>'+(d.ai_detail&&d.ai_detail.near_future||"")+'</div>';
-  h+='<div class="ai-block augment"><strong>AI makes you more powerful</strong>'+(d.ai_detail&&d.ai_detail.augment||"")+'</div>';
+  h+='<div class="ai-block cant"><strong>" + t("cant_label") + "</strong>'+(d.ai_detail&&d.ai_detail.cant_do||"")+'</div>';
+  h+='<div class="ai-block future"><strong>" + t("future_label") + "</strong>'+(d.ai_detail&&d.ai_detail.near_future||"")+'</div>';
+  h+='<div class="ai-block augment"><strong>" + t("augment_label") + "</strong>'+(d.ai_detail&&d.ai_detail.augment||"")+'</div>';
   h+='</div></div>';
 
   // STEPS
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u2705</span>Next 5 Steps</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u2705</span>" + t("steps_title") + "</div>';
   h+='<ol class="steps-list">'+(d.steps||[]).map(function(s){return'<li>'+s+'</li>';}).join("")+'</ol></div>';
 
   // DECISION
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83C\uDFAF</span>Should You Choose This?</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83C\uDFAF</span>" + t("decision_title") + "</div>';
   h+='<div class="dec-grid">';
-  h+='<div class="dec-block yes"><div class="dec-label">&#10003; Choose this if</div><ul class="dec-list">'+(d.choose_if||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
-  h+='<div class="dec-block no"><div class="dec-label">&#10007; Avoid this if</div><ul class="dec-list">'+(d.avoid_if||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='<div class="dec-block yes"><div class="dec-label">" + t("choose_label") + "</div><ul class="dec-list">'+(d.choose_if||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='<div class="dec-block no"><div class="dec-label">" + t("avoid_label") + "</div><ul class="dec-list">'+(d.avoid_if||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
   h+='</div></div>';
 
   // VIDEO
-  h+='<div class="video-wrap" id="vw-'+idx+'"><div class="video-label">&#9654; Day in the life</div>';
+  h+='<div class="video-wrap" id="vw-'+idx+'"><div class="video-label">" + t("video_label") + "</div>';
   h+='<div id="vthumb-'+idx+'"></div>';
-  h+='<button class="btn-paste" onclick="showVideoInput('+idx+')">\uD83D\uDD17 Paste a better YouTube video</button>';
+  h+='<button class="btn-paste" onclick="showVideoInput('+idx+')">" + t("paste_btn") + "</button>';
   h+='<div id="vinput-'+idx+'"></div>';
   h+='</div>';
 
@@ -742,7 +943,7 @@ function render(){
   if(sortKey==="n")list.sort(function(a,b){var r=a.n.localeCompare(b.n);return sortDir==="asc"?-r:r;});
   else list.sort(function(a,b){return sortDir==="desc"?b[sortKey]-a[sortKey]:a[sortKey]-b[sortKey];});
 
-  document.getElementById("cnt").textContent=list.length+" career"+(list.length!==1?"s":"")+(q?' matching "'+q+'"':"")+'  —  click any card for details, “Deep Analysis” for AI insight';
+  document.getElementById("cnt").textContent=list.length+" "+(list.length!==1?t("careers_suffix_pl"):t("careers_suffix"))+(q?' matching "'+q+'"':"")+'  —  click any card for details, “Deep Analysis” for AI insight';
 
   var html="";
   for(var i=0;i<list.length;i++){
@@ -768,20 +969,20 @@ function render(){
 
     // Always-visible body text
     html+='<div class="card-body" id="cb-'+idx+'">';
-    if(c.why)html+='<div class="cb-item"><div class="cb-label">Why AI won&#8217;t replace it</div><div class="cb-text">'+c.why+'</div></div>';
-    if(c.imp_t)html+='<div class="cb-item"><div class="cb-label">Impact on the world</div><div class="cb-text">'+c.imp_t+'</div></div>';
-    if(c.study)html+='<div class="cb-item"><div class="cb-label">How to get there</div><div class="cb-text">'+c.study+'</div></div>';
+    if(c.why)html+='<div class="cb-item"><div class="cb-label">" + t("why_label") + "</div><div class="cb-text">'+c.why+'</div></div>';
+    if(c.imp_t)html+='<div class="cb-item"><div class="cb-label">" + t("impact_label") + "</div><div class="cb-text">'+c.imp_t+'</div></div>';
+    if(c.study)html+='<div class="cb-item"><div class="cb-label">" + t("study_label") + "</div><div class="cb-text">'+c.study+'</div></div>';
     if(c.ex){
       var exList=c.ex.split(",").map(function(e){return e.trim();});
-      html+='<div class="cb-item"><div class="cb-label">Example roles</div><div class="cb-tags">'+exList.map(function(e){return'<span class="cb-tag">'+e+'</span>';}).join("")+'</div></div>';
+      html+='<div class="cb-item"><div class="cb-label">" + t("roles_label") + "</div><div class="cb-tags">'+exList.map(function(e){return'<span class="cb-tag">'+e+'</span>';}).join("")+'</div></div>';
     }
     html+='</div>';
 
     // Footer
     html+='<div class="card-foot">';
-    html+='<button class="btn-deep" id="db-'+idx+'" onclick="openDeep('+idx+')">\uD83D\uDD0D Deep Analysis</button>';
-    html+='<a class="btn-yt" href="'+ytUrl+'" target="_blank" onclick="event.stopPropagation()">&#9654; Watch</a>';
-    html+='<button class="btn-bm'+(bm?" saved":"")+'" onclick="event.stopPropagation();toggleBookmark('+idx+')">'+(bm?"\u2605 Saved":"\u2606 Save")+'</button>';
+    html+='<button class="btn-deep" id="db-'+idx+'" onclick="openDeep('+idx+')">" + t("deep_btn") + "</button>';
+    html+='<a class="btn-yt" href="'+ytUrl+'" target="_blank" onclick="event.stopPropagation()">" + t("watch_btn") + "</a>';
+    html+='<button class="btn-bm'+(bm?" saved":"")+'" onclick="event.stopPropagation();toggleBookmark('+idx+')">'+(bm?"" + t("unsave_btn") + "":"" + t("save_btn") + "")+'</button>';
     html+='</div>';
 
     // Deep analysis panel (hidden until clicked)
@@ -820,6 +1021,7 @@ document.querySelector(".toolbar").addEventListener("click",function(e){
 
 document.getElementById("search").addEventListener("input",function(){render();});
 
+applyLang();
 renderTabs();
 render();
 </script>
