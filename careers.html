@@ -776,24 +776,28 @@ function applyTranslation(idx,trans){
   if(!wrap)return;
   var body=wrap.closest(".card").querySelector(".card-body");
   if(!body)return;
+  // Map fields to their data keys - order matches render() output
+  var fieldMap=[
+    {key:"why",hasText:true},
+    {key:"imp_t",hasText:true},
+    {key:"study",hasText:true},
+    {key:"ex",hasText:false}
+  ];
   var items=body.querySelectorAll(".cb-item");
-  items.forEach(function(item){
-    var lbl=item.querySelector(".cb-label");
-    var txt=item.querySelector(".cb-text");
-    var tags=item.querySelector(".cb-tags");
-    if(!lbl)return;
-    var l=lbl.textContent.trim();
-    if(l==="WAAROM AI HET NIET OVERNEEMT"||l==="WHY AI WON'T REPLACE IT"){
-      if(trans.why&&txt)txt.textContent=trans.why;
-    }else if(l==="IMPACT OP DE WERELD"||l==="IMPACT ON THE WORLD"){
-      if(trans.imp_t&&txt)txt.textContent=trans.imp_t;
-    }else if(l==="HOE KOM JE ER?"||l==="HOW TO GET THERE"){
-      if(trans.study&&txt)txt.textContent=trans.study;
-    }else if(l==="VOORBEELDFUNCTIES"||l==="EXAMPLE ROLES"){
-      if(trans.ex&&tags){
-        var roles=trans.ex.split(",").map(function(r){return r.trim();});
+  items.forEach(function(item,i){
+    if(i>=fieldMap.length)return;
+    var field=fieldMap[i];
+    var val=trans[field.key];
+    if(!val)return;
+    if(field.key==="ex"){
+      var tags=item.querySelector(".cb-tags");
+      if(tags){
+        var roles=val.split(",").map(function(r){return r.trim();});
         tags.innerHTML=roles.map(function(r){return'<span class="cb-tag">'+r+'</span>';}).join("");
       }
+    } else {
+      var txt=item.querySelector(".cb-text");
+      if(txt) txt.textContent=val;
     }
   });
 }
