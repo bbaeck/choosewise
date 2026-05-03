@@ -61,7 +61,7 @@ body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);min-heig
 .bm-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .15s}
 .bars{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
 .br{display:flex;align-items:center;gap:7px}
-.bl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;color:var(--text3);width:62px;flex-shrink:0;text-transform:uppercase;letter-spacing:.03em;line-height:1.2}
+.bl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;color:var(--text3);width:68px;flex-shrink:0;text-transform:uppercase;letter-spacing:.04em}
 .bt{flex:1;height:5px;background:var(--bg);border-radius:99px;overflow:hidden}
 .bf{height:100%;border-radius:99px}
 .bv{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;color:var(--text3);width:20px;text-align:right;flex-shrink:0}
@@ -72,7 +72,7 @@ body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);min-heig
 .cb-tags{display:flex;gap:4px;flex-wrap:wrap}
 .cb-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;padding:2px 8px;border-radius:99px;background:var(--bg);border:1px solid var(--border);color:var(--text3)}
 .card-foot{padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:7px;align-items:center;flex-wrap:wrap}
-.btn-deep{flex:1;font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:600;padding:8px 12px;border-radius:var(--r-sm);border:none;background:var(--text);color:#fff;cursor:pointer;transition:background .15s;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.btn-deep{flex:1;min-width:0;font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:600;padding:8px 10px;border-radius:var(--r-sm);border:none;background:var(--text);color:#fff;cursor:pointer;transition:background .15s;text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .btn-deep:hover{background:#333}
 .btn-deep.loading{background:#888;cursor:wait}
 .btn-deep.loaded{background:var(--gold-dark)}
@@ -437,7 +437,7 @@ var sectors=["All"];
 D.forEach(function(c){if(sectors.indexOf(c.s)===-1)sectors.push(c.s);});
 var sortKey="ai",sortDir="desc",emergingOnly=false,bookmarksOnly=false,activeSector="All";
 var bookmarks=JSON.parse(localStorage.getItem("cw_bm")||"[]");
-var deepCache={},deepOpen={},transCache={};
+var deepCache={},deepOpen={};
 var lang=localStorage.getItem("cw_lang")||"nl";
 
 var TX={
@@ -471,14 +471,14 @@ var TX={
   nl:{
     title:"Beroepengids",
     sub:"235 beroepen -- Basisinfo altijd zichtbaar -- Klik op Diepgaande analyse voor AI-inzicht",
-    sort:"Sorteren",s_ai:"AI-proof",s_w:"Inkomen",s_m:"Zingeving",s_imp:"Impact",
+    sort:"Sorteren",s_ai:"AI-bestendig",s_w:"Inkomen",s_m:"Zingeving",s_imp:"Impact",
     dir_hl:"Hoog naar Laag",dir_lh:"Laag naar Hoog",
     em:"Opkomend",bm:"Bewaard",all:"Alles",
     nav_back:"Startpagina",search_ph:"Zoek beroepen, sectoren, functies...",
     leg_ai:"AI-bestendig",leg_w:"Inkomen",leg_m:"Zingeving",leg_imp:"Impact",leg_em:"Opkomend",
     lbl_why:"Waarom AI het niet overneemt",lbl_imp:"Impact op de wereld",
     lbl_study:"Hoe kom je er?",lbl_roles:"Voorbeeldfuncties",
-    btn_deep:"Diepgaande analyse",btn_watch:"Bekijk",btn_save:"Bewaar",btn_saved:"Bewaard",
+    btn_deep:"Analyse",btn_watch:"Bekijk",btn_save:"Bewaar",btn_saved:"Bewaard",
     btn_toggle:"EN",
     gen:"Bezig met genereren...",done:"Analyse geladen",err:"Verbindingsfout. Probeer opnieuw.",
     s_fit:"Past dit bij mij?",s_reality:"De harde waarheid",s_tl:"Beloning in de tijd",
@@ -745,58 +745,54 @@ function saveVideo(idx){
   .catch(function(){inp.disabled=false;});
 }
 
-function loadTranslation(idx, callback) {
-  var c = D[idx];
-  var key = "nl_" + c.n;
+var transCache={};
 
-  // Check memory cache
-  if (transCache[key]) { callback(transCache[key]); return; }
-
-  // Check sessionStorage
-  try {
-    var stored = sessionStorage.getItem(key);
-    if (stored) { transCache[key] = JSON.parse(stored); callback(transCache[key]); return; }
-  } catch(e) {}
-
-  // Call translate function
-  fetch("/.netlify/functions/translate", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ career_name: c.n, why: c.why||"", imp_t: c.imp_t||"", study: c.study||"", ex: c.ex||"" })
+function loadTranslation(idx,callback){
+  var c=D[idx];
+  var key="nl_"+c.n;
+  if(transCache[key]){callback(transCache[key]);return;}
+  try{
+    var stored=sessionStorage.getItem(key);
+    if(stored){transCache[key]=JSON.parse(stored);callback(transCache[key]);return;}
+  }catch(e){}
+  fetch("/.netlify/functions/translate",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({career_name:c.n,why:c.why||"",imp_t:c.imp_t||"",study:c.study||"",ex:c.ex||""})
   })
-  .then(function(r) { return r.json(); })
-  .then(function(resp) {
-    if (resp.data) {
-      transCache[key] = resp.data;
-      try { sessionStorage.setItem(key, JSON.stringify(resp.data)); } catch(e) {}
+  .then(function(r){return r.json();})
+  .then(function(resp){
+    if(resp.data){
+      transCache[key]=resp.data;
+      try{sessionStorage.setItem(key,JSON.stringify(resp.data));}catch(e){}
       callback(resp.data);
     }
   })
-  .catch(function() {}); // Silently fail - keep English
+  .catch(function(){});
 }
 
-function applyTranslation(idx, trans) {
-  var card = document.querySelector('[data-cidx="' + idx + '"]');
-  if (!card) return;
-  var body = card.closest(".card").querySelector(".card-body");
-  if (!body) return;
-  var items = body.querySelectorAll(".cb-item");
-  items.forEach(function(item) {
-    var label = item.querySelector(".cb-label");
-    var text = item.querySelector(".cb-text");
-    var tags = item.querySelector(".cb-tags");
-    if (!label || !text) return;
-    var lbl = label.textContent.trim();
-    if (lbl === "WAAROM AI HET NIET OVERNEEMT" || lbl === "WHY AI WON'T REPLACE IT") {
-      if (trans.why) text.textContent = trans.why;
-    } else if (lbl === "IMPACT OP DE WERELD" || lbl === "IMPACT ON THE WORLD") {
-      if (trans.imp_t) text.textContent = trans.imp_t;
-    } else if (lbl === "HOE KOM JE ER?" || lbl === "HOW TO GET THERE") {
-      if (trans.study) text.textContent = trans.study;
-    } else if (lbl === "VOORBEELDFUNCTIES" || lbl === "EXAMPLE ROLES") {
-      if (trans.ex && tags) {
-        var roles = trans.ex.split(",").map(function(r){ return r.trim(); });
-        tags.innerHTML = roles.map(function(r){ return '<span class="cb-tag">'+r+'</span>'; }).join("");
+function applyTranslation(idx,trans){
+  var wrap=document.querySelector('[data-cidx="'+idx+'"]');
+  if(!wrap)return;
+  var body=wrap.closest(".card").querySelector(".card-body");
+  if(!body)return;
+  var items=body.querySelectorAll(".cb-item");
+  items.forEach(function(item){
+    var lbl=item.querySelector(".cb-label");
+    var txt=item.querySelector(".cb-text");
+    var tags=item.querySelector(".cb-tags");
+    if(!lbl)return;
+    var l=lbl.textContent.trim();
+    if(l==="WAAROM AI HET NIET OVERNEEMT"||l==="WHY AI WON'T REPLACE IT"){
+      if(trans.why&&txt)txt.textContent=trans.why;
+    }else if(l==="IMPACT OP DE WERELD"||l==="IMPACT ON THE WORLD"){
+      if(trans.imp_t&&txt)txt.textContent=trans.imp_t;
+    }else if(l==="HOE KOM JE ER?"||l==="HOW TO GET THERE"){
+      if(trans.study&&txt)txt.textContent=trans.study;
+    }else if(l==="VOORBEELDFUNCTIES"||l==="EXAMPLE ROLES"){
+      if(trans.ex&&tags){
+        var roles=trans.ex.split(",").map(function(r){return r.trim();});
+        tags.innerHTML=roles.map(function(r){return'<span class="cb-tag">'+r+'</span>';}).join("");
       }
     }
   });
@@ -815,7 +811,11 @@ function render(){
   else list.sort(function(a,b){return sortDir==="desc"?b[sortKey]-a[sortKey]:a[sortKey]-b[sortKey];});
 
   var cntEl=document.getElementById("cnt");
-  if(cntEl) cntEl.textContent=list.length+" "+(list.length!==1?t("em"):t("em"))+(q?" -- "+q:"");
+  if(cntEl){
+    var cntTxt=list.length+" "+(lang==="nl"?(list.length!==1?"beroepen":"beroep"):(list.length!==1?"careers":"career"));
+    if(q) cntTxt+=" — "+q;
+    cntEl.textContent=cntTxt;
+  }
 
   var html="";
   for(var i=0;i<list.length;i++){
@@ -853,6 +853,12 @@ function render(){
     html+='</div>';
   }
   document.getElementById("grid").innerHTML=html;
+  if(lang==="nl"){
+    list.forEach(function(c){
+      var idx=D.indexOf(c);
+      loadTranslation(idx,function(trans){applyTranslation(idx,trans);});
+    });
+  }
 }
 
 // Event delegation - no inline onclick anywhere
