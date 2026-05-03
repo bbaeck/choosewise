@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="nl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Career Encyclopedia — Choose Wise</title>
+<title>Beroepengids — Choose Wise</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -14,27 +14,23 @@
   --purple:#7F77DD;--orange:#D85A30;--red:#c00;
   --r:12px;--r-sm:8px;
 }
-html{scroll-behavior:smooth}
 body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);min-height:100vh}
-
-/* NAV */
-.nav{background:#fff;border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.nav{background:#fff;border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:10px}
 .nav-brand{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
 .nav-back{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--text3);text-decoration:none}
 .nav-back:hover{color:var(--text)}
-
-/* PAGE HEADER */
+.lang-btn{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:600;padding:5px 12px;border:1px solid var(--border2);border-radius:99px;background:#fff;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap}
+.lang-btn:hover{background:var(--bg)}
+.lang-btn.nl{background:#AE1C28;color:#fff;border-color:#AE1C28}
 .ph{padding:28px 20px 0;max-width:1200px;margin:0 auto}
 .ph h1{font-size:clamp(20px,3vw,30px);font-weight:400;margin-bottom:4px}
 .ph p{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--text3);margin-bottom:20px}
-
-/* CONTROLS */
 .ctrl{max-width:1200px;margin:0 auto;padding:0 20px}
-.search-wrap{position:relative;margin-bottom:10px}
-.search-wrap input{width:100%;padding:10px 14px 10px 38px;font-size:14px;border:1px solid var(--border2);border-radius:var(--r);background:#fff;font-family:"Georgia",serif;outline:none;transition:border-color .15s}
-.search-wrap input:focus{border-color:var(--gold)}
+.sw{position:relative;margin-bottom:10px}
+.sw input{width:100%;padding:10px 14px 10px 38px;font-size:14px;border:1px solid var(--border2);border-radius:var(--r);background:#fff;font-family:"Georgia",serif;outline:none;transition:border-color .15s}
+.sw input:focus{border-color:var(--gold)}
 .si{position:absolute;left:13px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px}
-.toolbar{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:8px;align-items:center}
+.tb{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:8px;align-items:center}
 .tl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em}
 .sb{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:5px 12px;border:1px solid var(--border2);border-radius:99px;background:#fff;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap}
 .sb:hover{border-color:var(--text3);background:var(--bg)}
@@ -52,43 +48,29 @@ body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);min-heig
 .leg{display:flex;align-items:center;gap:4px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3)}
 .ld{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .cnt{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text3);margin-bottom:10px}
-
-/* GRID */
 .grid{max-width:1200px;margin:0 auto;padding:0 20px 40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:10px}
-
-/* CARD */
 .card{background:#fff;border:1px solid var(--border);border-radius:var(--r);overflow:hidden;transition:border-color .15s,box-shadow .15s}
 .card:hover{border-color:var(--border2);box-shadow:0 2px 10px rgba(0,0,0,.05)}
 .card.em{border-left:3px solid #639922}
 .card.bookmarked .bm-dot{opacity:1}
-
-/* card top — always visible */
 .ct-wrap{padding:14px 14px 0;cursor:pointer}
 .ct-head{display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:10px}
-.ct-left{flex:1}
 .ct-name{font-size:15px;font-weight:600;color:var(--text);line-height:1.3}
-.ct-sector{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
-.ct-right{display:flex;align-items:center;gap:6px;flex-shrink:0}
-.etag{font-size:10px;font-weight:600;background:var(--green-bg);color:#27500A;padding:2px 6px;border-radius:3px}
+.ct-sec{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-top:2px}
+.etag{font-size:10px;font-weight:600;background:var(--green-bg);color:#27500A;padding:2px 6px;border-radius:3px;margin-left:5px}
 .bm-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .15s}
-
-/* bars */
 .bars{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
 .br{display:flex;align-items:center;gap:7px}
-.bl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;color:var(--text3);width:52px;flex-shrink:0;text-transform:uppercase;letter-spacing:.04em}
+.bl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;color:var(--text3);width:68px;flex-shrink:0;text-transform:uppercase;letter-spacing:.04em}
 .bt{flex:1;height:5px;background:var(--bg);border-radius:99px;overflow:hidden}
 .bf{height:100%;border-radius:99px}
 .bv{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;color:var(--text3);width:20px;text-align:right;flex-shrink:0}
-
-/* card body text — always visible */
-.card-body{padding:0 14px 12px;border-top:1px solid var(--border);padding-top:12px}
+.card-body{padding:12px 14px;border-top:1px solid var(--border)}
 .cb-item{margin-bottom:8px}
 .cb-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:3px}
 .cb-text{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.55}
 .cb-tags{display:flex;gap:4px;flex-wrap:wrap}
 .cb-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;padding:2px 8px;border-radius:99px;background:var(--bg);border:1px solid var(--border);color:var(--text3)}
-
-/* card footer — always visible */
 .card-foot{padding:10px 14px;border-top:1px solid var(--border);display:flex;gap:7px;align-items:center;flex-wrap:wrap}
 .btn-deep{flex:1;font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:600;padding:8px 12px;border-radius:var(--r-sm);border:none;background:var(--text);color:#fff;cursor:pointer;transition:background .15s;text-align:center}
 .btn-deep:hover{background:#333}
@@ -99,81 +81,57 @@ body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);min-heig
 .btn-bm{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:8px 10px;border:1px solid var(--border2);border-radius:var(--r-sm);background:#fff;color:var(--text2);cursor:pointer;white-space:nowrap;transition:all .15s}
 .btn-bm:hover{background:var(--bg)}
 .btn-bm.saved{background:#FDF8EC;border-color:var(--gold);color:var(--gold-dark)}
-
-/* DEEP ANALYSIS PANEL */
 .deep-panel{padding:14px;border-top:1px solid var(--border);background:var(--bg);display:none}
 .deep-panel.open{display:block}
 .dp-loading{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--text3);text-align:center;padding:16px 0;display:flex;align-items:center;justify-content:center;gap:8px}
 .spinner{width:14px;height:14px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
 @keyframes spin{to{transform:rotate(360deg)}}
 .dp-error{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--red);text-align:center;padding:12px 0}
-
-/* deep sections */
 .ds{margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--border2)}
 .ds:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
 .ds-title{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:8px;display:flex;align-items:center;gap:5px}
 .ds-icon{font-size:12px}
-
-/* fit tags */
 .fit-tags{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:6px}
 .fit-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:3px 9px;border-radius:99px;background:#E6F1FB;color:#185FA5;border:1px solid #B5D4F4}
 .fit-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
 .fit-cell{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text2);background:#fff;padding:6px 9px;border-radius:var(--r-sm);border:1px solid var(--border)}
 .fit-cell strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.05em;color:var(--text3);margin-bottom:2px}
-
-/* reality */
 .r-list{list-style:none;display:flex;flex-direction:column;gap:4px}
 .r-list li{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);padding-left:14px;position:relative;line-height:1.5}
-.r-list li::before{content:"—";position:absolute;left:0;color:var(--text3)}
+.r-list li::before{content:"--";position:absolute;left:0;color:var(--text3)}
 .r-note{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);margin-top:7px;padding:7px 10px;background:#fff;border-radius:var(--r-sm);border:1px solid var(--border);line-height:1.5}
-
-/* timeline */
 .tl-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
 .tl-block{background:#fff;border-radius:var(--r-sm);padding:9px;border:1px solid var(--border)}
 .tl-period{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:3px}
 .tl-sal{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:700;color:#27500A;margin-bottom:3px}
 .tl-desc{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text2);line-height:1.45}
-
-/* wealth */
 .w-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:6px}
 .w-block{text-align:center;padding:9px 6px;background:#fff;border-radius:var(--r-sm);border:1px solid var(--border)}
 .w-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:3px}
 .w-val{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:700;color:var(--text)}
 .w-note{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);padding:6px 9px;background:#fff;border-radius:var(--r-sm);border:1px solid var(--border)}
-
-/* paths */
 .path-rows{display:flex;flex-direction:column;gap:5px}
 .path-row{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.5}
 .path-row strong{color:var(--text);font-weight:600}
 .subj-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:5px}
 .subj-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;padding:2px 8px;border-radius:99px;background:#FDF8EC;color:var(--gold-dark);border:1px solid #F0E4B8}
-
-/* adjacent */
 .adj-list{display:flex;gap:5px;flex-wrap:wrap}
 .adj-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--border2);background:#fff;color:var(--text2);cursor:pointer;transition:all .12s}
 .adj-tag:hover{background:var(--bg);border-color:var(--text3)}
-
-/* where */
 .where-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
 .where-block{background:#fff;padding:9px;border-radius:var(--r-sm);border:1px solid var(--border)}
 .where-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:5px}
 .where-list{list-style:none;display:flex;flex-direction:column;gap:3px}
 .where-list li{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text2)}
-
-/* ai blocks */
 .ai-blocks{display:flex;flex-direction:column;gap:5px}
 .ai-block{padding:8px 11px;border-radius:var(--r-sm);font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.5}
 .ai-block.cant{background:#FCEBEB;border-left:3px solid #E24B4A}
 .ai-block.future{background:#FDF8EC;border-left:3px solid var(--gold)}
 .ai-block.augment{background:var(--green-bg);border-left:3px solid #639922}
 .ai-block strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;color:var(--text)}
-
-/* steps */
 .steps-list{list-style:none;display:flex;flex-direction:column;gap:5px;counter-reset:steps}
 .steps-list li{display:flex;align-items:flex-start;gap:9px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.5;counter-increment:steps}
 .steps-list li::before{content:counter(steps);min-width:20px;height:20px;background:var(--text);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
-
-/* decision */
 .dec-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .dec-block{padding:10px;border-radius:var(--r-sm)}
 .dec-block.yes{background:var(--green-bg)}
@@ -184,10 +142,8 @@ body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);min-heig
 .dec-list{list-style:none;display:flex;flex-direction:column;gap:4px}
 .dec-list li{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text2);line-height:1.45;padding-left:12px;position:relative}
 .dec-list li::before{position:absolute;left:0}
-.dec-block.yes .dec-list li::before{content:"✓";color:#27500A}
-.dec-block.no .dec-list li::before{content:"✗";color:#791F1F}
-
-/* video section */
+.dec-block.yes .dec-list li::before{content:"v"}
+.dec-block.no .dec-list li::before{content:"x"}
 .video-wrap{display:flex;flex-direction:column;gap:5px;margin-top:10px;padding-top:10px;border-top:1px solid var(--border2)}
 .video-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:4px}
 .video-thumb img{width:100%;border-radius:var(--r-sm);display:block;margin-bottom:5px}
@@ -198,65 +154,50 @@ body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);min-heig
 .video-input:focus{border-color:var(--gold)}
 .btn-save-vid{font-size:12px;padding:6px 12px;background:var(--gold);color:#fff;border:none;border-radius:var(--r-sm);cursor:pointer;font-weight:600;white-space:nowrap}
 .btn-save-vid:hover{background:var(--gold-dark)}
-
-.lang-toggle{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:600;padding:5px 12px;border:1px solid var(--border2);border-radius:99px;background:#fff;color:var(--text2);cursor:pointer;transition:all .15s}
-.lang-toggle:hover{background:var(--bg);border-color:var(--text3)}
-.lang-toggle.nl{background:#AE1C28;color:#fff;border-color:#AE1C28}
-
 @media(max-width:640px){
   .grid{grid-template-columns:1fr;padding:0 12px 40px}
-  .ctrl{padding:0 12px}
-  .ph{padding:20px 12px 0}
+  .ctrl,.ph{padding-left:12px;padding-right:12px}
   .tl-grid,.w-grid,.dec-grid,.where-grid,.fit-grid{grid-template-columns:1fr}
 }
 </style>
 </head>
 <body>
-
 <nav class="nav">
-  <a href="index.html" class="nav-back" id="nav-back">&#8592; Home</a>
+  <a href="index.html" class="nav-back" id="nav-back">&#8592; Startpagina</a>
   <a href="index.html" class="nav-brand">Choose Wise</a>
-  <button class="lang-toggle" id="lang-btn" onclick="toggleLang()">🇬🇧 EN</button>
+  <button class="lang-btn nl" id="lang-btn" onclick="toggleLang()">&#127468;&#127463; EN</button>
 </nav>
-
 <div class="ph">
-  <h1>Career Encyclopedia</h1>
-  <p>235 careers &middot; Basic info always visible &middot; Click "Deep Analysis" for AI-powered detail</p>
+  <h1 id="ph-title">Beroepengids</h1>
+  <p id="ph-sub">235 beroepen &middot; Basisinfo altijd zichtbaar &middot; Klik op een kaart voor details</p>
 </div>
-
 <div class="ctrl">
-  <div class="search-wrap">
-    <span class="si">&#9906;</span>
-    <input type="text" id="search" placeholder="Search careers, sectors, roles..." autocomplete="off">
-  </div>
-  <div class="toolbar">
-    <span class="tl">Sort</span>
-    <button class="sb on" id="s-ai" data-sort="ai">AI-proof</button>
-    <button class="sb" id="s-w" data-sort="w">Wealth</button>
-    <button class="sb" id="s-m" data-sort="m">Meaning</button>
+  <div class="sw"><span class="si">&#9906;</span><input type="text" id="search" placeholder="Zoek beroepen, sectoren, functies..." autocomplete="off"></div>
+  <div class="tb">
+    <span class="tl" id="sort-label">Sorteren</span>
+    <button class="sb on" id="s-ai" data-sort="ai">AI-bestendig</button>
+    <button class="sb" id="s-w" data-sort="w">Inkomen</button>
+    <button class="sb" id="s-m" data-sort="m">Zingeving</button>
     <button class="sb" id="s-imp" data-sort="imp">Impact</button>
     <button class="sb" id="s-n" data-sort="n">A&ndash;Z</button>
-    <button class="sb" id="s-dir" data-dir="desc">&#9660; High&rarr;Low</button>
+    <button class="sb" id="s-dir" data-dir="desc">&#9660; Hoog&#8594;Laag</button>
     <div class="divider"></div>
-    <button class="sb sb-em" id="s-em">&#127807; Emerging</button>
-    <button class="sb sb-bm" id="s-bm">&#9733; Saved</button>
+    <button class="sb sb-em" id="s-em">&#127807; Opkomend</button>
+    <button class="sb sb-bm" id="s-bm">&#9733; Bewaard</button>
   </div>
   <div class="legend">
-    <span class="leg"><span class="ld" style="background:#378ADD"></span>AI-proof</span>
-    <span class="leg"><span class="ld" style="background:#639922"></span>Wealth</span>
-    <span class="leg"><span class="ld" style="background:#7F77DD"></span>Meaning</span>
-    <span class="leg"><span class="ld" style="background:#D85A30"></span>Impact</span>
-    <span class="leg"><span class="ld" style="background:var(--green-bg);border:1px solid #639922;border-radius:2px"></span>Emerging</span>
+    <span class="leg"><span class="ld" style="background:#378ADD"></span><span id="leg-ai">AI-bestendig</span></span>
+    <span class="leg"><span class="ld" style="background:#639922"></span><span id="leg-w">Inkomen</span></span>
+    <span class="leg"><span class="ld" style="background:#7F77DD"></span><span id="leg-m">Zingeving</span></span>
+    <span class="leg"><span class="ld" style="background:#D85A30"></span><span id="leg-imp">Impact</span></span>
+    <span class="leg"><span class="ld" style="background:var(--green-bg);border:1px solid #639922;border-radius:2px"></span><span id="leg-em">Opkomend</span></span>
   </div>
   <div class="stabs" id="stabs"></div>
   <div class="cnt" id="cnt"></div>
 </div>
-
 <div class="grid" id="grid"></div>
-
 <script>
-var D=[
-  {n:"AI engineer",s:"Technology",ai:92,w:92,m:80,imp:95,em:1,why:"Builds AI systems - people who understand these tools will always be needed to direct them.",study:"Maths, computer science, Python. University or self-taught via online courses.",ex:"LLM engineer, ML researcher, AI product engineer, robotics engineer",imp_t:"Shapes the most transformative technology in human history."},
+var D=[{n:"AI engineer",s:"Technology",ai:92,w:92,m:80,imp:95,em:1,why:"Builds AI systems - people who understand these tools will always be needed to direct them.",study:"Maths, computer science, Python. University or self-taught via online courses.",ex:"LLM engineer, ML researcher, AI product engineer, robotics engineer",imp_t:"Shapes the most transformative technology in human history."},
   {n:"AI safety researcher",s:"Technology",ai:95,w:78,m:90,imp:98,em:1,why:"Ensures AI doesn t go wrong at scale. The field barely exists yet - huge demand coming.",study:"Maths, philosophy, computer science. PhD usually required.",ex:"Alignment researcher, interpretability researcher, red-teamer",imp_t:"Could be the most important job of the 21st century."},
   {n:"Software engineer",s:"Technology",ai:80,w:90,m:72,imp:85,em:0,why:"AI assists coding but can t own systems, architecture, or client relationships.",study:"Computer science degree or bootcamp. Self-taught increasingly viable.",ex:"Backend, frontend, mobile, DevOps, game developer",imp_t:"Builds the tools billions use every day."},
   {n:"Cybersecurity specialist",s:"Technology",ai:90,w:85,m:72,imp:88,em:0,why:"Attackers and defenders constantly evolve. Human creativity is essential on both sides.",study:"Computer science, ethical hacking, certifications. Self-study viable.",ex:"Penetration tester, CISO, security analyst, cloud security engineer",imp_t:"Protects hospitals, banks, governments, and critical infrastructure."},
@@ -490,20 +431,107 @@ var D=[
   {n:"Barber / hairdresser",s:"Wellbeing",ai:90,w:50,m:70,imp:62,em:0,why:"Physical cutting, styling, and trusted client relationship are entirely resistant to automation.",study:"NVQ hairdressing or barbering qualification. Apprenticeship route.",ex:"Barber, hair salon owner, session hairstylist, trichologist",imp_t:"Provides the regular human contact and confidence boost that millions depend on weekly."},
   {n:"Tattoo artist",s:"Arts",ai:90,w:58,m:75,imp:60,em:0,why:"Custom art applied by hand to human skin. Among the most automation-proof skilled crafts.",study:"Apprenticeship (2-3 years). Portfolio and artistic ability essential.",ex:"Fine line artist, traditional tattooist, realism specialist, cosmetic tattoo artist",imp_t:"Creates permanent personal art that helps people express identity and heal from trauma."},
   {n:"Antiques dealer / auctioneer",s:"Business",ai:72,w:65,m:75,imp:68,em:0,why:"Object authentication, provenance research, and client relationships require deep human expertise.",study:"No formal qualification. Art history degree helpful. Learn by trading.",ex:"Antiques dealer, auction house specialist, fine art auctioneer, valuations expert",imp_t:"Preserves and circulates objects of cultural and historical significance."},
-  {n:"Interpreter (live)",s:"Humanities",ai:55,w:62,m:72,imp:78,em:0,why:"Simultaneous interpretation under pressure in high-stakes settings requires extraordinary human skill.",study:"Languages degree + interpreter training. DPSI or conference interpreter qualification.",ex:"UN conference interpreter, court interpreter, medical interpreter, sign language interpreter",imp_t:"Enables justice, diplomacy, and healthcare to function across language barriers."}
-];
+  {n:"Interpreter (live)",s:"Humanities",ai:55,w:62,m:72,imp:78,em:0,why:"Simultaneous interpretation under pressure in high-stakes settings requires extraordinary human skill.",study:"Languages degree + interpreter training. DPSI or conference interpreter qualification.",ex:"UN conference interpreter, court interpreter, medical interpreter, sign language interpreter",imp_t:"Enables justice, diplomacy, and healthcare to function across language barriers."}];
 
 var sectors=["All"];
 D.forEach(function(c){if(sectors.indexOf(c.s)===-1)sectors.push(c.s);});
-
-var sortKey="ai", sortDir="desc", emergingOnly=false, bookmarksOnly=false;
-var activeSector="All";
+var sortKey="ai",sortDir="desc",emergingOnly=false,bookmarksOnly=false,activeSector="All";
 var bookmarks=JSON.parse(localStorage.getItem("cw_bm")||"[]");
-var deepCache={};
-var deepOpen={};
-var videoCache={};
+var deepCache={},deepOpen={};
+var lang=localStorage.getItem("cw_lang")||"nl";
+
+var TX={
+  en:{
+    title:"Career Encyclopedia",
+    sub:"235 careers -- Basic info always visible -- Click Deep Analysis for AI-powered detail",
+    sort:"Sort",s_ai:"AI-proof",s_w:"Wealth",s_m:"Meaning",s_imp:"Impact",
+    dir_hl:"High to Low",dir_lh:"Low to High",
+    em:"Emerging",bm:"Saved",all:"All",
+    nav_back:"Home",search_ph:"Search careers, sectors, roles...",
+    leg_ai:"AI-proof",leg_w:"Wealth",leg_m:"Meaning",leg_imp:"Impact",leg_em:"Emerging",
+    lbl_why:"Why AI won't replace it",lbl_imp:"Impact on the world",
+    lbl_study:"How to get there",lbl_roles:"Example roles",
+    btn_deep:"Deep Analysis",btn_watch:"Watch",btn_save:"Save",btn_saved:"Saved",
+    btn_toggle:"NL",
+    gen:"Generating...",done:"Analysis loaded",err:"Connection error. Try again.",
+    s_fit:"Fit Profile",s_reality:"Reality Check",s_tl:"Time to Reward",
+    s_wealth:"Wealth Breakdown",s_paths:"How to Get There",s_adj:"Adjacent Careers",
+    s_where:"Where You Work",s_ai_det:"Why AI Won't Replace This",s_steps:"Next 5 Steps",
+    s_dec:"Should You Choose This?",
+    fit_style:"Style",fit_risk:"Risk",fit_horizon:"Payoff horizon",
+    barrier:"Barrier",failure:"Failure mode",market:"Market reality",
+    y03:"0-3 years",y37:"3-7 years",y7:"7+ years",
+    early:"Early",mid:"Mid career",top:"Top potential",variance:"Variance",
+    companies:"Companies",industries:"Industries",
+    ai_cant:"Cannot do today",ai_future:"Will automate in 5 years",ai_augment:"AI makes you more powerful",
+    choose:"Choose this if",avoid:"Avoid this if",
+    video_lbl:"Day in the life",paste_vid:"Paste a better YouTube video",save_vid:"Save",
+    gen_for:"Generating deep analysis for"
+  },
+  nl:{
+    title:"Beroepengids",
+    sub:"235 beroepen -- Basisinfo altijd zichtbaar -- Klik op Diepgaande analyse voor AI-inzicht",
+    sort:"Sorteren",s_ai:"AI-bestendig",s_w:"Inkomen",s_m:"Zingeving",s_imp:"Impact",
+    dir_hl:"Hoog naar Laag",dir_lh:"Laag naar Hoog",
+    em:"Opkomend",bm:"Bewaard",all:"Alles",
+    nav_back:"Startpagina",search_ph:"Zoek beroepen, sectoren, functies...",
+    leg_ai:"AI-bestendig",leg_w:"Inkomen",leg_m:"Zingeving",leg_imp:"Impact",leg_em:"Opkomend",
+    lbl_why:"Waarom AI het niet overneemt",lbl_imp:"Impact op de wereld",
+    lbl_study:"Hoe kom je er?",lbl_roles:"Voorbeeldfuncties",
+    btn_deep:"Diepgaande analyse",btn_watch:"Bekijk",btn_save:"Bewaar",btn_saved:"Bewaard",
+    btn_toggle:"EN",
+    gen:"Bezig met genereren...",done:"Analyse geladen",err:"Verbindingsfout. Probeer opnieuw.",
+    s_fit:"Past dit bij mij?",s_reality:"De harde waarheid",s_tl:"Beloning in de tijd",
+    s_wealth:"Inkomensverdeling",s_paths:"Hoe kom je er?",s_adj:"Verwante beroepen",
+    s_where:"Waar werk je?",s_ai_det:"Waarom AI dit niet overneemt",s_steps:"De volgende 5 stappen",
+    s_dec:"Is dit het juiste beroep voor jou?",
+    fit_style:"Stijl",fit_risk:"Risicotolerantie",fit_horizon:"Looptijd beloning",
+    barrier:"Drempel",failure:"Valkuil",market:"Marktinzicht",
+    y03:"0-3 jaar",y37:"3-7 jaar",y7:"7+ jaar",
+    early:"Begin",mid:"Midden",top:"Top",variance:"Spreiding",
+    companies:"Bedrijven",industries:"Sectoren",
+    ai_cant:"Wat AI vandaag niet kan",ai_future:"Wat AI in 5 jaar overneemt",ai_augment:"Hoe AI jou sterker maakt",
+    choose:"Kies dit als",avoid:"Vermijd dit als",
+    video_lbl:"Dag in het leven",paste_vid:"Plak een betere YouTube-video",save_vid:"Opslaan",
+    gen_for:"Diepgaande analyse genereren voor"
+  }
+};
+
+function t(k){return TX[lang][k]||TX.en[k]||k;}
+
+function applyLang(){
+  var btn=document.getElementById("lang-btn");
+  var back=document.getElementById("nav-back");
+  var phTitle=document.getElementById("ph-title");
+  var phSub=document.getElementById("ph-sub");
+  var inp=document.getElementById("search");
+  var sl=document.getElementById("sort-label");
+  if(btn){btn.textContent=t("btn_toggle");btn.className="lang-btn"+(lang==="nl"?" nl":"");}
+  if(back) back.textContent="\u2190 "+t("nav_back");
+  if(phTitle) phTitle.textContent=t("title");
+  if(phSub) phSub.textContent=t("sub");
+  if(inp) inp.placeholder=t("search_ph");
+  if(sl) sl.textContent=t("sort");
+  var ids={ai:"s_ai",w:"s_w",m:"s_m",imp:"s_imp"};
+  Object.keys(ids).forEach(function(k){var b=document.getElementById("s-"+k);if(b)b.textContent=t(ids[k]);});
+  var dir=document.getElementById("s-dir");
+  if(dir) dir.textContent=(sortDir==="desc"?"\u25bc ":"\u25b2 ")+t(sortDir==="desc"?"dir_hl":"dir_lh");
+  var em=document.getElementById("s-em");if(em)em.textContent="\uD83C\uDF31 "+t("em");
+  var bm=document.getElementById("s-bm");if(bm)bm.textContent="\u2605 "+t("bm");
+  var legs={ai:"leg_ai",w:"leg_w",m:"leg_m",imp:"leg_imp",em:"leg_em"};
+  Object.keys(legs).forEach(function(k){var el=document.getElementById("leg-"+k);if(el)el.textContent=t(legs[k]);});
+}
+
+function toggleLang(){
+  lang=lang==="en"?"nl":"en";
+  localStorage.setItem("cw_lang",lang);
+  applyLang();
+  renderTabs();
+  render();
+}
 
 function isBookmarked(n){return bookmarks.indexOf(n)>-1;}
+
 function toggleBookmark(idx){
   var n=D[idx].n;
   var i=bookmarks.indexOf(n);
@@ -512,206 +540,12 @@ function toggleBookmark(idx){
   render();
 }
 
-// ── TRANSLATIONS ──
-var lang = localStorage.getItem("cw_lang") || "nl"; // default Dutch
-
-var T = {
-  en: {
-    title: "Career Encyclopedia",
-    subtitle: "235 careers · Basic info always visible · Click Deep Analysis for AI-powered detail",
-    sort: "Sort",
-    aiproof: "AI-proof",
-    wealth: "Wealth",
-    meaning: "Meaning",
-    impact: "Impact",
-    emerging: "🌱 Emerging",
-    saved: "★ Saved",
-    high_low: "▼ High→Low",
-    low_high: "▲ Low→High",
-    all: "All",
-    careers_suffix: "career",
-    careers_suffix_pl: "careers",
-    matching: "matching",
-    hint: "— click any card for details, Deep Analysis for AI insight",
-    nav_back: "← Home",
-    why_label: "Why AI won't replace it",
-    impact_label: "" + t("impact_label") + "",
-    study_label: "" + t("study_label") + "",
-    roles_label: "" + t("roles_label") + "",
-    deep_btn: "🔍 Deep Analysis",
-    watch_btn: "▶ Watch",
-    save_btn: "☆ Save",
-    unsave_btn: "★ Saved",
-    generating: "" + t("generating") + "",
-    analysis_loaded: "✓ Analysis loaded",
-    conn_error: "" + t("conn_error") + "",
-    // Deep section titles
-    fit_title: "Fit Profile",
-    reality_title: "Reality Check",
-    timeline_title: "Time-to-Reward",
-    wealth_title: "Wealth Breakdown",
-    paths_title: "How to Get There",
-    adjacent_title: "Adjacent Careers",
-    where_title: "Where You Work",
-    ai_title: "Why AI Won't Replace This",
-    steps_title: "Next 5 Steps",
-    decision_title: "Should You Choose This?",
-    // Fit labels
-    style_label: "Style",
-    risk_label: "Risk",
-    payoff_label: "Payoff",
-    // Reality labels
-    barrier_label: "Barrier",
-    failure_label: "Failure",
-    market_label: "Market",
-    // Timeline labels
-    y0_3: "0–3 years",
-    y3_7: "3–7 years",
-    y7plus: "" + t("y7plus") + "",
-    // Wealth labels
-    early_label: "Early",
-    mid_label: "Mid career",
-    top_label: "Top",
-    variance_label: "Variance",
-    // Where labels
-    companies_label: "Companies",
-    industries_label: "Industries",
-    // AI block labels
-    cant_label: "Cannot do today",
-    future_label: "Will automate in 5 years",
-    augment_label: "AI makes you more powerful",
-    // Decision
-    choose_label: "✓ Choose this if",
-    avoid_label: "✗ Avoid this if",
-    // Video
-    video_label: "▶ Day in the life",
-    paste_btn: "🔗 Paste a better YouTube video",
-    save_vid: "Save",
-    vid_saved: "✓ Saved! Reloading...",
-    // Generating
-    generating_deep: "" + t("generating_deep") + "",
-    cant_load: "" + t("cant_load") + "",
-  },
-  nl: {
-    title: "Beroepengids",
-    subtitle: "235 beroepen · Basisinfo altijd zichtbaar · Klik Diepgaande analyse voor AI-inzicht",
-    sort: "Sorteren",
-    aiproof: "AI-bestendig",
-    wealth: "Inkomen",
-    meaning: "Zingeving",
-    impact: "Impact",
-    emerging: "🌱 Opkomend",
-    saved: "★ Bewaard",
-    high_low: "▼ Hoog→Laag",
-    low_high: "▲ Laag→Hoog",
-    all: "Alles",
-    careers_suffix: "beroep",
-    careers_suffix_pl: "beroepen",
-    matching: "overeenkomend met",
-    hint: "— klik op een kaart voor details, Diepgaande analyse voor AI-inzicht",
-    nav_back: "← Startpagina",
-    why_label: "Waarom AI het niet overneemt",
-    impact_label: "Impact op de wereld",
-    study_label: "Hoe kom je er?",
-    roles_label: "Voorbeeldfuncties",
-    deep_btn: "🔍 Diepgaande analyse",
-    watch_btn: "▶ Bekijk",
-    save_btn: "☆ Bewaar",
-    unsave_btn: "★ Bewaard",
-    generating: "Bezig met genereren...",
-    analysis_loaded: "✓ Analyse geladen",
-    conn_error: "Verbindingsfout. Probeer opnieuw.",
-    // Deep section titles
-    fit_title: "Past dit bij mij?",
-    reality_title: "De harde waarheid",
-    timeline_title: "Beloning in de tijd",
-    wealth_title: "Inkomensverdeling",
-    paths_title: "Hoe kom je er?",
-    adjacent_title: "Verwante beroepen",
-    where_title: "Waar werk je?",
-    ai_title: "Waarom AI dit niet overneemt",
-    steps_title: "De volgende 5 stappen",
-    decision_title: "Is dit het juiste beroep voor jou?",
-    // Fit labels
-    style_label: "Stijl",
-    risk_label: "Risicotolerantie",
-    payoff_label: "Looptijd beloning",
-    // Reality labels
-    barrier_label: "Drempel",
-    failure_label: "Valkuil",
-    market_label: "Markt",
-    // Timeline labels
-    y0_3: "0–3 jaar",
-    y3_7: "3–7 jaar",
-    y7plus: "7+ jaar",
-    // Wealth labels
-    early_label: "Begin",
-    mid_label: "Midden",
-    top_label: "Top",
-    variance_label: "Spreiding",
-    // Where labels
-    companies_label: "Bedrijven",
-    industries_label: "Sectoren",
-    // AI block labels
-    cant_label: "Wat AI vandaag niet kan",
-    future_label: "Wat AI in 5 jaar overneemt",
-    augment_label: "Hoe AI jou sterker maakt",
-    // Decision
-    choose_label: "✓ Kies dit als",
-    avoid_label: "✗ Vermijd dit als",
-    // Video
-    video_label: "▶ Dag in het leven",
-    paste_btn: "🔗 Plak een betere YouTube-video",
-    save_vid: "Opslaan",
-    vid_saved: "✓ Opgeslagen! Bezig met laden...",
-    // Generating
-    generating_deep: "Diepgaande analyse genereren voor",
-    cant_load: "Analyse kon niet worden geladen",
-  }
-};
-
-function t(key){ return T[lang][key] || T.en[key] || key; }
-
-function toggleLang(){
-  lang = lang === "en" ? "nl" : "en";
-  localStorage.setItem("cw_lang", lang);
-  applyLang();
-  render();
-  renderTabs();
-}
-
-function applyLang(){
-  var btn = document.getElementById("lang-btn");
-  var back = document.getElementById("nav-back");
-  if(btn){ btn.textContent = lang === "en" ? "🇳🇱 NL" : "🇬🇧 EN"; btn.className = "lang-toggle" + (lang === "nl" ? " nl" : ""); }
-  if(back) back.textContent = t("nav_back");
-  // Update static page text
-  var h1 = document.querySelector(".ph h1");
-  var sub = document.querySelector(".ph p");
-  if(h1) h1.textContent = t("title");
-  if(sub) sub.textContent = t("subtitle");
-  // Update toolbar labels
-  var tl = document.querySelector(".toolbar .tl");
-  if(tl) tl.textContent = t("sort");
-  var sortBtns = {ai: t("aiproof"), w: t("wealth"), m: t("meaning"), imp: t("impact"), n: "A–Z"};
-  Object.keys(sortBtns).forEach(function(k){
-    var b = document.getElementById("s-"+k);
-    if(b) b.textContent = sortBtns[k];
-  });
-  var em = document.getElementById("s-em");
-  if(em && !em.classList.contains("on")) em.textContent = t("emerging");
-  else if(em) em.textContent = t("emerging");
-  var bm = document.getElementById("s-bm");
-  if(bm) bm.textContent = t("saved");
-  // Update dir button
-  var dir = document.getElementById("s-dir");
-  if(dir) dir.textContent = sortDir === "desc" ? t("high_low") : t("low_high");
-}
-
 function renderTabs(){
   var el=document.getElementById("stabs");
+  if(!el) return;
   el.innerHTML=sectors.map(function(s){
-    return'<button class="st'+(s===activeSector?" on":"")+'" data-sector="'+s.replace(/"/g,"&quot;")+'">'+s+'</button>';
+    var label=s==="All"?t("all"):s;
+    return '<button class="st'+(s===activeSector?" on":"")+'" data-sector="'+s.replace(/"/g,"&quot;")+'">'+label+'</button>';
   }).join("");
   el.querySelectorAll(".st").forEach(function(b){
     b.addEventListener("click",function(){activeSector=this.dataset.sector;render();renderTabs();});
@@ -721,8 +555,7 @@ function renderTabs(){
 function setSort(k){
   sortKey=k;
   ["ai","w","m","imp","n"].forEach(function(x){
-    var b=document.getElementById("s-"+x);
-    if(b)b.className="sb"+(x===k?" on":"");
+    var b=document.getElementById("s-"+x);if(b)b.className="sb"+(x===k?" on":"");
   });
   render();
 }
@@ -730,7 +563,7 @@ function setSort(k){
 function toggleDir(){
   sortDir=sortDir==="desc"?"asc":"desc";
   var btn=document.getElementById("s-dir");
-  if(btn){btn.textContent=sortDir==="desc"?"\u25bc High\u2192Low":"\u25b2 Low\u2192High";btn.className="sb"+(sortDir==="asc"?" on":"");}
+  if(btn) btn.textContent=(sortDir==="desc"?"\u25bc ":"\u25b2 ")+t(sortDir==="desc"?"dir_hl":"dir_lh");
   render();
 }
 
@@ -752,29 +585,19 @@ function openDeep(idx){
   var panel=document.getElementById("dp-"+idx);
   if(!panel)return;
   var c=D[idx];
-  var key=c.n;
-
-  // Toggle
   if(panel.classList.contains("open")){
     panel.classList.remove("open");
     deepOpen[idx]=false;
     var btn=document.getElementById("db-"+idx);
-    if(btn){btn.textContent=t("deep_btn");btn.className="btn-deep";}
+    if(btn){btn.textContent="\uD83D\uDD0D "+t("btn_deep");btn.className="btn-deep";}
     return;
   }
-
   panel.classList.add("open");
   deepOpen[idx]=true;
+  if(deepCache[c.n]){renderDeep(panel,deepCache[c.n],idx);return;}
   var btn=document.getElementById("db-"+idx);
-  if(btn)btn.className="btn-deep loaded";
-
-  // Already cached
-  if(deepCache[key]){renderDeep(panel,deepCache[key],idx);return;}
-
-  // Show loading
-  panel.innerHTML='<div class="dp-loading"><span class="spinner"></span>" + t("generating_deep") + " '+c.n+'...</div>';
-  if(btn){btn.textContent=t("generating");btn.className="btn-deep loading";}
-
+  if(btn){btn.textContent=t("gen");btn.className="btn-deep loading";}
+  panel.innerHTML='<div class="dp-loading"><span class="spinner"></span>'+t("gen_for")+' '+c.n+'...</div>';
   fetch("/.netlify/functions/enrich",{
     method:"POST",
     headers:{"Content-Type":"application/json"},
@@ -783,106 +606,89 @@ function openDeep(idx){
   .then(function(r){return r.json();})
   .then(function(resp){
     if(resp.error){
-      panel.innerHTML='<div class="dp-error">" + t("cant_load") + ": '+resp.error+'</div>';
-      if(btn){btn.textContent=t("deep_btn");btn.className="btn-deep";}
+      panel.innerHTML='<div class="dp-error">'+t("err")+': '+resp.error+'</div>';
+      if(btn){btn.textContent="\uD83D\uDD0D "+t("btn_deep");btn.className="btn-deep";}
       return;
     }
-    deepCache[key]=resp.data;
-    try{sessionStorage.setItem("cw_"+key,JSON.stringify(resp.data));}catch(e){}
-    if(btn){btn.textContent=t("analysis_loaded");btn.className="btn-deep loaded";}
+    deepCache[c.n]=resp.data;
+    try{sessionStorage.setItem("cw_"+c.n,JSON.stringify(resp.data));}catch(e){}
+    if(btn){btn.textContent="\u2713 "+t("done");btn.className="btn-deep loaded";}
     renderDeep(panel,resp.data,idx);
     loadVideo(idx);
   })
   .catch(function(){
-    panel.innerHTML='<div class="dp-error">" + t("conn_error") + "</div>';
-    if(btn){btn.textContent=t("deep_btn");btn.className="btn-deep";}
+    panel.innerHTML='<div class="dp-error">'+t("err")+'</div>';
+    if(btn){btn.textContent="\uD83D\uDD0D "+t("btn_deep");btn.className="btn-deep";}
   });
 }
 
+function safe(obj,key){return (obj&&obj[key])||"";}
+function safeArr(obj,key){return (obj&&obj[key])||[];}
+
 function renderDeep(panel,d,idx){
-  var c=D[idx];
   var h="";
-
-  // FIT
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83E\uDD14</span>" + t("fit_title") + "</div>';
-  h+='<div class="fit-tags">'+(d.fit&&d.fit.traits||[]).map(function(t){return'<span class="fit-tag">'+t+'</span>';}).join("")+'</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83E\uDD14</span>'+t("s_fit")+'</div>';
+  h+='<div class="fit-tags">'+safeArr(d.fit,"traits").map(function(tr){return'<span class="fit-tag">'+tr+'</span>';}).join("")+'</div>';
   h+='<div class="fit-grid">';
-  h+='<div class="fit-cell"><strong>" + t("style_label") + "</strong>'+(d.fit&&d.fit.style||"")+'</div>';
-  h+='<div class="fit-cell"><strong>" + t("risk_label") + "</strong>'+(d.fit&&d.fit.risk||"")+'</div>';
-  h+='<div class="fit-cell"><strong>" + t("payoff_label") + "</strong>'+(d.fit&&d.fit.horizon||"")+'</div>';
+  h+='<div class="fit-cell"><strong>'+t("fit_style")+'</strong>'+safe(d.fit,"style")+'</div>';
+  h+='<div class="fit-cell"><strong>'+t("fit_risk")+'</strong>'+safe(d.fit,"risk")+'</div>';
+  h+='<div class="fit-cell"><strong>'+t("fit_horizon")+'</strong>'+safe(d.fit,"horizon")+'</div>';
   h+='</div></div>';
-
-  // REALITY
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u26A0</span>" + t("reality_title") + "</div>';
-  h+='<ul class="r-list">'+(d.reality&&d.reality.downsides||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul>';
-  h+='<div class="r-note">\uD83D\uDED1 <strong>" + t("barrier_label") + ":</strong> '+(d.reality&&d.reality.barrier||"")+'<br>\uD83D\uDED1 <strong>" + t("failure_label") + ":</strong> '+(d.reality&&d.reality.failure||"")+'<br>\uD83D\uDED1 <strong>" + t("market_label") + ":</strong> '+(d.reality&&d.reality.market||"")+'</div></div>';
-
-  // TIMELINE
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u23F1</span>" + t("timeline_title") + "</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u26A0</span>'+t("s_reality")+'</div>';
+  h+='<ul class="r-list">'+safeArr(d.reality,"downsides").map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul>';
+  h+='<div class="r-note">\uD83D\uDED1 <strong>'+t("barrier")+':</strong> '+safe(d.reality,"barrier")+'<br>';
+  h+='\uD83D\uDED1 <strong>'+t("failure")+':</strong> '+safe(d.reality,"failure")+'<br>';
+  h+='\uD83D\uDED1 <strong>'+t("market")+':</strong> '+safe(d.reality,"market")+'</div></div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u23F1</span>'+t("s_tl")+'</div>';
   h+='<div class="tl-grid">';
-  h+='<div class="tl-block"><div class="tl-period">" + t("y0_3") + "</div><div class="tl-sal">'+(d.timeline&&d.timeline.sal_early||"")+'</div><div class="tl-desc">'+(d.timeline&&d.timeline.y0_3||"")+'</div></div>';
-  h+='<div class="tl-block"><div class="tl-period">" + t("y3_7") + "</div><div class="tl-sal">'+(d.timeline&&d.timeline.sal_mid||"")+'</div><div class="tl-desc">'+(d.timeline&&d.timeline.y3_7||"")+'</div></div>';
-  h+='<div class="tl-block"><div class="tl-period">" + t("y7plus") + "</div><div class="tl-sal">'+(d.timeline&&d.timeline.sal_top||"")+'</div><div class="tl-desc">'+(d.timeline&&d.timeline.y7plus||"")+'</div></div>';
+  h+='<div class="tl-block"><div class="tl-period">'+t("y03")+'</div><div class="tl-sal">'+safe(d.timeline,"sal_early")+'</div><div class="tl-desc">'+safe(d.timeline,"y0_3")+'</div></div>';
+  h+='<div class="tl-block"><div class="tl-period">'+t("y37")+'</div><div class="tl-sal">'+safe(d.timeline,"sal_mid")+'</div><div class="tl-desc">'+safe(d.timeline,"y3_7")+'</div></div>';
+  h+='<div class="tl-block"><div class="tl-period">'+t("y7")+'</div><div class="tl-sal">'+safe(d.timeline,"sal_top")+'</div><div class="tl-desc">'+safe(d.timeline,"y7plus")+'</div></div>';
   h+='</div></div>';
-
-  // WEALTH
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83D\uDCB0</span>" + t("wealth_title") + "</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83D\uDCB0</span>'+t("s_wealth")+'</div>';
   h+='<div class="w-grid">';
-  h+='<div class="w-block"><div class="w-label">" + t("early_label") + "</div><div class="w-val">'+(d.wealth&&d.wealth.early||"")+'</div></div>';
-  h+='<div class="w-block"><div class="w-label">" + t("mid_label") + "</div><div class="w-val">'+(d.wealth&&d.wealth.mid||"")+'</div></div>';
-  h+='<div class="w-block"><div class="w-label">" + t("top_label") + "</div><div class="w-val">'+(d.wealth&&d.wealth.top||"")+'</div></div>';
-  h+='</div><div class="w-note">" + t("variance_label") + ": <strong>'+(d.wealth&&d.wealth.variance||"")+'</strong> &mdash; '+(d.wealth&&d.wealth.variance_note||"")+'</div></div>';
-
-  // PATHS
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83D\uDCDA</span>" + t("paths_title") + "</div>';
+  h+='<div class="w-block"><div class="w-label">'+t("early")+'</div><div class="w-val">'+safe(d.wealth,"early")+'</div></div>';
+  h+='<div class="w-block"><div class="w-label">'+t("mid")+'</div><div class="w-val">'+safe(d.wealth,"mid")+'</div></div>';
+  h+='<div class="w-block"><div class="w-label">'+t("top")+'</div><div class="w-val">'+safe(d.wealth,"top")+'</div></div>';
+  h+='</div><div class="w-note">'+t("variance")+': <strong>'+safe(d.wealth,"variance")+'</strong> - '+safe(d.wealth,"variance_note")+'</div></div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83D\uDCDA</span>'+t("s_paths")+'</div>';
   h+='<div class="path-rows">';
-  h+='<div class="path-row"><strong>Academic:</strong> '+(d.paths&&d.paths.academic||"")+'</div>';
-  h+='<div class="path-row"><strong>Alternative:</strong> '+(d.paths&&d.paths.alternative||"")+'</div>';
-  if(d.paths&&d.paths.subjects&&d.paths.subjects.length){
-    h+='<div class="subj-tags">'+(d.paths.subjects||[]).map(function(s){return'<span class="subj-tag">'+s+'</span>';}).join("")+'</div>';
+  h+='<div class="path-row"><strong>'+t("early")+':</strong> '+safe(d.paths,"academic")+'</div>';
+  h+='<div class="path-row"><strong>Alt:</strong> '+safe(d.paths,"alternative")+'</div>';
+  if(safeArr(d.paths,"subjects").length){
+    h+='<div class="subj-tags">'+safeArr(d.paths,"subjects").map(function(s){return'<span class="subj-tag">'+s+'</span>';}).join("")+'</div>';
   }
   h+='</div></div>';
-
-  // ADJACENT
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">&#8618;</span>" + t("adjacent_title") + "</div>';
-  h+='<div class="adj-list">'+(d.adjacent||[]).map(function(r){
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">&#8618;</span>'+t("s_adj")+'</div>';
+  h+='<div class="adj-list">'+safeArr(d,"adjacent").map(function(r){
     return'<span class="adj-tag" data-search="'+r.replace(/"/g,"&quot;")+'">'+r+'</span>';
   }).join("")+'</div></div>';
-
-  // WHERE
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83C\uDFEB</span>" + t("where_title") + "</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83C\uDFEB</span>'+t("s_where")+'</div>';
   h+='<div class="where-grid">';
-  h+='<div class="where-block"><div class="where-label">" + t("companies_label") + "</div><ul class="where-list">'+(d.where&&d.where.companies||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
-  h+='<div class="where-block"><div class="where-label">" + t("industries_label") + "</div><ul class="where-list">'+(d.where&&d.where.industries||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='<div class="where-block"><div class="where-label">'+t("companies")+'</div><ul class="where-list">'+safeArr(d.where,"companies").map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='<div class="where-block"><div class="where-label">'+t("industries")+'</div><ul class="where-list">'+safeArr(d.where,"industries").map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
   h+='</div></div>';
-
-  // AI DETAIL
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83E\uDD16</span>" + t("ai_title") + "</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83E\uDD16</span>'+t("s_ai_det")+'</div>';
   h+='<div class="ai-blocks">';
-  h+='<div class="ai-block cant"><strong>" + t("cant_label") + "</strong>'+(d.ai_detail&&d.ai_detail.cant_do||"")+'</div>';
-  h+='<div class="ai-block future"><strong>" + t("future_label") + "</strong>'+(d.ai_detail&&d.ai_detail.near_future||"")+'</div>';
-  h+='<div class="ai-block augment"><strong>" + t("augment_label") + "</strong>'+(d.ai_detail&&d.ai_detail.augment||"")+'</div>';
+  h+='<div class="ai-block cant"><strong>'+t("ai_cant")+'</strong>'+safe(d.ai_detail,"cant_do")+'</div>';
+  h+='<div class="ai-block future"><strong>'+t("ai_future")+'</strong>'+safe(d.ai_detail,"near_future")+'</div>';
+  h+='<div class="ai-block augment"><strong>'+t("ai_augment")+'</strong>'+safe(d.ai_detail,"augment")+'</div>';
   h+='</div></div>';
-
-  // STEPS
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u2705</span>" + t("steps_title") + "</div>';
-  h+='<ol class="steps-list">'+(d.steps||[]).map(function(s){return'<li>'+s+'</li>';}).join("")+'</ol></div>';
-
-  // DECISION
-  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83C\uDFAF</span>" + t("decision_title") + "</div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\u2705</span>'+t("s_steps")+'</div>';
+  h+='<ol class="steps-list">'+safeArr(d,"steps").map(function(s){return'<li>'+s+'</li>';}).join("")+'</ol></div>';
+  h+='<div class="ds"><div class="ds-title"><span class="ds-icon">\uD83C\uDFAF</span>'+t("s_dec")+'</div>';
   h+='<div class="dec-grid">';
-  h+='<div class="dec-block yes"><div class="dec-label">" + t("choose_label") + "</div><ul class="dec-list">'+(d.choose_if||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
-  h+='<div class="dec-block no"><div class="dec-label">" + t("avoid_label") + "</div><ul class="dec-list">'+(d.avoid_if||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='<div class="dec-block yes"><div class="dec-label">'+t("choose")+'</div><ul class="dec-list">'+safeArr(d,"choose_if").map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='<div class="dec-block no"><div class="dec-label">'+t("avoid")+'</div><ul class="dec-list">'+safeArr(d,"avoid_if").map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
   h+='</div></div>';
-
-  // VIDEO
-  h+='<div class="video-wrap" id="vw-'+idx+'"><div class="video-label">" + t("video_label") + "</div>';
+  h+='<div class="video-wrap" id="vw-'+idx+'"><div class="video-label">'+t("video_lbl")+'</div>';
   h+='<div id="vthumb-'+idx+'"></div>';
-  h+='<button class="btn-paste" onclick="showVideoInput('+idx+')">" + t("paste_btn") + "</button>';
+  h+='<button class="btn-paste" data-vidx="'+idx+'">'+t("paste_vid")+'</button>';
   h+='<div id="vinput-'+idx+'"></div>';
   h+='</div>';
-
   panel.innerHTML=h;
+  var pb=panel.querySelector(".btn-paste");
+  if(pb) pb.addEventListener("click",function(e){e.stopPropagation();showVideoInput(parseInt(this.dataset.vidx));});
   loadVideo(idx);
 }
 
@@ -892,10 +698,10 @@ function loadVideo(idx){
   .then(function(r){return r.json();})
   .then(function(resp){
     if(resp.video&&resp.video.youtube_url){
-      var m=resp.video.youtube_url.match(/(?:v=|youtu\.be\/|embed\/|shorts\/|watch\?v=)([\w-]+)/);
+      var m=resp.video.youtube_url.match(/(?:v=|youtu\.be\/|embed\/)([\w-]+)/);
       if(m){
         var thumb=document.getElementById("vthumb-"+idx);
-        if(thumb)thumb.innerHTML='<div class="video-thumb"><a href="'+resp.video.youtube_url+'" target="_blank" onclick="event.stopPropagation()"><img src="https://img.youtube.com/vi/'+m[1]+'/mqdefault.jpg" alt="Video thumbnail"></a></div>';
+        if(thumb) thumb.innerHTML='<div class="video-thumb"><a href="'+resp.video.youtube_url+'" target="_blank" onclick="event.stopPropagation()"><img src="https://img.youtube.com/vi/'+m[1]+'/mqdefault.jpg" alt="Video"></a></div>';
       }
     }
   }).catch(function(){});
@@ -905,16 +711,24 @@ function showVideoInput(idx){
   var el=document.getElementById("vinput-"+idx);
   if(!el)return;
   if(el.innerHTML){el.innerHTML="";return;}
-  el.innerHTML='<div class="video-input-row"><input type="text" class="video-input" placeholder="Paste YouTube URL..." id="vi-'+idx+'"><button class="btn-save-vid" onclick="saveVideo('+idx+')">Save</button></div>';
-  var inp=document.getElementById("vi-"+idx);
-  if(inp){inp.onclick=function(e){e.stopPropagation();};inp.focus();}
+  var row=document.createElement("div");
+  row.className="video-input-row";
+  row.onclick=function(e){e.stopPropagation();};
+  var inp=document.createElement("input");
+  inp.type="text";inp.className="video-input";inp.placeholder="YouTube URL...";inp.id="vi-"+idx;
+  var btn=document.createElement("button");
+  btn.className="btn-save-vid";btn.textContent=t("save_vid");
+  btn.onclick=function(e){e.stopPropagation();saveVideo(idx);};
+  row.appendChild(inp);row.appendChild(btn);
+  el.appendChild(row);
+  inp.focus();
 }
 
 function saveVideo(idx){
   var inp=document.getElementById("vi-"+idx);
   if(!inp)return;
   var url=inp.value.trim();
-  if(!url){alert("Please paste a YouTube URL");return;}
+  if(!url){return;}
   inp.disabled=true;
   fetch("/.netlify/functions/video",{
     method:"POST",
@@ -923,12 +737,12 @@ function saveVideo(idx){
   })
   .then(function(r){return r.json();})
   .then(function(resp){
-    if(resp.error){alert("Error: "+resp.error);inp.disabled=false;return;}
     var el=document.getElementById("vinput-"+idx);
-    if(el)el.innerHTML='<div style="font-size:12px;color:#27500A;padding:4px 0">\u2713 Saved! Reloading...</div>';
+    if(resp.error){if(el)el.innerHTML='<div style="font-size:12px;color:#c00;padding:4px 0">'+resp.error+'</div>';inp.disabled=false;return;}
+    if(el)el.innerHTML='<div style="font-size:12px;color:#27500A;padding:4px 0">\u2713 Saved!</div>';
     setTimeout(function(){loadVideo(idx);},800);
   })
-  .catch(function(){alert("Could not save. Try again.");inp.disabled=false;});
+  .catch(function(){inp.disabled=false;});
 }
 
 function render(){
@@ -943,7 +757,8 @@ function render(){
   if(sortKey==="n")list.sort(function(a,b){var r=a.n.localeCompare(b.n);return sortDir==="asc"?-r:r;});
   else list.sort(function(a,b){return sortDir==="desc"?b[sortKey]-a[sortKey]:a[sortKey]-b[sortKey];});
 
-  document.getElementById("cnt").textContent=list.length+" "+(list.length!==1?t("careers_suffix_pl"):t("careers_suffix"))+(q?' matching "'+q+'"':"")+'  —  click any card for details, “Deep Analysis” for AI insight';
+  var cntEl=document.getElementById("cnt");
+  if(cntEl) cntEl.textContent=list.length+" "+(list.length!==1?t("em"):t("em"))+(q?" -- "+q:"");
 
   var html="";
   for(var i=0;i<list.length;i++){
@@ -951,72 +766,60 @@ function render(){
     var idx=D.indexOf(c);
     var bm=isBookmarked(c.n);
     var ytUrl="https://www.youtube.com/results?search_query=day+in+the+life+"+encodeURIComponent(c.n);
-
-    html+='<div class="card'+(c.em?" em":"")+(bm?" bookmarked":"")+'">';
-
-    // Always-visible top section
-    html+='<div class="ct-wrap" onclick="toggleCard('+idx+')">';
-    html+='<div class="ct-head">';
-    html+='<div class="ct-left"><div class="ct-name">'+c.n+(c.em?'<span class="etag" style="margin-left:6px">New</span>':'')+'</div><div class="ct-sector">'+c.s+'</div></div>';
-    html+='<div class="ct-right"><span class="bm-dot"></span></div>';
-    html+='</div>';
+    html+='<div class="card'+(c.em?" em":"")+(bm?" bookmarked":"")+'">'; 
+    html+='<div class="ct-wrap" data-cidx="'+idx+'">';
+    html+='<div class="ct-head"><div>';
+    html+='<div class="ct-name">'+c.n+(c.em?'<span class="etag">New</span>':'')+'</div>';
+    html+='<div class="ct-sec">'+c.s+'</div>';
+    html+='</div><span class="bm-dot"></span></div>';
     html+='<div class="bars">';
-    html+='<div class="br"><span class="bl">AI-proof</span><div class="bt"><div class="bf" style="width:'+c.ai+'%;background:#378ADD"></div></div><span class="bv">'+c.ai+'</span></div>';
-    html+='<div class="br"><span class="bl">Wealth</span><div class="bt"><div class="bf" style="width:'+c.w+'%;background:#639922"></div></div><span class="bv">'+c.w+'</span></div>';
-    html+='<div class="br"><span class="bl">Meaning</span><div class="bt"><div class="bf" style="width:'+c.m+'%;background:#7F77DD"></div></div><span class="bv">'+c.m+'</span></div>';
-    html+='<div class="br"><span class="bl">Impact</span><div class="bt"><div class="bf" style="width:'+c.imp+'%;background:#D85A30"></div></div><span class="bv">'+c.imp+'</span></div>';
+    html+='<div class="br"><span class="bl" id="bl-ai-'+idx+'">'+t("s_ai")+'</span><div class="bt"><div class="bf" style="width:'+c.ai+'%;background:#378ADD"></div></div><span class="bv">'+c.ai+'</span></div>';
+    html+='<div class="br"><span class="bl">'+t("s_w")+'</span><div class="bt"><div class="bf" style="width:'+c.w+'%;background:#639922"></div></div><span class="bv">'+c.w+'</span></div>';
+    html+='<div class="br"><span class="bl">'+t("s_m")+'</span><div class="bt"><div class="bf" style="width:'+c.m+'%;background:#7F77DD"></div></div><span class="bv">'+c.m+'</span></div>';
+    html+='<div class="br"><span class="bl">'+t("s_imp")+'</span><div class="bt"><div class="bf" style="width:'+c.imp+'%;background:#D85A30"></div></div><span class="bv">'+c.imp+'</span></div>';
     html+='</div></div>';
-
-    // Always-visible body text
-    html+='<div class="card-body" id="cb-'+idx+'">';
-    if(c.why)html+='<div class="cb-item"><div class="cb-label">" + t("why_label") + "</div><div class="cb-text">'+c.why+'</div></div>';
-    if(c.imp_t)html+='<div class="cb-item"><div class="cb-label">" + t("impact_label") + "</div><div class="cb-text">'+c.imp_t+'</div></div>';
-    if(c.study)html+='<div class="cb-item"><div class="cb-label">" + t("study_label") + "</div><div class="cb-text">'+c.study+'</div></div>';
+    html+='<div class="card-body">';
+    if(c.why) html+='<div class="cb-item"><div class="cb-label">'+t("lbl_why")+'</div><div class="cb-text">'+c.why+'</div></div>';
+    if(c.imp_t) html+='<div class="cb-item"><div class="cb-label">'+t("lbl_imp")+'</div><div class="cb-text">'+c.imp_t+'</div></div>';
+    if(c.study) html+='<div class="cb-item"><div class="cb-label">'+t("lbl_study")+'</div><div class="cb-text">'+c.study+'</div></div>';
     if(c.ex){
       var exList=c.ex.split(",").map(function(e){return e.trim();});
-      html+='<div class="cb-item"><div class="cb-label">" + t("roles_label") + "</div><div class="cb-tags">'+exList.map(function(e){return'<span class="cb-tag">'+e+'</span>';}).join("")+'</div></div>';
+      html+='<div class="cb-item"><div class="cb-label">'+t("lbl_roles")+'</div><div class="cb-tags">'+exList.map(function(e){return'<span class="cb-tag">'+e+'</span>';}).join("")+'</div></div>';
     }
     html+='</div>';
-
-    // Footer
     html+='<div class="card-foot">';
-    html+='<button class="btn-deep" id="db-'+idx+'" onclick="openDeep('+idx+')">" + t("deep_btn") + "</button>';
-    html+='<a class="btn-yt" href="'+ytUrl+'" target="_blank" onclick="event.stopPropagation()">" + t("watch_btn") + "</a>';
-    html+='<button class="btn-bm'+(bm?" saved":"")+'" onclick="event.stopPropagation();toggleBookmark('+idx+')">'+(bm?"" + t("unsave_btn") + "":"" + t("save_btn") + "")+'</button>';
+    html+='<button class="btn-deep" id="db-'+idx+'" data-bidx="'+idx+'">\uD83D\uDD0D '+t("btn_deep")+'</button>';
+    html+='<a class="btn-yt" href="'+ytUrl+'" target="_blank" onclick="event.stopPropagation()">&#9654; '+t("btn_watch")+'</a>';
+    html+='<button class="btn-bm'+(bm?" saved":"")+'" data-bmidx="'+idx+'">'+(bm?"\u2605 "+t("btn_saved"):"\u2606 "+t("btn_save"))+'</button>';
     html+='</div>';
-
-    // Deep analysis panel (hidden until clicked)
     html+='<div class="deep-panel" id="dp-'+idx+'"></div>';
-
     html+='</div>';
   }
   document.getElementById("grid").innerHTML=html;
-
-  // Restore any open deep panels
-  Object.keys(deepOpen).forEach(function(idx){
-    if(deepOpen[idx]&&deepCache[D[idx]&&D[idx].n]){
-      var panel=document.getElementById("dp-"+idx);
-      if(panel){panel.classList.add("open");renderDeep(panel,deepCache[D[idx].n],parseInt(idx));}
-    }
-  });
 }
 
-function toggleCard(idx){
-  // Cards don't collapse — clicking just opens deep analysis if wanted
-  // Scrolls to card
-}
-
-// Event delegation
+// Event delegation - no inline onclick anywhere
 document.addEventListener("click",function(e){
-  var adj=e.target.closest(".adj-tag");
-  if(adj){document.getElementById("search").value=adj.dataset.search||adj.textContent;render();return;}
-});
-
-document.querySelector(".toolbar").addEventListener("click",function(e){
-  var s=e.target.closest("[data-sort]");if(s){setSort(s.dataset.sort);return;}
-  var d=e.target.closest("[data-dir]");if(d){toggleDir();return;}
+  // Sort buttons
+  var sb=e.target.closest("[data-sort]");if(sb){setSort(sb.dataset.sort);return;}
+  var dir=e.target.closest("[data-dir]");if(dir){toggleDir();return;}
   var em=e.target.closest("#s-em");if(em){toggleEmerging();return;}
   var bm=e.target.closest("#s-bm");if(bm){toggleBookmarksOnly();return;}
+  // Card wrap click (not buttons)
+  var cw=e.target.closest(".ct-wrap");
+  if(cw&&!e.target.closest("button")&&!e.target.closest("a")){
+    var cidx=parseInt(cw.dataset.cidx);if(!isNaN(cidx))openDeep(cidx);
+    return;
+  }
+  // Deep button
+  var db=e.target.closest("[data-bidx]");
+  if(db&&db.classList.contains("btn-deep")){openDeep(parseInt(db.dataset.bidx));return;}
+  // Bookmark button
+  var bmb=e.target.closest("[data-bmidx]");
+  if(bmb&&bmb.classList.contains("btn-bm")){toggleBookmark(parseInt(bmb.dataset.bmidx));return;}
+  // Adjacent tag
+  var adj=e.target.closest(".adj-tag");
+  if(adj){document.getElementById("search").value=adj.dataset.search||adj.textContent;render();return;}
 });
 
 document.getElementById("search").addEventListener("input",function(){render();});
