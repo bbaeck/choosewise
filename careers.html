@@ -61,7 +61,7 @@ body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);min-heig
 .bm-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .15s}
 .bars{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
 .br{display:flex;align-items:center;gap:7px}
-.bl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;color:var(--text3);width:68px;flex-shrink:0;text-transform:uppercase;letter-spacing:.04em}
+.bl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;color:var(--text3);width:62px;flex-shrink:0;text-transform:uppercase;letter-spacing:.03em;line-height:1.2}
 .bt{flex:1;height:5px;background:var(--bg);border-radius:99px;overflow:hidden}
 .bf{height:100%;border-radius:99px}
 .bv{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;color:var(--text3);width:20px;text-align:right;flex-shrink:0}
@@ -437,7 +437,7 @@ var sectors=["All"];
 D.forEach(function(c){if(sectors.indexOf(c.s)===-1)sectors.push(c.s);});
 var sortKey="ai",sortDir="desc",emergingOnly=false,bookmarksOnly=false,activeSector="All";
 var bookmarks=JSON.parse(localStorage.getItem("cw_bm")||"[]");
-var deepCache={},deepOpen={};
+var deepCache={},deepOpen={},transCache={};
 var lang=localStorage.getItem("cw_lang")||"nl";
 
 var TX={
@@ -471,7 +471,7 @@ var TX={
   nl:{
     title:"Beroepengids",
     sub:"235 beroepen -- Basisinfo altijd zichtbaar -- Klik op Diepgaande analyse voor AI-inzicht",
-    sort:"Sorteren",s_ai:"AI-bestendig",s_w:"Inkomen",s_m:"Zingeving",s_imp:"Impact",
+    sort:"Sorteren",s_ai:"AI-proof",s_w:"Inkomen",s_m:"Zingeving",s_imp:"Impact",
     dir_hl:"Hoog naar Laag",dir_lh:"Laag naar Hoog",
     em:"Opkomend",bm:"Bewaard",all:"Alles",
     nav_back:"Startpagina",search_ph:"Zoek beroepen, sectoren, functies...",
@@ -743,6 +743,63 @@ function saveVideo(idx){
     setTimeout(function(){loadVideo(idx);},800);
   })
   .catch(function(){inp.disabled=false;});
+}
+
+function loadTranslation(idx, callback) {
+  var c = D[idx];
+  var key = "nl_" + c.n;
+
+  // Check memory cache
+  if (transCache[key]) { callback(transCache[key]); return; }
+
+  // Check sessionStorage
+  try {
+    var stored = sessionStorage.getItem(key);
+    if (stored) { transCache[key] = JSON.parse(stored); callback(transCache[key]); return; }
+  } catch(e) {}
+
+  // Call translate function
+  fetch("/.netlify/functions/translate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ career_name: c.n, why: c.why||"", imp_t: c.imp_t||"", study: c.study||"", ex: c.ex||"" })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(resp) {
+    if (resp.data) {
+      transCache[key] = resp.data;
+      try { sessionStorage.setItem(key, JSON.stringify(resp.data)); } catch(e) {}
+      callback(resp.data);
+    }
+  })
+  .catch(function() {}); // Silently fail - keep English
+}
+
+function applyTranslation(idx, trans) {
+  var card = document.querySelector('[data-cidx="' + idx + '"]');
+  if (!card) return;
+  var body = card.closest(".card").querySelector(".card-body");
+  if (!body) return;
+  var items = body.querySelectorAll(".cb-item");
+  items.forEach(function(item) {
+    var label = item.querySelector(".cb-label");
+    var text = item.querySelector(".cb-text");
+    var tags = item.querySelector(".cb-tags");
+    if (!label || !text) return;
+    var lbl = label.textContent.trim();
+    if (lbl === "WAAROM AI HET NIET OVERNEEMT" || lbl === "WHY AI WON'T REPLACE IT") {
+      if (trans.why) text.textContent = trans.why;
+    } else if (lbl === "IMPACT OP DE WERELD" || lbl === "IMPACT ON THE WORLD") {
+      if (trans.imp_t) text.textContent = trans.imp_t;
+    } else if (lbl === "HOE KOM JE ER?" || lbl === "HOW TO GET THERE") {
+      if (trans.study) text.textContent = trans.study;
+    } else if (lbl === "VOORBEELDFUNCTIES" || lbl === "EXAMPLE ROLES") {
+      if (trans.ex && tags) {
+        var roles = trans.ex.split(",").map(function(r){ return r.trim(); });
+        tags.innerHTML = roles.map(function(r){ return '<span class="cb-tag">'+r+'</span>'; }).join("");
+      }
+    }
+  });
 }
 
 function render(){
