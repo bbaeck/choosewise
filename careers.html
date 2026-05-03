@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Career Encyclopedia — Choose Wise</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#f7f5f0;--surface:#ffffff;--border:#e8e4dc;--border2:#d4cfc4;
+  --text:#111;--text2:#555;--text3:#888;
+  --gold:#c9a84c;--gold-dark:#a07830;
+  --blue:#378ADD;--green:#27500A;--green-light:#EAF3DE;
+  --purple:#7F77DD;--orange:#D85A30;--red:#c00;
+  --radius:12px;--radius-sm:8px;
+}
+html{scroll-behavior:smooth}
+body{font-family:"Georgia",serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* ── TOP NAV ── */
+.topnav{background:#fff;border-bottom:1px solid var(--border);padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;position:sticky;top:0;z-index:100}
+.topnav-brand{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;text-decoration:none}
+.topnav-back{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--text3);text-decoration:none}
+.topnav-back:hover{color:var(--text)}
+.compare-btn{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:6px 14px;border:1px solid var(--border2);border-radius:99px;background:#fff;color:var(--text2);cursor:pointer;transition:all .15s}
+.compare-btn:hover{background:var(--bg);border-color:var(--text3)}
+.compare-btn.active{background:var(--gold);color:#fff;border-color:var(--gold)}
+
+/* ── PAGE HEADER ── */
+.page-header{padding:32px 20px 0;max-width:1200px;margin:0 auto}
+.page-header h1{font-size:clamp(22px,3vw,32px);font-weight:400;margin-bottom:6px}
+.page-header p{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;color:var(--text3);margin-bottom:24px}
+
+/* ── CONTROLS ── */
+.controls{max-width:1200px;margin:0 auto;padding:0 20px}
+.search-wrap{position:relative;margin-bottom:12px}
+.search-wrap input{width:100%;padding:11px 16px 11px 40px;font-size:14px;border:1px solid var(--border2);border-radius:var(--radius);background:#fff;font-family:"Georgia",serif;outline:none;transition:border-color .15s}
+.search-wrap input:focus{border-color:var(--gold)}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--text3);font-size:14px}
+.toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px;align-items:center}
+.tool-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;white-space:nowrap}
+.sb{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:5px 12px;border:1px solid var(--border2);border-radius:99px;background:#fff;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap}
+.sb:hover{border-color:var(--text3);background:var(--bg)}
+.sb.on{background:var(--text);color:#fff;border-color:var(--text)}
+.sb-em{border-color:#639922;color:#27500A;background:var(--green-light)}
+.sb-em.on{background:#27500A;color:#fff;border-color:#27500A}
+.sb-bm{border-color:var(--gold);color:var(--gold-dark);background:#FDF8EC}
+.sb-bm.on{background:var(--gold);color:#fff;border-color:var(--gold)}
+.divider{width:1px;height:20px;background:var(--border2);flex-shrink:0}
+
+.sector-wrap{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:16px}
+.st{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:4px 10px;border-radius:99px;border:1px solid var(--border);background:#fff;color:var(--text3);cursor:pointer;transition:all .12s;white-space:nowrap}
+.st:hover{background:var(--bg);border-color:var(--border2)}
+.st.on{background:var(--text);color:#fff;border-color:var(--text)}
+
+.legend{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+.leg{display:flex;align-items:center;gap:4px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3)}
+.ld{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+.cnt{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text3);margin-bottom:12px}
+
+/* ── GRID ── */
+.grid{max-width:1200px;margin:0 auto;padding:0 20px 40px;display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px}
+
+/* ── CARD ── */
+.card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;transition:border-color .15s,box-shadow .15s;cursor:pointer}
+.card:hover{border-color:var(--border2);box-shadow:0 2px 12px rgba(0,0,0,.06)}
+.card.open{border-color:var(--gold);box-shadow:0 4px 20px rgba(201,168,76,.12)}
+.card.emerging{border-left:3px solid #639922}
+.card.comparing{border-color:var(--blue);background:#F0F6FF}
+.card.bookmarked .bm-dot{opacity:1}
+
+/* card header */
+.ch{padding:16px;display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.ch-left{flex:1}
+.ct{font-size:15px;font-weight:600;color:var(--text);margin-bottom:3px;line-height:1.3}
+.cs{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:.06em}
+.ch-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.etag{font-size:10px;font-weight:600;background:var(--green-light);color:#27500A;padding:2px 7px;border-radius:4px}
+.bm-dot{width:8px;height:8px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .15s;flex-shrink:0}
+.tog{font-size:16px;color:var(--text3);line-height:1}
+.cmp-check{width:18px;height:18px;border-radius:4px;border:1.5px solid var(--border2);display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;flex-shrink:0;transition:all .15s}
+.comparing .cmp-check{background:var(--blue);border-color:var(--blue)}
+
+/* bars */
+.bars{padding:0 16px 12px;display:flex;flex-direction:column;gap:5px}
+.br{display:flex;align-items:center;gap:8px}
+.bl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;color:var(--text3);width:52px;flex-shrink:0;text-transform:uppercase;letter-spacing:.04em}
+.bt{flex:1;height:5px;background:var(--bg);border-radius:99px;overflow:hidden}
+.bf{height:100%;border-radius:99px;transition:width .4s ease}
+.bv{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;color:var(--text3);width:22px;text-align:right;flex-shrink:0}
+
+/* quick tags */
+.qtags{padding:0 16px 14px;display:flex;gap:5px;flex-wrap:wrap}
+.qtag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;padding:3px 8px;border-radius:99px;border:1px solid var(--border);color:var(--text3)}
+
+/* ── EXPANDED DETAIL ── */
+.det{border-top:1px solid var(--border);padding:0 16px}
+.det-loading{padding:20px 0;text-align:center;font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--text3)}
+.det-loading .spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin-right:8px;vertical-align:middle}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* sections */
+.det-section{padding:14px 0;border-bottom:1px solid var(--border)}
+.det-section:last-child{border-bottom:none}
+.det-title{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.det-title-icon{font-size:12px}
+
+/* fit tags */
+.fit-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px}
+.fit-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:4px 10px;border-radius:99px;background:#F0F6FF;color:#185FA5;border:1px solid #B5D4F4}
+.fit-meta{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:6px}
+.fit-item{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text2);background:var(--bg);padding:6px 10px;border-radius:var(--radius-sm)}
+.fit-item strong{color:var(--text);display:block;font-size:10px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:2px}
+
+/* reality */
+.reality-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+.reality-list li{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);padding-left:16px;position:relative;line-height:1.5}
+.reality-list li::before{content:"—";position:absolute;left:0;color:var(--text3)}
+.reality-note{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);margin-top:8px;padding:8px 10px;background:var(--bg);border-radius:var(--radius-sm);line-height:1.5}
+
+/* timeline */
+.timeline{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.tl-block{background:var(--bg);border-radius:var(--radius-sm);padding:10px}
+.tl-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);margin-bottom:4px}
+.tl-sal{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:700;color:var(--green);margin-bottom:4px}
+.tl-desc{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text2);line-height:1.45}
+
+/* wealth */
+.wealth-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:8px}
+.wealth-block{text-align:center;padding:10px 6px;background:var(--bg);border-radius:var(--radius-sm)}
+.wealth-block .wl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:4px}
+.wealth-block .wv{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:700;color:var(--text)}
+.variance-note{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text3);padding:6px 10px;background:var(--bg);border-radius:var(--radius-sm)}
+
+/* paths */
+.paths-list{display:flex;flex-direction:column;gap:6px}
+.path-item{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.5}
+.path-item strong{color:var(--text);font-weight:600}
+.subject-tags{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px}
+.subject-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;padding:3px 8px;border-radius:99px;background:#FDF8EC;color:var(--gold-dark);border:1px solid #F0E4B8}
+
+/* adjacent */
+.adj-list{display:flex;gap:5px;flex-wrap:wrap}
+.adj-tag{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:5px 10px;border-radius:99px;border:1px solid var(--border2);background:#fff;color:var(--text2);cursor:pointer;transition:all .12s}
+.adj-tag:hover{background:var(--bg);border-color:var(--text3)}
+
+/* where */
+.where-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.where-block{background:var(--bg);padding:10px;border-radius:var(--radius-sm)}
+.where-block .wl{font-family:"Helvetica Neue",Arial,sans-serif;font-size:9px;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);margin-bottom:6px}
+.where-list{list-style:none;display:flex;flex-direction:column;gap:3px}
+.where-list li{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text2)}
+
+/* ai detail */
+.ai-blocks{display:flex;flex-direction:column;gap:6px}
+.ai-block{padding:8px 12px;border-radius:var(--radius-sm);font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.5}
+.ai-block.cant{background:#FCEBEB;border-left:3px solid #E24B4A}
+.ai-block.future{background:#FDF8EC;border-left:3px solid var(--gold)}
+.ai-block.augment{background:var(--green-light);border-left:3px solid #639922}
+.ai-block strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px;color:var(--text)}
+
+/* steps */
+.steps-list{list-style:none;display:flex;flex-direction:column;gap:6px;counter-reset:steps}
+.steps-list li{display:flex;align-items:flex-start;gap:10px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;color:var(--text2);line-height:1.5;counter-increment:steps}
+.steps-list li::before{content:counter(steps);width:20px;height:20px;background:var(--text);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* decision block */
+.decision{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dec-block{padding:12px;border-radius:var(--radius-sm)}
+.dec-block.yes{background:var(--green-light)}
+.dec-block.no{background:#FCEBEB}
+.dec-label{font-family:"Helvetica Neue",Arial,sans-serif;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.dec-block.yes .dec-label{color:#27500A}
+.dec-block.no .dec-label{color:#791F1F}
+.dec-list{list-style:none;display:flex;flex-direction:column;gap:5px}
+.dec-list li{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;color:var(--text2);line-height:1.45;padding-left:12px;position:relative}
+.dec-list li::before{position:absolute;left:0}
+.dec-block.yes .dec-list li::before{content:"✓";color:#27500A}
+.dec-block.no .dec-list li::before{content:"✗";color:#791F1F}
+
+/* card footer */
+.card-footer{padding:12px 16px;border-top:1px solid var(--border);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.vlink{display:block;font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;font-weight:600;color:#fff;background:var(--red);padding:8px 14px;border-radius:var(--radius-sm);text-decoration:none;text-align:center;transition:background .15s}
+.vlink:hover{background:#a00}
+.vlink.community{background:#111;color:#fff}
+.vlink.community:hover{background:#333}
+.video-wrap{flex:1;display:flex;flex-direction:column;gap:6px}
+.submit-video-btn{font-family:"Helvetica Neue",Arial,sans-serif;font-size:11px;padding:5px 10px;border:1px solid var(--border2);border-radius:var(--radius-sm);background:#fff;color:var(--text2);cursor:pointer;text-align:center}
+.submit-video-btn:hover{background:var(--bg)}
+.video-input-row{display:flex;gap:6px;margin-top:4px}
+.video-input{flex:1;font-size:12px;padding:6px 10px;border:1px solid var(--border2);border-radius:var(--radius-sm);outline:none;font-family:"Helvetica Neue",Arial,sans-serif}
+.video-input:focus{border-color:var(--gold)}
+.video-submit-btn{font-size:12px;padding:6px 12px;background:var(--gold);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;font-weight:600;white-space:nowrap}
+.video-submit-btn:hover{background:var(--gold-dark)}
+.bm-btn{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:8px 14px;border:1px solid var(--border2);border-radius:var(--radius-sm);background:#fff;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap}
+.bm-btn:hover{background:var(--bg)}
+.bm-btn.saved{background:#FDF8EC;border-color:var(--gold);color:var(--gold-dark)}
+.cmp-btn{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:8px 14px;border:1px solid var(--border2);border-radius:var(--radius-sm);background:#fff;color:var(--text2);cursor:pointer;transition:all .15s;white-space:nowrap}
+.cmp-btn:hover{background:var(--bg)}
+.cmp-btn.added{background:#F0F6FF;border-color:var(--blue);color:var(--blue)}
+
+/* ── COMPARE PANEL ── */
+.compare-panel{position:fixed;bottom:0;left:0;right:0;background:#fff;border-top:2px solid var(--blue);padding:12px 20px;display:flex;gap:10px;align-items:center;z-index:200;transform:translateY(100%);transition:transform .25s ease}
+.compare-panel.visible{transform:translateY(0)}
+.cp-slots{display:flex;gap:8px;flex:1;flex-wrap:wrap}
+.cp-slot{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:6px 14px;background:var(--bg);border:1px solid var(--border2);border-radius:99px;color:var(--text2);display:flex;align-items:center;gap:6px}
+.cp-slot .rm{cursor:pointer;color:var(--text3);font-weight:700}
+.cp-slot .rm:hover{color:var(--text)}
+.cp-go{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;font-weight:600;padding:10px 20px;background:var(--blue);color:#fff;border:none;border-radius:var(--radius-sm);cursor:pointer;white-space:nowrap}
+.cp-go:hover{background:#2568b5}
+.cp-clear{font-family:"Helvetica Neue",Arial,sans-serif;font-size:12px;padding:10px;color:var(--text3);background:none;border:none;cursor:pointer}
+.cp-clear:hover{color:var(--text)}
+
+/* ── COMPARE VIEW ── */
+.compare-view{display:none;max-width:1200px;margin:0 auto;padding:20px}
+.compare-view.visible{display:block}
+.compare-table{display:grid;gap:1px;background:var(--border)}
+.compare-row{display:grid;background:#fff;gap:1px}
+.compare-row.header{background:var(--bg)}
+.compare-cell{padding:12px 16px;font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px}
+.compare-cell.label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--text3);background:var(--bg)}
+.compare-cell.career-name{font-size:15px;font-weight:600;color:var(--text)}
+.back-to-list{font-family:"Helvetica Neue",Arial,sans-serif;font-size:13px;color:var(--text3);background:none;border:none;cursor:pointer;padding:0 0 16px;display:flex;align-items:center;gap:6px}
+.back-to-list:hover{color:var(--text)}
+
+/* ── BOOKMARKS VIEW ── */
+.bm-empty{font-family:"Helvetica Neue",Arial,sans-serif;font-size:14px;color:var(--text3);text-align:center;padding:40px 20px}
+
+@media(max-width:640px){
+  .grid{grid-template-columns:1fr;padding:0 12px 40px}
+  .controls{padding:0 12px}
+  .page-header{padding:20px 12px 0}
+  .timeline,.wealth-grid,.decision,.where-grid,.fit-meta{grid-template-columns:1fr}
+  .compare-view{padding:12px}
+  .topnav{padding:10px 12px}
+}
+</style>
+</head>
+<body>
+
+<nav class="topnav">
+  <a href="index.html" class="topnav-back">&#8592; Home</a>
+  <a href="index.html" class="topnav-brand">Choose Wise</a>
+  <button class="compare-btn" id="cmp-toggle" onclick="toggleCompareMode()">&#9776; Compare</button>
+</nav>
+
+<div id="main-view">
+  <div class="page-header">
+    <h1>Career Encyclopedia</h1>
+    <p id="page-desc">235 careers across 28 sectors &middot; Click any card to expand with AI-powered deep analysis &middot; Compare up to 3 careers</p>
+  </div>
+
+  <div class="controls">
+    <div class="search-wrap">
+      <span class="search-icon">&#9906;</span>
+      <input type="text" id="search" placeholder="Search careers, sectors, example roles..." autocomplete="off">
+    </div>
+    <div class="toolbar">
+      <span class="tool-label">Sort</span>
+      <button class="sb on" id="s-ai" data-sort="ai">AI-proof</button>
+      <button class="sb" id="s-w" data-sort="w">Wealth</button>
+      <button class="sb" id="s-m" data-sort="m">Meaning</button>
+      <button class="sb" id="s-imp" data-sort="imp">Impact</button>
+      <button class="sb" id="s-n" data-sort="n">A&ndash;Z</button>
+      <button class="sb" id="s-dir" data-dir="desc">&#9660; High&rarr;Low</button>
+      <div class="divider"></div>
+      <button class="sb sb-em" id="s-em">&#127807; Emerging</button>
+      <button class="sb sb-bm" id="s-bm">&#9733; Saved</button>
+    </div>
+    <div class="legend">
+      <span class="leg"><span class="ld" style="background:#378ADD"></span>AI-proof</span>
+      <span class="leg"><span class="ld" style="background:#639922"></span>Wealth</span>
+      <span class="leg"><span class="ld" style="background:#7F77DD"></span>Meaning</span>
+      <span class="leg"><span class="ld" style="background:#D85A30"></span>Impact</span>
+      <span class="leg"><span class="ld" style="background:#EAF3DE;border:1px solid #639922;border-radius:2px"></span>Emerging</span>
+    </div>
+    <div class="sector-wrap" id="stabs"></div>
+    <div class="cnt" id="cnt"></div>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<!-- Compare panel (bottom bar) -->
+<div class="compare-panel" id="compare-panel">
+  <div class="cp-slots" id="cp-slots"></div>
+  <button class="cp-go" onclick="showCompare()">Compare &rarr;</button>
+  <button class="cp-clear" onclick="clearCompare()">Clear</button>
+</div>
+
+<!-- Compare view -->
+<div class="compare-view" id="compare-view">
+  <button class="back-to-list" onclick="hideCompare()">&#8592; Back to list</button>
+  <div id="compare-table"></div>
+</div>
+
+<script>
+var D=[
+  {n:"AI engineer",s:"Technology",ai:92,w:92,m:80,imp:95,em:1,why:"Builds AI systems - people who understand these tools will always be needed to direct them.",study:"Maths, computer science, Python. University or self-taught via online courses.",ex:"LLM engineer, ML researcher, AI product engineer, robotics engineer",imp_t:"Shapes the most transformative technology in human history."},
+  {n:"AI safety researcher",s:"Technology",ai:95,w:78,m:90,imp:98,em:1,why:"Ensures AI doesn\'t go wrong at scale. The field barely exists yet - huge demand coming.",study:"Maths, philosophy, computer science. PhD usually required.",ex:"Alignment researcher, interpretability researcher, red-teamer",imp_t:"Could be the most important job of the 21st century."},
+  {n:"Software engineer",s:"Technology",ai:80,w:90,m:72,imp:85,em:0,why:"AI assists coding but can\'t own systems, architecture, or client relationships.",study:"Computer science degree or bootcamp. Self-taught increasingly viable.",ex:"Backend, frontend, mobile, DevOps, game developer",imp_t:"Builds the tools billions use every day."},
+  {n:"Cybersecurity specialist",s:"Technology",ai:90,w:85,m:72,imp:88,em:0,why:"Attackers and defenders constantly evolve. Human creativity is essential on both sides.",study:"Computer science, ethical hacking, certifications. Self-study viable.",ex:"Penetration tester, CISO, security analyst, cloud security engineer",imp_t:"Protects hospitals, banks, governments, and critical infrastructure."},
+  {n:"Robotics engineer",s:"Technology",ai:90,w:85,m:82,imp:90,em:0,why:"Designing machines for physical space requires judgment no AI can replicate alone.",study:"Mechanical engineering + software. University standard.",ex:"Industrial robotics, surgical robots, autonomous vehicles, humanoid robots",imp_t:"Automates dangerous physical work - frees humans for better things."},
+  {n:"Data scientist",s:"Technology",ai:72,w:85,m:68,imp:80,em:0,why:"Interpretation, storytelling, and domain expertise keep humans relevant. Pure analysis at risk.",study:"Statistics, maths, Python, SQL. University or bootcamp.",ex:"Business analyst, ML engineer, research scientist, product analyst",imp_t:"Turns raw data into decisions that affect millions of people."},
+  {n:"UX designer",s:"Technology",ai:75,w:78,m:80,imp:78,em:0,why:"Human behaviour understanding, empathy and taste are deeply human skills.",study:"Design, psychology, HCI. Degree or portfolio-based entry.",ex:"UX researcher, product designer, interaction designer, service designer",imp_t:"Makes technology usable and humane for billions of people."},
+  {n:"Quantum computing researcher",s:"Technology",ai:98,w:80,m:88,imp:95,em:1,why:"Entirely new field of physics and computation. No AI replaces theoretical breakthroughs.",study:"Physics, maths, computer science. PhD usually required.",ex:"Quantum algorithm designer, quantum hardware engineer, error correction specialist",imp_t:"Could solve currently impossible problems in drug discovery, climate, cryptography."},
+  {n:"Brain-computer interface engineer",s:"Technology",ai:92,w:85,m:88,imp:95,em:1,why:"Merging human and machine cognition is the most profound engineering frontier that exists.",study:"Neuroscience + electrical engineering + computer science.",ex:"Neural implant engineer, BCI software developer, clinical BCI researcher",imp_t:"Could restore speech to paralysed people. Redefine what it means to think."},
+  {n:"Blockchain developer",s:"Technology",ai:82,w:80,m:65,imp:72,em:1,why:"Cryptographic systems and decentralised architecture require specialist human expertise.",study:"Computer science, cryptography, Solidity, Rust.",ex:"Smart contract developer, DeFi engineer, crypto protocol designer",imp_t:"Building new financial and governance systems from scratch."},
+  {n:"Edge computing engineer",s:"Technology",ai:85,w:82,m:68,imp:80,em:1,why:"Running AI inference locally on devices requires new hardware and software architectures.",study:"Computer science + distributed systems + hardware knowledge.",ex:"IoT engineer, 5G edge architect, embedded AI developer",imp_t:"Brings AI capabilities to remote areas, hospitals, and devices without internet."},
+  {n:"Surgeon",s:"Healthcare",ai:92,w:92,m:95,imp:95,em:0,why:"Physical precision in unpredictable environments. AI assists but cannot operate.",study:"Medicine (6+ years) + surgical specialisation (5-8 more years).",ex:"Cardiac surgeon, neurosurgeon, orthopaedic surgeon, paediatric surgeon",imp_t:"Saves lives directly with your hands."},
+  {n:"General practitioner",s:"Healthcare",ai:80,w:82,m:90,imp:88,em:0,why:"Diagnosis requires listening, trust, and context AI cannot replicate.",study:"Medicine degree (6 years) + GP training (3 years).",ex:"Family doctor, rural GP, sports medicine GP",imp_t:"Primary health contact for entire communities across lifetimes."},
+  {n:"Psychiatrist",s:"Healthcare",ai:88,w:85,m:95,imp:92,em:0,why:"Mental health requires deep human relationship and judgment. Cannot be automated.",study:"Medicine + psychiatry specialisation (8-10 years total).",ex:"Child psychiatrist, addiction psychiatrist, forensic psychiatrist",imp_t:"Treats invisible illness that destroys lives when left untreated."},
+  {n:"Nurse",s:"Healthcare",ai:85,w:60,m:90,imp:90,em:0,why:"Physical care, emotional presence, and hands-on treatment cannot be replicated by machines.",study:"Nursing degree (3-4 years). Multiple specialisation routes.",ex:"ICU nurse, community nurse, theatre nurse, paediatric nurse",imp_t:"The backbone of healthcare. Patients remember nurses more than doctors."},
+  {n:"Physiotherapist",s:"Healthcare",ai:88,w:65,m:85,imp:82,em:0,why:"Hands-on rehabilitation, movement analysis, and motivation. Profoundly physical work.",study:"Physiotherapy degree (3-4 years).",ex:"Sports physio, neuro-rehab, paediatric physio, musculoskeletal",imp_t:"Restores mobility and independence to people after injury or illness."},
+  {n:"Radiologist",s:"Healthcare",ai:55,w:88,m:70,imp:82,em:0,why:"AI reads scans well - radiologists who work with AI will thrive; those who don\'t are at risk.",study:"Medicine + radiology specialisation (10+ years total).",ex:"Diagnostic radiologist, interventional radiologist, nuclear medicine",imp_t:"Finds cancer, injury, and disease before it becomes fatal."},
+  {n:"Dentist",s:"Healthcare",ai:82,w:80,m:72,imp:78,em:0,why:"Manual dexterity inside the human mouth. Highly resistant to automation.",study:"Dentistry degree (5 years) + optional specialisation.",ex:"General dentist, orthodontist, oral surgeon, periodontist",imp_t:"Oral health directly affects overall health and quality of life."},
+  {n:"Veterinarian",s:"Healthcare",ai:85,w:72,m:88,imp:80,em:0,why:"Animal medicine needs hands, judgment, and empathy across species that can\'t communicate.",study:"Veterinary degree (5-6 years).",ex:"Small animal vet, large animal vet, zoo vet, wildlife conservation vet",imp_t:"Cares for animals and the human bonds people have with them."},
+  {n:"Genetic counsellor",s:"Healthcare",ai:78,w:72,m:88,imp:88,em:1,why:"As genome sequencing becomes universal, humans are needed to interpret results with empathy.",study:"Genetics degree + genetic counselling postgrad.",ex:"Prenatal counsellor, oncogenetics specialist, rare disease counsellor",imp_t:"Helps families understand and prepare for genetic conditions."},
+  {n:"Longevity researcher",s:"Healthcare",ai:90,w:80,m:88,imp:95,em:1,why:"Targeting the biology of ageing is an entirely new field. Decades of human insight needed.",study:"Biology, biochemistry, medicine. PhD standard.",ex:"Senescence researcher, rejuvenation biotech scientist, clinical longevity doctor",imp_t:"Could add decades of healthy life to the human lifespan."},
+  {n:"Pharmacist",s:"Healthcare",ai:68,w:72,m:72,imp:80,em:0,why:"Dispensing automates; clinical pharmacists who advise on complex drug interactions are safer.",study:"Pharmacy degree (4-5 years) + registration.",ex:"Clinical pharmacist, hospital pharmacist, research pharmacist",imp_t:"Prevents dangerous drug errors. Advises on medication for millions."},
+  {n:"Lawyer",s:"Legal",ai:65,w:85,m:70,imp:82,em:0,why:"AI reads contracts; lawyers argue, judge, and navigate ethics and advocacy.",study:"Law degree (3-5 years) + bar qualification.",ex:"Corporate lawyer, criminal barrister, human rights lawyer, patent attorney",imp_t:"Defends rights and shapes the rules society lives by."},
+  {n:"Judge",s:"Legal",ai:80,w:78,m:82,imp:88,em:0,why:"Judicial discretion, contextual wisdom, and accountability require human responsibility.",study:"Law + extensive legal practice (usually 15+ years) before appointment.",ex:"High Court judge, magistrate, tribunal judge, international court",imp_t:"Decides who is innocent, who gets custody, who is compensated."},
+  {n:"Forensic scientist",s:"Legal",ai:72,w:68,m:78,imp:85,em:0,why:"Physical evidence analysis and courtroom expertise require human judgment.",study:"Forensic science, chemistry, biology degree.",ex:"DNA analyst, ballistics expert, digital forensics, crime scene investigator",imp_t:"Finds truth when people lie. Exonerates the innocent."},
+  {n:"Legal tech lawyer",s:"Legal",ai:90,w:88,m:72,imp:80,em:1,why:"The intersection of law and technology is booming. Lawyers who understand AI are rare.",study:"Law degree + computer science or AI knowledge.",ex:"Legal AI product manager, regulatory tech lawyer, data privacy counsel",imp_t:"Shapes the legal framework governing the most powerful technology ever built."},
+  {n:"Policy analyst",s:"Legal",ai:72,w:65,m:78,imp:88,em:0,why:"Policy requires judgment, stakeholder navigation, and democratic accountability.",study:"Politics, economics, law, public administration. University standard.",ex:"Government policy adviser, think-tank researcher, EU regulatory analyst",imp_t:"Writes the rules that govern how millions of people live."},
+  {n:"Primary school teacher",s:"Education",ai:82,w:52,m:92,imp:90,em:0,why:"Child development, mentoring, and classroom management are profoundly human skills.",study:"Teaching degree + QTS/PGCE (3-4 years).",ex:"Reception teacher, SENCO, primary head teacher",imp_t:"Shapes the formative years of every child who passes through a classroom."},
+  {n:"Secondary school teacher",s:"Education",ai:75,w:55,m:90,imp:88,em:0,why:"Inspiring teenagers through a difficult period is irreplaceable human work.",study:"Degree in subject + PGCE or equivalent. Subject mastery required.",ex:"Maths teacher, science teacher, history teacher, PE teacher",imp_t:"The person who changes the direction of a young person\'s life."},
+  {n:"University professor",s:"Education",ai:72,w:70,m:85,imp:85,em:0,why:"Original research, deep mentorship, and academic leadership cannot be automated.",study:"Degree + master + PhD + research career. 10+ years to professorship.",ex:"Economics professor, medical researcher, physics lecturer",imp_t:"Advances human knowledge and trains the next generation of experts."},
+  {n:"Special needs educator",s:"Education",ai:92,w:55,m:95,imp:90,em:0,why:"Adapting to highly individual needs requires extraordinary human sensitivity.",study:"Education degree + SEND specialisation.",ex:"Autism specialist teacher, speech therapist, learning support assistant",imp_t:"Unlocks potential in children who would otherwise be left behind."},
+  {n:"Educational psychologist",s:"Education",ai:85,w:68,m:88,imp:85,em:0,why:"Assessing learning needs and designing interventions is deeply human and contextual.",study:"Psychology degree + postgrad + doctoral training.",ex:"School psychologist, learning difficulty specialist, trauma-informed educator",imp_t:"Identifies why children struggle and gives them a path forward."},
+  {n:"Learning experience designer",s:"Education",ai:75,w:72,m:78,imp:80,em:1,why:"Designing AI-powered but human-led learning experiences is an entirely new field.",study:"Education, instructional design, UX. Often self-taught + portfolio.",ex:"E-learning designer, corporate trainer, AI curriculum developer",imp_t:"Makes knowledge accessible at scale to people who could not otherwise afford it."},
+  {n:"Architect",s:"Design",ai:72,w:75,m:85,imp:85,em:0,why:"AI generates options; architects decide what communities need and bear legal responsibility.",study:"Architecture degree (5-7 years) + professional qualification.",ex:"Building architect, landscape architect, interior architect, urban designer",imp_t:"Shapes the built environment people spend 90% of their lives inside."},
+  {n:"Urban planner",s:"Design",ai:75,w:68,m:82,imp:88,em:0,why:"Planning cities requires democratic processes, stakeholder negotiation, and long-term vision.",study:"Urban planning degree + experience in local government.",ex:"Transport planner, housing policy planner, regeneration specialist",imp_t:"Decides how cities grow, where people live, how they move."},
+  {n:"Industrial designer",s:"Design",ai:70,w:72,m:78,imp:78,em:0,why:"Physical product design for manufacturing requires material knowledge and human taste.",study:"Industrial design or product design degree.",ex:"Consumer electronics designer, furniture designer, medical device designer",imp_t:"Every object you touch was designed by someone. Good design is invisible."},
+  {n:"Game designer",s:"Design",ai:72,w:72,m:82,imp:78,em:0,why:"Game systems, player psychology, and cultural storytelling are human creative domains.",study:"Computer science or game design degree. Portfolio-led industry.",ex:"Level designer, narrative designer, game director, indie developer",imp_t:"Games are the dominant entertainment medium - they shape culture and behaviour."},
+  {n:"Fashion designer",s:"Design",ai:68,w:65,m:78,imp:65,em:0,why:"Cultural relevance, taste, and trend intuition are resistant to automation.",study:"Fashion design degree or apprenticeship. Portfolio essential.",ex:"Couture designer, sportswear designer, accessories designer",imp_t:"Clothes are identity. Fashion shapes how billions express themselves."},
+  {n:"Sustainable design engineer",s:"Design",ai:80,w:72,m:85,imp:92,em:1,why:"Designing low-carbon materials and circular systems is an entirely new engineering discipline.",study:"Engineering + sustainability postgrad.",ex:"Circular economy designer, biomaterial engineer, green building designer",imp_t:"Redesigning how humanity builds and makes things to avoid climate collapse."},
+  {n:"VR / spatial designer",s:"Design",ai:80,w:78,m:82,imp:80,em:1,why:"Designing virtual and augmented reality environments is a new creative profession.",study:"Game design, architecture, or 3D design. Portfolio-led entry.",ex:"VR world designer, metaverse architect, spatial computing designer",imp_t:"Designs the immersive environments billions of people will increasingly inhabit."},
+  {n:"Civil engineer",s:"Engineering",ai:78,w:78,m:78,imp:88,em:0,why:"Site management, safety responsibility, and community context require human engineers.",study:"Civil engineering degree (4 years) + professional accreditation.",ex:"Structural engineer, bridge engineer, geotechnical engineer, environmental engineer",imp_t:"Builds the infrastructure billions depend on - roads, bridges, clean water."},
+  {n:"Electrical engineer",s:"Engineering",ai:80,w:80,m:75,imp:85,em:0,why:"Power systems, circuit design, and grid management require human oversight.",study:"Electrical engineering degree + accreditation.",ex:"Power systems engineer, electronics engineer, control systems engineer",imp_t:"Keeps the lights on. Powers hospitals, schools, and every device you own."},
+  {n:"Aerospace engineer",s:"Engineering",ai:85,w:85,m:82,imp:88,em:0,why:"Safety-critical design with extreme consequences. Human certification required.",study:"Aerospace engineering degree + industry experience.",ex:"Aerodynamics engineer, avionics engineer, spacecraft systems engineer",imp_t:"Makes flight safe and enables humanity\'s expansion beyond Earth."},
+  {n:"Nuclear engineer",s:"Engineering",ai:90,w:85,m:78,imp:92,em:0,why:"Safety-critical work with legal and physical consequences. Cannot be delegated to AI.",study:"Nuclear engineering or physics degree + extensive training.",ex:"Reactor engineer, nuclear safety analyst, fusion energy researcher",imp_t:"Could provide unlimited clean energy. Also carries civilisational risk if mishandled."},
+  {n:"Biomedical engineer",s:"Engineering",ai:85,w:82,m:88,imp:92,em:0,why:"Designing medical devices requires clinical knowledge no AI can substitute.",study:"Biomedical engineering degree + often clinical training.",ex:"Prosthetics engineer, MRI designer, wearable health device engineer",imp_t:"Invents the tools that diagnose and treat disease."},
+  {n:"Climate / energy engineer",s:"Engineering",ai:85,w:80,m:88,imp:98,em:1,why:"Decarbonising the global energy system is the defining engineering challenge of this century.",study:"Electrical, mechanical, or chemical engineering + energy focus.",ex:"Solar farm engineer, offshore wind engineer, grid storage engineer, hydrogen engineer",imp_t:"Prevents civilisational climate collapse. The most important engineering job."},
+  {n:"Materials scientist",s:"Engineering",ai:85,w:78,m:80,imp:90,em:0,why:"Discovering new materials requires physical intuition and creative experimentation.",study:"Materials science degree + PhD for research roles.",ex:"Battery materials researcher, semiconductor engineer, biomaterials scientist",imp_t:"New materials enable every other technology - batteries, chips, medicines."},
+  {n:"Mechanical engineer",s:"Engineering",ai:78,w:78,m:72,imp:82,em:0,why:"Physical systems, manufacturing, and real-world tolerances require hands-on expertise.",study:"Mechanical engineering degree (4 years).",ex:"Automotive engineer, HVAC engineer, manufacturing engineer, product engineer",imp_t:"Makes machines that do human work - from cars to medical devices."},
+  {n:"Neuroscientist",s:"Science",ai:88,w:68,m:90,imp:95,em:0,why:"Brain science requires physical experiments, animal models, and creative hypothesis generation.",study:"Biology / neuroscience degree + PhD.",ex:"Cognitive neuroscientist, clinical neuroscientist, computational neuroscientist",imp_t:"Unlocking the brain is key to treating depression, Alzheimer\'s, and addiction."},
+  {n:"Climate scientist",s:"Science",ai:85,w:65,m:88,imp:98,em:0,why:"Interpreting complex Earth systems data requires physical intuition and domain expertise.",study:"Physics, maths, Earth sciences + postgrad.",ex:"Atmospheric scientist, oceanographer, glaciologist, climate modeller",imp_t:"Provides the data governments need to act on the climate crisis."},
+  {n:"Biochemist",s:"Science",ai:85,w:70,m:85,imp:90,em:0,why:"Lab work, hypothesis generation, and experimental design require human creativity.",study:"Biochemistry degree + PhD for research.",ex:"Enzyme researcher, metabolomics scientist, structural biologist",imp_t:"Understands the chemical machinery of life. Foundation of medicine and biotech."},
+  {n:"Epidemiologist",s:"Science",ai:80,w:68,m:85,imp:95,em:0,why:"Disease tracking requires field work, population judgment, and government communication.",study:"Medicine or public health + epidemiology postgrad.",ex:"Infectious disease epidemiologist, cancer epidemiologist, global health researcher",imp_t:"Tracks and stops outbreaks before they become pandemics."},
+  {n:"Synthetic biologist",s:"Science",ai:88,w:82,m:88,imp:95,em:1,why:"Engineering biology to produce medicines, materials, and food is entirely new science.",study:"Biology, genetics, bioengineering + PhD.",ex:"Gene circuit designer, biosafety researcher, fermentation engineer",imp_t:"Could eliminate disease, grow meat without animals, and clean up pollution."},
+  {n:"Astrophysicist",s:"Science",ai:88,w:62,m:88,imp:80,em:0,why:"Original theory and observation of the cosmos require human intellectual creativity.",study:"Physics degree + PhD. Very competitive.",ex:"Cosmologist, exoplanet researcher, gravitational wave physicist",imp_t:"Answers the deepest questions about the origin and fate of the universe."},
+  {n:"Marine biologist",s:"Science",ai:82,w:55,m:85,imp:88,em:0,why:"Ocean fieldwork, species identification, and ecosystem understanding need humans on the water.",study:"Marine biology or zoology degree + fieldwork experience.",ex:"Coral reef ecologist, deep sea researcher, fisheries scientist",imp_t:"Monitors and protects ocean ecosystems that produce half the world\'s oxygen."},
+  {n:"Bioinformatician",s:"Science",ai:88,w:80,m:85,imp:92,em:1,why:"Analysing genomic data at scale requires both biological knowledge and computational skill.",study:"Biology + computer science. Bioinformatics postgrad increasingly standard.",ex:"Genomics data scientist, proteomics researcher, clinical bioinformatician",imp_t:"Finds the genetic causes of disease. Enables personalised medicine."},
+  {n:"Computational drug designer",s:"Science",ai:88,w:85,m:88,imp:95,em:1,why:"AI-accelerated drug discovery is revolutionising medicine. Humans direct the search.",study:"Biochemistry or pharmacology + computational chemistry + machine learning.",ex:"Protein structure-based drug designer, AI drug discovery researcher",imp_t:"Discovers medicines in months that previously took decades."},
+  {n:"Entrepreneur",s:"Business",ai:82,w:90,m:88,imp:90,em:0,why:"Vision, risk-taking, team leadership, and creativity are deeply human. AI is a leverage tool.",study:"No formal requirement. Business, tech, or domain expertise all work. Learn by doing.",ex:"Tech startup, restaurant chain, creative studio, social enterprise",imp_t:"Creates jobs, products, and wealth. Changes industries that were stuck."},
+  {n:"Investment banker",s:"Business",ai:58,w:95,m:50,imp:65,em:0,why:"Relationship-driven deals and client trust remain human. Routine analysis automates fast.",study:"Finance, economics, or maths degree + intense graduate recruitment.",ex:"M&A banker, capital markets, leveraged finance, IPO specialist",imp_t:"Allocates capital that funds the companies and infrastructure of tomorrow."},
+  {n:"Venture capitalist",s:"Business",ai:72,w:92,m:68,imp:82,em:0,why:"Pattern recognition about people and markets. Judgment requiring lived experience.",study:"Finance background + operator experience. Relationship-driven entry.",ex:"Early-stage VC, deep tech investor, impact investor",imp_t:"Funds the companies that change the world - or doesn\'t, if they get it wrong."},
+  {n:"Accountant",s:"Business",ai:48,w:72,m:52,imp:65,em:0,why:"Bookkeeping automates fast. Tax strategy, advisory, and complex audit remain human.",study:"Accounting degree + ACA/ACCA/CPA qualification.",ex:"Audit partner, tax adviser, CFO, forensic accountant",imp_t:"Keeps businesses solvent and honest. Finds fraud that costs societies billions."},
+  {n:"ESG analyst",s:"Business",ai:75,w:72,m:85,imp:90,em:1,why:"New field measuring corporate environmental and social impact. Growing fast with regulation.",study:"Finance + sustainability. Degree in either plus CFA or CESGA.",ex:"ESG ratings analyst, sustainable finance banker, impact investment manager",imp_t:"Redirects capital from harmful to beneficial activities at global scale."},
+  {n:"Financial planner",s:"Business",ai:65,w:75,m:72,imp:72,em:0,why:"Trusted relationships and life-stage complexity keep humans relevant.",study:"Finance or economics + CFP qualification.",ex:"Wealth manager, pension adviser, independent financial adviser",imp_t:"Helps ordinary people build security and avoid devastating financial mistakes."},
+  {n:"Management consultant",s:"Business",ai:62,w:88,m:58,imp:70,em:0,why:"Strategic advice, stakeholder trust, and organisational change require human credibility.",study:"Business, economics, or engineering degree. Big 4 / MBB entry routes.",ex:"Strategy consultant, operations consultant, digital transformation partner",imp_t:"Helps large organisations change direction."},
+  {n:"Product manager",s:"Business",ai:72,w:82,m:72,imp:78,em:0,why:"Customer understanding, trade-off judgment, and team coordination need human leaders.",study:"Any degree + product experience. Tech background increasingly valuable.",ex:"B2B product manager, consumer app PM, platform PM, head of product",imp_t:"Decides what gets built. PM decisions affect millions of end users."},
+  {n:"Journalist",s:"Media",ai:58,w:52,m:82,imp:85,em:0,why:"Investigation, source relationships, and editorial judgment remain human. Commodity writing automates.",study:"Journalism degree or English + portfolio. Many routes in.",ex:"Investigative journalist, war correspondent, data journalist, editor",imp_t:"Holds power to account. Without journalism, corruption goes unchecked."},
+  {n:"Documentary filmmaker",s:"Media",ai:72,w:58,m:85,imp:82,em:0,why:"Storytelling, subject trust, and visual narrative are human creative skills.",study:"Film degree or self-taught. Portfolio essential.",ex:"Nature documentary, political documentary, social issue film",imp_t:"Changes public opinion and policy. The best documentaries reshape society."},
+  {n:"Science communicator",s:"Media",ai:75,w:60,m:85,imp:88,em:1,why:"Public understanding of science has never mattered more. Humans do this with authenticity.",study:"Science degree + communication skills. Often self-built platform.",ex:"Science YouTuber, museum curator, science writer, public health communicator",imp_t:"Bridges the gap between researchers and the public."},
+  {n:"Podcast / video creator",s:"Media",ai:68,w:65,m:78,imp:72,em:0,why:"Audience relationship, editorial voice, and authenticity are resistant to AI.",study:"No formal requirement. Build an audience.",ex:"Educational YouTuber, interview podcaster, news creator, comedy creator",imp_t:"Educates and entertains audiences traditional media can\'t reach."},
+  {n:"PR / communications director",s:"Media",ai:58,w:75,m:62,imp:70,em:0,why:"Crisis management, stakeholder relationships, and message strategy need human judgment.",study:"Communications, journalism, or marketing degree.",ex:"Corporate PR, political communications, crisis PR, NGO communications",imp_t:"Shapes how organisations and governments communicate in critical moments."},
+  {n:"Psychologist / therapist",s:"Social",ai:88,w:68,m:95,imp:92,em:0,why:"Mental health requires trust, nuance, and human relationship. AI tools exist but cannot substitute.",study:"Psychology degree + therapy training + clinical hours.",ex:"Clinical psychologist, CBT therapist, child psychologist, trauma therapist",imp_t:"Treats invisible illness that ruins lives when untreated."},
+  {n:"Social worker",s:"Social",ai:82,w:48,m:90,imp:92,em:0,why:"Child protection and crisis support require physical presence and authority.",study:"Social work degree (3-4 years) + registration.",ex:"Child protection officer, addiction counsellor, family support worker",imp_t:"Protects the most vulnerable people in society."},
+  {n:"Humanitarian worker",s:"Social",ai:85,w:42,m:95,imp:95,em:0,why:"Crisis response, community trust, and field logistics require humans on the ground.",study:"International relations, development studies, public health. NGO experience essential.",ex:"UNHCR field officer, MSF doctor, disaster relief coordinator",imp_t:"Saves lives in the most desperate circumstances on Earth."},
+  {n:"Behavioural economist",s:"Social",ai:75,w:75,m:78,imp:85,em:0,why:"Understanding irrational human behaviour requires creative experimental design.",study:"Economics + psychology. Postgrad usually needed.",ex:"Policy nudge designer, consumer behaviour researcher, public health behavioural scientist",imp_t:"Designs interventions that make millions of people healthier and safer."},
+  {n:"Community organiser",s:"Social",ai:90,w:45,m:90,imp:85,em:0,why:"Building trust and mobilising people require authentic human relationships.",study:"No formal path. Political science, social work, or on-the-job experience.",ex:"Political campaign organiser, union organiser, neighbourhood activist",imp_t:"Gives ordinary people power to change the systems that govern their lives."},
+  {n:"Diplomat",s:"Government",ai:88,w:68,m:82,imp:92,em:0,why:"Negotiation, cultural intelligence, and political judgment are entirely human domains.",study:"Politics, international relations, languages. Highly competitive civil service entry.",ex:"Ambassador, trade negotiator, consular officer, UN diplomat",imp_t:"Prevents wars, builds alliances, and manages relations between nations."},
+  {n:"Intelligence analyst",s:"Government",ai:78,w:72,m:75,imp:90,em:0,why:"Synthesising ambiguous information and making judgments under uncertainty needs human minds.",study:"Security studies, languages, maths, computer science. Government entry routes.",ex:"GCHQ analyst, threat intelligence specialist, open-source intelligence researcher",imp_t:"Protects countries from terrorism, espionage, and hostile state actors."},
+  {n:"Military officer",s:"Government",ai:85,w:65,m:78,imp:88,em:0,why:"Leadership under extreme pressure and ethical decision-making are human skills.",study:"Military academy or officer selection. Physical and intellectual demands.",ex:"Army officer, naval officer, RAF pilot officer, special forces",imp_t:"Defends national security and responds to disasters and humanitarian crises."},
+  {n:"Civil servant",s:"Government",ai:62,w:60,m:72,imp:82,em:0,why:"Policy implementation, democratic accountability, and stakeholder management need humans.",study:"Any degree + civil service exams. Fast stream highly competitive.",ex:"Cabinet Office policy adviser, NHS manager, local authority director, regulator",imp_t:"Runs the machinery of the state that provides education, healthcare, and safety."},
+  {n:"Electrician",s:"Trades",ai:96,w:72,m:68,imp:85,em:0,why:"Physical, context-dependent work in varied environments. Extremely difficult to automate.",study:"Apprenticeship (3-5 years). No university needed.",ex:"Domestic electrician, industrial electrician, EV charger installer, solar installer",imp_t:"Society literally stops functioning without electricians."},
+  {n:"Plumber",s:"Trades",ai:95,w:68,m:65,imp:82,em:0,why:"Complex real-world pipe systems in different buildings. Robots cannot navigate this.",study:"Apprenticeship (3-4 years).",ex:"Domestic plumber, commercial plumber, gas engineer, heating engineer",imp_t:"Clean water and sanitation - the most important public health interventions in history."},
+  {n:"Construction worker",s:"Trades",ai:88,w:60,m:62,imp:82,em:0,why:"Construction sites are chaotic, varied environments. Full automation is decades away.",study:"Apprenticeship or on-site training.",ex:"Bricklayer, concrete specialist, formwork carpenter, groundworker",imp_t:"Builds the hospitals, schools, homes, and infrastructure society depends on."},
+  {n:"Quantity surveyor",s:"Trades",ai:68,w:72,m:62,imp:75,em:0,why:"Cost management of complex projects requires negotiation and site judgment.",study:"Quantity surveying degree + RICS accreditation.",ex:"Commercial manager, cost consultant, project quantity surveyor",imp_t:"Controls the budgets of the hospitals and infrastructure being built."},
+  {n:"EV / clean tech installer",s:"Trades",ai:88,w:80,m:80,imp:92,em:1,why:"Electrifying transport and buildings is the defining infrastructure project of the next 30 years.",study:"Electrical engineering or apprenticeship + EV specialisation.",ex:"EV charging network installer, battery system engineer, smart grid engineer",imp_t:"Accelerates the transition away from fossil fuels."},
+  {n:"Site manager",s:"Trades",ai:82,w:72,m:68,imp:80,em:0,why:"Managing crews, resolving problems, and keeping sites safe needs experienced human leadership.",study:"Trade experience + project management qualifications.",ex:"Construction site manager, civil engineering PM, infrastructure project director",imp_t:"Delivers the physical projects that shape cities and communities."},
+  {n:"Chef",s:"Food",ai:82,w:62,m:75,imp:70,em:0,why:"Taste, creativity, and craft are human. Automation exists in fast food; craft food thrives on human skill.",study:"Culinary school or apprenticeship + kitchen experience. No degree needed.",ex:"Executive chef, pastry chef, private chef, R&D chef",imp_t:"Food is culture, comfort, and connection. Great chefs shape how people experience life."},
+  {n:"Food scientist",s:"Food",ai:80,w:72,m:72,imp:82,em:0,why:"Developing new food products and ensuring food safety requires human expertise.",study:"Food science degree.",ex:"Product developer, flavour chemist, nutritional scientist, food safety inspector",imp_t:"Feeds the world more safely and nutritiously. Reduces food waste."},
+  {n:"Alt-protein founder",s:"Food",ai:85,w:82,m:85,imp:95,em:1,why:"Replacing animal agriculture with sustainable protein is one of the most impactful new industries.",study:"Biology, food science, engineering + entrepreneurship.",ex:"Cultivated meat founder, precision fermentation scientist, plant-based food technologist",imp_t:"Could eliminate factory farming and dramatically reduce carbon emissions from food."},
+  {n:"Hospitality manager",s:"Food",ai:72,w:62,m:68,imp:68,em:0,why:"Guest experience, team leadership, and crisis management need human judgment and warmth.",study:"Hospitality management degree or worked-up experience.",ex:"Hotel general manager, restaurant manager, events director",imp_t:"Creates the experiences that make travel, celebration, and rest memorable."},
+  {n:"Commercial pilot",s:"Transport",ai:65,w:78,m:68,imp:75,em:0,why:"Regulatory and safety requirements keep humans flying for the foreseeable future.",study:"Private pilot licence + commercial licence + airline type rating.",ex:"Commercial airline pilot, cargo pilot, helicopter pilot, test pilot",imp_t:"Moves millions of people and billions in goods safely across the world."},
+  {n:"Air traffic controller",s:"Transport",ai:72,w:75,m:72,imp:85,em:0,why:"Real-time judgment in safety-critical environments. AI assists but human accountability remains.",study:"Specific ATC training programmes. No prior degree usually needed.",ex:"En route controller, approach controller, aerodrome controller",imp_t:"Prevents mid-air collisions. Manages the flow of global aviation."},
+  {n:"Logistics manager",s:"Transport",ai:65,w:72,m:60,imp:78,em:0,why:"Disruption, supplier relationships, and geopolitical judgment need human expertise.",study:"Supply chain, logistics, or business degree.",ex:"Procurement manager, warehouse director, global supply chain analyst",imp_t:"Keeps goods flowing. COVID showed what happens when supply chains fail."},
+  {n:"Autonomous vehicle engineer",s:"Transport",ai:92,w:88,m:78,imp:88,em:1,why:"Building self-driving systems is one of the hardest engineering problems of our time.",study:"Computer science + robotics + machine learning.",ex:"Perception engineer, safety engineer, simulation engineer, HD mapping specialist",imp_t:"Could eliminate 90% of road deaths caused by human error."},
+  {n:"Drone fleet manager",s:"Transport",ai:80,w:65,m:62,imp:75,em:1,why:"Urban air mobility and delivery drones are an emerging industry needing skilled humans.",study:"Drone pilot licence + systems engineering background.",ex:"Commercial drone operator, delivery network manager, aerial survey specialist",imp_t:"Transforms last-mile delivery and emergency medical supply in remote areas."},
+  {n:"Farmer / agronomist",s:"Environment",ai:75,w:58,m:78,imp:88,em:0,why:"Precision agriculture and AI tools make farming more efficient, not obsolete.",study:"Agriculture degree or family farm experience + ongoing learning.",ex:"Arable farmer, precision agriculture consultant, vertical farm technician",imp_t:"Feeds the world. One of the most fundamental human activities."},
+  {n:"Environmental scientist",s:"Environment",ai:82,w:62,m:88,imp:95,em:0,why:"Field sampling, ecosystem assessment, and environmental advocacy need human scientists.",study:"Environmental science, ecology, or earth sciences degree.",ex:"Wildlife ecologist, environmental impact assessor, conservation biologist",imp_t:"Monitors and protects the ecosystems that make life on Earth possible."},
+  {n:"Rewilding specialist",s:"Environment",ai:88,w:52,m:90,imp:95,em:1,why:"Restoring damaged ecosystems is a booming field with enormous environmental stakes.",study:"Ecology, conservation biology, zoology degree + fieldwork.",ex:"Rewilding project manager, species reintroduction specialist, habitat restoration ecologist",imp_t:"Brings species back from the brink of extinction. Rebuilds biodiversity."},
+  {n:"Water engineer",s:"Environment",ai:85,w:72,m:82,imp:95,em:0,why:"Water scarcity is the defining humanitarian crisis of the coming decades.",study:"Civil or environmental engineering + water systems specialisation.",ex:"Water treatment engineer, irrigation specialist, flood risk engineer, desalination engineer",imp_t:"Provides clean water to communities. Prevents catastrophic drought and flood damage."},
+  {n:"Vertical farm engineer",s:"Environment",ai:82,w:75,m:80,imp:88,em:1,why:"Growing food in cities without soil or seasons is a new industry solving food security.",study:"Agriculture + mechanical or electrical engineering.",ex:"Indoor farm systems engineer, hydroponic scientist, urban food systems designer",imp_t:"Grows food anywhere on Earth, regardless of climate."},
+  {n:"Climate tech entrepreneur",s:"Environment",ai:85,w:82,m:90,imp:98,em:1,why:"Building the companies that solve climate change requires technical founders more than ever.",study:"Engineering, science, or business + domain expertise in climate solutions.",ex:"Carbon capture startup founder, green hydrogen entrepreneur, climate software founder",imp_t:"Builds the companies that have a chance of preventing catastrophic climate change."},
+  {n:"Space systems engineer",s:"Space",ai:88,w:85,m:85,imp:90,em:0,why:"Spacecraft design and systems integration require human creativity and safety responsibility.",study:"Aerospace or systems engineering degree.",ex:"Satellite engineer, rocket propulsion engineer, mission design engineer",imp_t:"Builds the systems that provide GPS, weather forecasting, and climate monitoring."},
+  {n:"Astronaut",s:"Space",ai:90,w:75,m:95,imp:88,em:0,why:"Human presence in space for science, exploration, and emergency response. Cannot be replaced.",study:"Science or engineering degree + military / test pilot background. Extremely competitive.",ex:"ISS mission specialist, lunar geologist, commercial space traveller",imp_t:"Extends humanity beyond Earth. The most important long-term human project."},
+  {n:"Fusion energy scientist",s:"Space",ai:92,w:80,m:88,imp:98,em:1,why:"Fusion power could provide unlimited clean energy. The field is finally becoming commercially real.",study:"Physics, nuclear engineering + PhD.",ex:"Plasma physicist, tokamak engineer, inertial confinement researcher",imp_t:"If fusion works, energy poverty ends. Climate change becomes solvable."},
+  {n:"Nanotechnology researcher",s:"Space",ai:90,w:78,m:85,imp:92,em:1,why:"Engineering at the atomic scale is a nascent field with enormous medical and materials applications.",study:"Physics, chemistry, or materials science + PhD.",ex:"Drug delivery nanoparticle designer, nanoelectronics researcher",imp_t:"Could deliver drugs directly to cancer cells. Build computers thousands of times smaller."},
+  {n:"Musician / composer",s:"Arts",ai:70,w:52,m:88,imp:78,em:0,why:"Authentic human emotion and cultural context in music cannot be faked by AI for audiences who care.",study:"Music degree or self-taught. Instrument mastery takes 10+ years.",ex:"Classical composer, music producer, session musician, film score composer",imp_t:"Music is the most universal language. It heals, unites, and defines cultures."},
+  {n:"Visual artist",s:"Arts",ai:58,w:50,m:85,imp:72,em:0,why:"Original vision and cultural voice survive. Commodity illustration is heavily disrupted by AI.",study:"Fine art degree or self-taught. Portfolio essential.",ex:"Fine artist, concept artist, graphic novelist, muralist",imp_t:"Art shapes how societies understand themselves and their history."},
+  {n:"Film director",s:"Arts",ai:72,w:68,m:88,imp:80,em:0,why:"Vision, leadership, and storytelling authority are human. AI generates assets, not films.",study:"Film degree or self-taught. Short film experience essential.",ex:"Feature director, documentary director, TV director, commercial director",imp_t:"Films shape culture, empathy, and political opinion at massive scale."},
+  {n:"Author / novelist",s:"Arts",ai:60,w:48,m:88,imp:78,em:0,why:"Distinctive voice, lived experience, and original ideas separate great writers from AI text.",study:"No formal requirement. English or creative writing degree helpful.",ex:"Literary novelist, genre fiction author, children\'s author, non-fiction author",imp_t:"Books change minds. The best ones reshape entire civilisations."},
+  {n:"Sports coach",s:"Sport",ai:85,w:55,m:82,imp:75,em:0,why:"Motivation, psychological insight, and real-time human observation cannot be automated.",study:"Sports science degree + coaching qualifications + playing experience.",ex:"Elite football coach, athletics coach, sports psychologist, youth development coach",imp_t:"Shapes elite performance and the development of young people through sport."},
+  {n:"Sports medicine doctor",s:"Sport",ai:82,w:78,m:80,imp:78,em:0,why:"Clinical judgment for athletes in complex biomechanical situations requires human expertise.",study:"Medicine + sports medicine specialisation.",ex:"Team doctor, injury rehabilitation specialist, performance medicine physician",imp_t:"Keeps athletes performing safely and extends careers that inspire millions."},
+  {n:"Performance data analyst",s:"Sport",ai:65,w:65,m:68,imp:72,em:1,why:"AI processes data but humans interpret what it means for specific athletes and tactics.",study:"Statistics, data science, or sports science degree.",ex:"Football analyst, cricket data scientist, Formula 1 performance engineer",imp_t:"Provides the marginal gains that decide championships."},
+  {n:"Firefighter",s:"Emergency",ai:95,w:58,m:88,imp:92,em:0,why:"Unpredictable physical environments, life-or-death decisions. Cannot be automated.",study:"Physical fitness tests + fire service training programme.",ex:"Watch commander, technical rescue specialist, wildfire fighter",imp_t:"Saves lives from fire, flood, and industrial disasters."},
+  {n:"Paramedic",s:"Emergency",ai:88,w:55,m:88,imp:92,em:0,why:"Pre-hospital emergency care requires clinical judgment and physical intervention in chaotic settings.",study:"Paramedic science degree or apprenticeship.",ex:"Advanced paramedic, critical care paramedic, air ambulance paramedic",imp_t:"The first clinical contact in a life-threatening emergency."},
+  {n:"Police detective",s:"Emergency",ai:80,w:58,m:78,imp:85,em:0,why:"Investigation requires human intuition, interview skills, and community relationships.",study:"Police service entry + detective specialisation.",ex:"Homicide detective, cybercrime detective, financial crime investigator",imp_t:"Finds the truth when people have been harmed and ensures perpetrators face justice."},
+  {n:"Search and rescue specialist",s:"Emergency",ai:92,w:55,m:90,imp:90,em:0,why:"Physical rescue in mountain, sea, or disaster environments. Requires human courage and adaptability.",study:"Military or coastguard route + specialist training.",ex:"Mountain rescue, lifeboat crew, urban search and rescue specialist",imp_t:"Pulls people out of situations they cannot escape from alone."},
+  {n:"Personal trainer",s:"Wellbeing",ai:85,w:55,m:80,imp:72,em:0,why:"Motivation, physical coaching, and genuine human relationship drive results AI apps cannot replicate.",study:"Level 3 personal training qualification. Self-employed route common.",ex:"Gym PT, online coach, strength and conditioning coach, rehabilitation trainer",imp_t:"Improves physical health and confidence of individuals."},
+  {n:"Mental health counsellor",s:"Wellbeing",ai:88,w:52,m:92,imp:88,em:0,why:"Counselling requires unconditional positive regard and authentic human empathy.",study:"Counselling degree or postgrad + clinical hours + accreditation.",ex:"IAPT counsellor, private therapist, school counsellor, workplace wellbeing counsellor",imp_t:"Provides talking therapy to people before they reach crisis point."},
+  {n:"Nutritionist / dietitian",s:"Wellbeing",ai:72,w:55,m:72,imp:75,em:0,why:"Clinical nutrition requires individual context and medical knowledge. Apps replace generic advice only.",study:"Dietetics or nutrition degree + registration.",ex:"NHS dietitian, sports nutritionist, eating disorder specialist, paediatric dietitian",imp_t:"Diet is the foundation of health. Good nutritional guidance prevents chronic disease."},
+  {n:"Sleep scientist",s:"Wellbeing",ai:82,w:65,m:78,imp:80,em:1,why:"Sleep research is an exploding field as its role in health and longevity becomes clear.",study:"Neuroscience or medicine + sleep medicine specialisation.",ex:"Sleep disorder clinician, circadian rhythm researcher, performance sleep coach",imp_t:"Treating sleep disorders reduces heart disease, depression, and dementia."},
+  {n:"Philosopher / ethicist",s:"Humanities",ai:85,w:52,m:88,imp:88,em:0,why:"Original thought about how we should live and govern AI is more important than ever.",study:"Philosophy degree + postgrad. Academic or applied ethics routes.",ex:"AI ethics researcher, bioethicist, business ethicist, academic philosopher",imp_t:"Provides the frameworks societies use to decide what is right and wrong."},
+  {n:"Historian",s:"Humanities",ai:80,w:52,m:80,imp:78,em:0,why:"Archival research, narrative construction, and contextual interpretation remain human work.",study:"History degree + PhD for academic route.",ex:"Medieval historian, contemporary historian, public historian, museum curator",imp_t:"Preserves collective memory. Prevents the repetition of catastrophic mistakes."},
+  {n:"Archaeologist",s:"Humanities",ai:80,w:48,m:80,imp:78,em:0,why:"Physical excavation, artefact interpretation, and site management require human presence.",study:"Archaeology degree + fieldwork + often postgrad.",ex:"Field archaeologist, maritime archaeologist, archaeological conservator",imp_t:"Recovers the lost knowledge of human civilisations that would otherwise be gone forever."},
+  {n:"Linguist / translator",s:"Humanities",ai:52,w:55,m:72,imp:75,em:0,why:"Machine translation is very good. Literary translation and endangered language work remain human.",study:"Languages degree + specialisation. Native speaker advantage matters.",ex:"Literary translator, diplomatic interpreter, endangered language preservationist",imp_t:"Enables communication across cultures. Preserves dying languages and their knowledge."},
+  {n:"CEO / executive leader",s:"Business",ai:78,w:90,m:75,imp:85,em:0,why:"Vision, culture, accountability, and human motivation are irreducibly human leadership skills.",study:"No fixed path. Usually decades of experience and a track record. MBA helpful.",ex:"FTSE CEO, NGO director, startup founder-CEO, public sector chief executive",imp_t:"The decisions of a few hundred people in these roles affect millions of employees and communities."},
+  {n:"HR director",s:"Business",ai:65,w:72,m:72,imp:75,em:0,why:"Organisational culture, talent judgment, and conflict resolution require human wisdom.",study:"HR degree or CIPD qualification. People experience route common.",ex:"Chief people officer, HR business partner, diversity and inclusion director",imp_t:"Shapes how hundreds or thousands of people experience their working lives."},
+  {n:"Actuary",s:"Business",ai:60,w:85,m:58,imp:75,em:0,why:"Insurance pricing automates; actuaries who work with AI on novel risk models are safe.",study:"Maths or statistics degree plus professional actuarial exams (5-10 years).",ex:"Insurance actuary, pension actuary, climate risk actuary",imp_t:"Quantifies risk that underpins insurance, pensions, and financial stability."},
+  {n:"Optical / photonics engineer",s:"Deep Tech",ai:90,w:80,m:78,imp:88,em:1,why:"Photonic computing and optical communications are replacing electronics in some applications.",study:"Physics plus optical engineering degree.",ex:"LiDAR engineer, optical fibre designer, photonic chip developer",imp_t:"Builds the light-based systems that will underpin next-generation computing and communications."},
+  {n:"Digital twin architect",s:"Deep Tech",ai:85,w:82,m:72,imp:85,em:1,why:"Building virtual replicas of physical systems for simulation is a new specialism.",study:"Engineering plus data science plus simulation software skills.",ex:"Smart city digital twin engineer, manufacturing digital twin specialist",imp_t:"Optimises hospitals, factories, and cities before changes are made in the real world."},
+  {n:"Quantum sensor engineer",s:"Deep Tech",ai:92,w:82,m:80,imp:90,em:1,why:"Quantum sensing for navigation, medical imaging, and geology is an entirely new hardware field.",study:"Physics plus engineering plus PhD often required.",ex:"Quantum gravimeter developer, quantum clock engineer, medical quantum imaging specialist",imp_t:"Could replace GPS, revolutionise brain imaging, and find underground minerals without drilling."},
+  {n:"Space mining engineer",s:"Deep Tech",ai:88,w:85,m:82,imp:88,em:1,why:"Extracting resources from asteroids and the Moon is an entirely new engineering domain.",study:"Mining engineering plus aerospace engineering plus robotics.",ex:"Asteroid mining system designer, lunar resource extraction engineer",imp_t:"Could provide unlimited rare earth metals without destroying Earths ecosystems."},
+  {n:"Neuromorphic chip designer",s:"Deep Tech",ai:92,w:88,m:80,imp:92,em:1,why:"Building chips that mimic the brain architecture is a frontier with no clear AI substitute.",study:"Electrical engineering plus neuroscience plus computer architecture.",ex:"Brain-inspired processor designer, neuromorphic systems engineer",imp_t:"Could make AI 1000x more energy efficient. Critical for sustainable computing."},
+  {n:"Synthetic media researcher",s:"Deep Tech",ai:80,w:75,m:72,imp:80,em:1,why:"Understanding and detecting synthetic media requires human creativity and adversarial thinking.",study:"Computer science plus media studies plus machine learning.",ex:"Deepfake detection researcher, AI content verifier, synthetic media ethicist",imp_t:"Fights disinformation and protects democratic processes from manipulated media."},
+  {n:"Nurse practitioner",s:"Healthcare",ai:82,w:68,m:88,imp:88,em:0,why:"Advanced clinical judgment and autonomous practice require deep human expertise and trust.",study:"Nursing degree plus advanced practice masters degree.",ex:"Nurse practitioner, clinical nurse specialist, nurse anaesthetist",imp_t:"Expands access to healthcare in areas with few doctors."},
+  {n:"Midwife",s:"Healthcare",ai:88,w:60,m:92,imp:88,em:0,why:"Birth is one of the most intimate and unpredictable human experiences. Cannot be automated.",study:"Midwifery degree (3-4 years) plus registration.",ex:"Community midwife, hospital midwife, independent midwife",imp_t:"Supports mothers and newborns through one of the most critical moments of life."},
+  {n:"Occupational therapist",s:"Healthcare",ai:86,w:62,m:85,imp:82,em:0,why:"Adapting environments and activities to individual needs requires deep human judgment.",study:"Occupational therapy degree (3-4 years) plus registration.",ex:"Paediatric OT, neuro-rehab OT, mental health OT, workplace OT",imp_t:"Restores independence to people who have lost function through illness or injury."},
+  {n:"Speech and language therapist",s:"Healthcare",ai:85,w:62,m:88,imp:85,em:0,why:"Diagnosing and treating communication disorders requires nuanced human interaction.",study:"Speech and language therapy degree (3-4 years).",ex:"Paediatric SLT, stroke rehabilitation SLT, voice disorder specialist",imp_t:"Gives a voice to people who have lost or never had the ability to communicate."},
+  {n:"Palliative care doctor",s:"Healthcare",ai:85,w:75,m:98,imp:92,em:0,why:"End of life care is one of the most profound human responsibilities. Cannot be delegated.",study:"Medicine plus palliative care specialisation.",ex:"Hospice doctor, palliative care consultant, pain management specialist",imp_t:"Ensures people die with dignity, comfort, and the people they love around them."},
+  {n:"Public health official",s:"Healthcare",ai:75,w:68,m:82,imp:95,em:0,why:"Population-level health decisions require political judgment and community trust.",study:"Medicine or public health degree plus postgrad in public health.",ex:"Chief Medical Officer, public health director, WHO officer, epidemiology lead",imp_t:"Protects entire populations from disease. COVID showed the stakes."},
+  {n:"Immunologist",s:"Science",ai:85,w:75,m:85,imp:92,em:0,why:"The immune system is extraordinarily complex. Creative experimental design is essential.",study:"Biology or medicine degree plus PhD.",ex:"Vaccine researcher, autoimmune disease specialist, cancer immunotherapy researcher",imp_t:"Develops vaccines and cancer treatments that save millions of lives."},
+  {n:"Geneticist",s:"Science",ai:85,w:75,m:85,imp:92,em:0,why:"Interpreting genomes, designing gene therapies, and making ethical decisions require human expertise.",study:"Genetics or molecular biology degree plus PhD.",ex:"Human geneticist, plant geneticist, forensic geneticist, gene therapy researcher",imp_t:"Unlocks the code of life. Enables treatments for genetic diseases that currently have none."},
+  {n:"Psychopharmacologist",s:"Science",ai:82,w:78,m:85,imp:90,em:1,why:"Designing drugs that target the brain requires deep understanding of both chemistry and behaviour.",study:"Pharmacology or neuroscience degree plus PhD.",ex:"Antidepressant researcher, psychedelic therapy scientist, addiction pharmacologist",imp_t:"Developing new treatments for depression, PTSD, and addiction affecting hundreds of millions."},
+  {n:"Volcanologist",s:"Science",ai:85,w:62,m:85,imp:82,em:0,why:"Real-time monitoring and interpretation of volcanic systems requires human expertise in the field.",study:"Earth sciences or geophysics degree plus postgrad.",ex:"Volcano observatory scientist, pyroclastic flow researcher, geothermal energy researcher",imp_t:"Saves lives by predicting eruptions and enabling evacuations."},
+  {n:"Graphic designer",s:"Design",ai:55,w:60,m:72,imp:68,em:0,why:"Original creative direction and brand strategy survive. Execution-only design is heavily disrupted.",study:"Graphic design degree or self-taught with strong portfolio.",ex:"Brand identity designer, editorial designer, motion graphics designer, art director",imp_t:"Visual communication shapes how people perceive organisations, products, and ideas."},
+  {n:"Sound designer",s:"Design",ai:68,w:62,m:80,imp:72,em:0,why:"Emotional impact through sound requires deep human artistic judgment and cultural sensitivity.",study:"Sound design degree or self-taught. Portfolio essential.",ex:"Film sound designer, game audio director, spatial audio researcher",imp_t:"Sound shapes 50% of the emotional experience of film, games, and virtual reality."},
+  {n:"Landscape architect",s:"Design",ai:75,w:68,m:80,imp:82,em:0,why:"Designing outdoor spaces requires understanding ecology, culture, and community needs.",study:"Landscape architecture degree (4-5 years) plus professional registration.",ex:"Park designer, urban green space planner, ecological landscape designer",imp_t:"Creates the parks, gardens, and green spaces that improve mental and physical health."},
+  {n:"Welder / fabricator",s:"Trades",ai:82,w:62,m:60,imp:78,em:0,why:"Precision welding in varied environments is extremely difficult to automate reliably.",study:"Apprenticeship or trade school (2-3 years). Certifications matter.",ex:"Structural welder, pipeline welder, aerospace fabricator, underwater welder",imp_t:"Joins the structures that hold bridges, ships, buildings, and aircraft together."},
+  {n:"HVAC engineer",s:"Trades",ai:82,w:68,m:60,imp:78,em:0,why:"Heating, ventilation, and air conditioning systems in varied buildings require hands-on expertise.",study:"Apprenticeship or engineering degree plus certification.",ex:"Commercial HVAC engineer, clean room specialist, building energy manager",imp_t:"Controls the temperature and air quality in hospitals, offices, and homes."},
+  {n:"Railway engineer",s:"Trades",ai:80,w:72,m:68,imp:82,em:0,why:"Complex safety-critical infrastructure with regulatory accountability requires human engineers.",study:"Civil or mechanical engineering degree plus rail industry training.",ex:"Track engineer, signalling engineer, railway systems engineer",imp_t:"Keeps trains running safely. One of the most important transport systems on Earth."},
+  {n:"Tax inspector",s:"Government",ai:65,w:62,m:60,imp:78,em:0,why:"Complex tax investigation, judgment calls, and legal proceedings require human expertise.",study:"Accounting or law degree plus civil service or tax authority training.",ex:"Revenue investigator, transfer pricing specialist, customs officer",imp_t:"Collects the revenue that funds schools, hospitals, and public services."},
+  {n:"Urban economist",s:"Government",ai:72,w:70,m:75,imp:82,em:0,why:"Modelling city economies and advising on housing, transport, and growth requires human judgment.",study:"Economics degree plus postgrad in urban economics or public policy.",ex:"Housing economist, transport economist, local authority economic adviser",imp_t:"Shapes decisions about where homes get built and how cities afford to grow."},
+  {n:"Elite athlete",s:"Sport",ai:98,w:62,m:85,imp:75,em:0,why:"The human body competing is the point. Cannot be replaced by machines. That would be a different sport.",study:"Childhood sporting development plus elite coaching plus years of competition.",ex:"Sprinter, swimmer, gymnast, road cyclist, triathlete, football professional",imp_t:"Inspires entire nations and generations of young people to pursue physical excellence."},
+  {n:"Sports journalist",s:"Sport",ai:58,w:55,m:72,imp:68,em:0,why:"Athlete relationships, insider access, and storytelling remain human. Match reports automate.",study:"Journalism degree plus sports specialism. Portfolio essential.",ex:"Football correspondent, athletics broadcaster, sports podcast host",imp_t:"Connects fans to the sports they love and holds sporting institutions to account."},
+  {n:"Coast guard / maritime rescue",s:"Emergency",ai:90,w:55,m:88,imp:90,em:0,why:"Open water rescue in unpredictable conditions requires human judgment and physical presence.",study:"Coastguard or naval route plus specialist rescue training.",ex:"RNLI crew member, coastguard officer, maritime search and rescue pilot",imp_t:"Saves sailors, swimmers, and migrants at sea in life-threatening conditions."},
+  {n:"Disaster risk manager",s:"Emergency",ai:80,w:65,m:82,imp:90,em:0,why:"Coordinating multi-agency disaster response requires human leadership and improvisation.",study:"Emergency management degree or military or civil service background.",ex:"Civil emergency planner, UN disaster risk reduction specialist",imp_t:"Plans the systems that save thousands of lives when earthquakes, floods, or pandemics strike."},
+  {n:"Addiction counsellor",s:"Wellbeing",ai:88,w:50,m:90,imp:88,em:0,why:"Recovery from addiction requires sustained human relationship, trust, and lived experience empathy.",study:"Counselling degree plus addiction specialisation.",ex:"Residential rehab counsellor, 12-step facilitator, harm reduction worker",imp_t:"Helps people escape addiction that destroys health, relationships, and life chances."},
+  {n:"Life coach",s:"Wellbeing",ai:72,w:55,m:75,imp:68,em:0,why:"Accountability, challenge, and genuine human relationship drive coaching outcomes.",study:"Coaching qualification (ICF accredited). No formal degree required.",ex:"Executive life coach, career transition coach, performance coach",imp_t:"Helps people make difficult transitions and live more intentionally."},
+  {n:"Music therapist",s:"Arts",ai:90,w:50,m:90,imp:82,em:0,why:"Using music to treat neurological and psychological conditions requires trained human judgment.",study:"Music therapy degree (postgrad level typically).",ex:"Dementia music therapist, PTSD music therapist, paediatric music therapist",imp_t:"Reaches patients who cannot be reached by conventional therapy including dementia and autism."},
+  {n:"Theatre director",s:"Arts",ai:80,w:52,m:88,imp:75,em:0,why:"Live performance, actor relationships, and spatial storytelling are irreducibly human arts.",study:"Theatre direction degree or acting background plus assistant directing experience.",ex:"National Theatre director, opera director, fringe theatre director",imp_t:"Live theatre is one of the few remaining communal cultural experiences."},
+  {n:"Choreographer",s:"Arts",ai:85,w:48,m:88,imp:72,em:0,why:"Creating movement that communicates human emotion is an embodied creative practice.",study:"Dance degree or conservatoire training plus years of performance experience.",ex:"Ballet choreographer, contemporary dance artist, music video choreographer",imp_t:"Communicates human emotion and cultural identity through the body."},
+  {n:"Maritime officer",s:"Transport",ai:75,w:68,m:62,imp:78,em:0,why:"Command of vessels in international waters requires licensed human officers for safety and law.",study:"Maritime academy plus officer training (4-5 years).",ex:"Ship captain, first officer, marine engineer, port captain",imp_t:"Moves 90% of global trade. Without maritime shipping, the global economy collapses."},
+  {n:"Hydrologist",s:"Environment",ai:82,w:65,m:80,imp:90,em:0,why:"Understanding and managing water cycles requires field measurement and complex modelling.",study:"Hydrology, civil engineering, or earth sciences degree.",ex:"Flood risk modeller, groundwater specialist, river restoration hydrologist",imp_t:"Manages the water resources that billions of people depend on for drinking, farming, and industry."},
+  {n:"Soil scientist",s:"Environment",ai:82,w:60,m:78,imp:88,em:0,why:"Soil health is the foundation of all agriculture. Field assessment requires physical expertise.",study:"Soil science, agriculture, or environmental science degree.",ex:"Agricultural soil scientist, land remediation specialist, carbon sequestration researcher",imp_t:"Healthy soil feeds the world and stores carbon. Degraded soil leads to famine."},
+  {n:"Wildlife ranger",s:"Environment",ai:90,w:42,m:85,imp:88,em:0,why:"Protecting wildlife in the field requires physical presence and local knowledge no AI can substitute.",study:"Conservation or ranger training. Field experience essential.",ex:"National park ranger, anti-poaching ranger, marine park officer",imp_t:"Protects species from poaching and habitat destruction. The last line of defence for wildlife."},
+  {n:"Carbon market specialist",s:"Environment",ai:72,w:75,m:78,imp:88,em:1,why:"Designing and verifying carbon offset markets requires human judgment about complex ecological systems.",study:"Environmental science or finance plus carbon markets training.",ex:"Carbon credit verifier, emissions trading specialist, nature-based solutions financier",imp_t:"Directs billions of dollars toward the projects that absorb carbon from the atmosphere."},
+  {n:"Sales representative",s:"Sales & Marketing",ai:62,w:72,m:62,imp:68,em:0,why:"Trust, persuasion, and relationship-building are human. AI qualifies leads but cannot close complex deals.",study:"No formal degree required. Business or communication degree helpful. Learn on the job.",ex:"B2B sales rep, pharmaceutical sales, tech sales, FMCG sales rep",imp_t:"Without sales, no company survives. Every job in every company depends on someone selling."},
+  {n:"Account manager",s:"Sales & Marketing",ai:60,w:75,m:65,imp:70,em:0,why:"Long-term client relationships, renewals, and upselling require genuine human connection and trust.",study:"Business or communication degree. Often promoted from sales rep roles.",ex:"Key account manager, enterprise account manager, client success manager",imp_t:"Keeps businesses running by retaining the customers that took years to win."},
+  {n:"Marketing manager",s:"Sales & Marketing",ai:58,w:75,m:70,imp:75,em:0,why:"Brand strategy, cultural intuition, and creative judgment survive AI. Campaign execution automates.",study:"Marketing degree or business degree with marketing focus. Portfolio matters.",ex:"Brand manager, growth marketer, content marketing manager, campaign manager",imp_t:"Shapes how millions of people perceive and choose products and organisations."},
+  {n:"Digital marketing specialist",s:"Sales & Marketing",ai:52,w:65,m:62,imp:68,em:0,why:"Technical execution is automating fast. Strategy, creative, and audience insight keep humans relevant.",study:"Marketing or communication degree. Google/Meta certifications. Self-taught viable.",ex:"SEO specialist, paid media manager, social media manager, email marketing specialist",imp_t:"Connects products to the right people at scale."},
+  {n:"Brand strategist",s:"Sales & Marketing",ai:68,w:78,m:75,imp:75,em:0,why:"Cultural relevance, storytelling, and taste cannot be automated. Brand is fundamentally human.",study:"Marketing, communication, or design degree. Agency experience common path.",ex:"Brand consultant, creative director, brand planner, chief marketing officer",imp_t:"Defines how organisations are perceived and perception drives billions in value."},
+  {n:"Real estate agent",s:"Sales & Marketing",ai:62,w:72,m:65,imp:68,em:0,why:"Buying a home is the biggest decision of most lives. Trust and local knowledge are irreplaceable.",study:"Real estate licence. No degree required in most countries.",ex:"Residential agent, commercial agent, luxury property specialist, buyers agent",imp_t:"Helps families find homes. One of the most emotional transactions in a human life."},
+  {n:"Financial controller",s:"Finance & Accounting",ai:55,w:80,m:60,imp:72,em:0,why:"Financial oversight, audit judgment, and regulatory accountability require human responsibility.",study:"Accounting degree + ACA/ACCA/CPA qualification + management experience.",ex:"Group financial controller, divisional controller, assistant controller",imp_t:"Ensures the financial integrity of organisations that employ thousands of people."},
+  {n:"CFO / finance director",s:"Finance & Accounting",ai:65,w:90,m:68,imp:80,em:0,why:"Capital allocation strategy, investor relations, and board-level judgment are irreducibly human.",study:"Accounting or finance degree + professional qualification + decades of experience.",ex:"CFO, VP Finance, finance director, group treasurer",imp_t:"Steers the financial health of organisations that define communities and economies."},
+  {n:"Tax adviser",s:"Finance & Accounting",ai:58,w:82,m:58,imp:70,em:0,why:"Complex tax structuring, grey-area judgment, and client relationships survive automation.",study:"Accounting or law degree + tax specialisation qualifications.",ex:"Corporate tax adviser, private client tax lawyer, transfer pricing specialist, VAT consultant",imp_t:"Legally optimises tax for businesses and individuals. Shapes government revenue policy."},
+  {n:"Auditor",s:"Finance & Accounting",ai:52,w:75,m:55,imp:72,em:0,why:"Professional skepticism, judgment calls, and legal accountability keep humans essential.",study:"Accounting degree + ACA/ACCA/CPA + audit firm training.",ex:"External auditor, internal auditor, forensic auditor, IT auditor",imp_t:"Provides the trust that underpins every financial market and investor decision."},
+  {n:"Bookkeeper",s:"Finance & Accounting",ai:28,w:45,m:42,imp:55,em:0,why:"Highly automatable. AI bookkeeping tools already handle most of this. Specialisation or advisory pivot needed.",study:"Bookkeeping qualification. AAT or similar. Short courses sufficient.",ex:"Small business bookkeeper, payroll administrator, accounts assistant",imp_t:"Keeps small businesses financially organised. Unglamorous but essential."},
+  {n:"Insurance broker",s:"Finance & Accounting",ai:60,w:70,m:58,imp:68,em:0,why:"Complex risk assessment for unusual cases and client relationship management keep humans relevant.",study:"Business or finance degree. Insurance qualifications (CII). Often apprenticeship route.",ex:"Commercial insurance broker, marine insurance broker, reinsurance broker",imp_t:"Protects businesses and individuals against risks that would otherwise be catastrophic."},
+  {n:"Mortgage adviser",s:"Finance & Accounting",ai:58,w:65,m:62,imp:68,em:0,why:"Major life decision requiring trust, complex product knowledge, and regulated advice.",study:"Mortgage adviser qualification (CeMAP or equivalent). No degree required.",ex:"Independent mortgage adviser, bank mortgage specialist, commercial mortgage broker",imp_t:"Helps people buy homes. Often the most consequential financial decision of their lives."},
+  {n:"Private equity analyst",s:"Finance & Accounting",ai:62,w:92,m:60,imp:72,em:0,why:"Deal sourcing, management assessment, and value creation judgment require human expertise.",study:"Finance, economics, or engineering degree + investment banking + MBA often.",ex:"PE analyst, associate, principal, portfolio operations manager",imp_t:"Allocates large amounts of capital to transform underperforming businesses."},
+  {n:"Real estate developer",s:"Real Estate",ai:72,w:88,m:70,imp:80,em:0,why:"Site acquisition, planning negotiation, and development risk judgment are deeply human skills.",study:"No fixed path. Civil engineering, architecture, or finance degree common. Learn by doing.",ex:"Residential developer, commercial developer, mixed-use developer, land developer",imp_t:"Creates the homes, offices, and spaces where people live and work."},
+  {n:"Property manager",s:"Real Estate",ai:62,w:60,m:58,imp:65,em:0,why:"Tenant relationships, maintenance coordination, and conflict resolution require human presence.",study:"Property management qualification or real estate degree. Often worked up from agent.",ex:"Residential block manager, commercial property manager, facilities manager",imp_t:"Maintains the quality and safety of the buildings millions of people live and work in."},
+  {n:"Property surveyor",s:"Real Estate",ai:68,w:72,m:62,imp:70,em:0,why:"Physical inspection of buildings and professional liability require human surveyors.",study:"Surveying degree + RICS accreditation.",ex:"Residential surveyor, commercial valuer, building surveyor, party wall surveyor",imp_t:"Protects buyers from purchasing properties with hidden defects."},
+  {n:"Real estate investment analyst",s:"Real Estate",ai:60,w:82,m:62,imp:70,em:0,why:"Market judgment, deal underwriting, and investor relationships keep humans relevant.",study:"Finance or real estate degree. CFA or MRICS qualification.",ex:"REIT analyst, property fund manager, real estate investment banker",imp_t:"Directs billions of institutional capital into the built environment."},
+  {n:"Carpenter / joiner",s:"Trades",ai:90,w:65,m:72,imp:78,em:0,why:"Precision woodwork in varied environments. Custom work requires creativity and skill robots cannot match.",study:"Apprenticeship (3-4 years). City and Guilds or equivalent. No degree needed.",ex:"Site carpenter, joinery manufacturer, furniture maker, shopfitter, restoration carpenter",imp_t:"Builds the kitchens, staircases, windows, and roofs inside every building."},
+  {n:"Bricklayer / mason",s:"Trades",ai:88,w:62,m:65,imp:78,em:0,why:"Laying brick and stone in varied conditions with precision is enormously difficult to automate.",study:"Apprenticeship (2-3 years). No degree needed.",ex:"Bricklayer, stonemason, repointing specialist, heritage restoration mason",imp_t:"Builds and restores the walls of every structure in the built environment."},
+  {n:"Plasterer",s:"Trades",ai:88,w:60,m:60,imp:72,em:0,why:"Achieving a perfect finish on irregular surfaces in real buildings requires skilled human hands.",study:"Apprenticeship (2-3 years).",ex:"Wet plasterer, dry liner, render specialist, heritage plaster restorer",imp_t:"Creates the smooth finished surfaces inside every home, school, and hospital."},
+  {n:"Painter / decorator",s:"Trades",ai:82,w:52,m:58,imp:65,em:0,why:"Prep work, colour matching, and finishing in occupied spaces requires human judgment.",study:"Apprenticeship or self-taught. CSCS card for site work.",ex:"Residential decorator, commercial painter, heritage restoration decorator",imp_t:"Protects and beautifies the built environment billions of people inhabit."},
+  {n:"Roofer",s:"Trades",ai:88,w:62,m:58,imp:72,em:0,why:"Working at height in variable weather on different roof types resists automation.",study:"Apprenticeship (2-3 years).",ex:"Flat roofer, pitched roofer, solar panel installer, green roof specialist",imp_t:"Keeps every building weatherproof. Critical for energy efficiency and structural integrity."},
+  {n:"Scaffolder",s:"Trades",ai:85,w:62,m:55,imp:72,em:0,why:"Erecting safe temporary structures in complex environments requires human judgment and teamwork.",study:"CISRS scaffolding card. On-the-job training.",ex:"Tube and fitting scaffolder, system scaffolder, industrial scaffolder",imp_t:"Makes it possible to build and repair every structure above ground level."},
+  {n:"Landscape gardener",s:"Trades",ai:82,w:55,m:70,imp:70,em:0,why:"Designing and maintaining outdoor spaces in varied conditions requires physical skill and aesthetic judgment.",study:"Horticulture qualification or apprenticeship. RHS qualifications.",ex:"Garden designer, commercial landscaper, grounds maintenance operative, arborist",imp_t:"Creates and maintains green spaces that improve mental health and biodiversity."},
+  {n:"Vehicle mechanic",s:"Automotive",ai:72,w:62,m:65,imp:72,em:0,why:"Diagnosing complex faults in real vehicles requires physical skill and creative troubleshooting.",study:"Apprenticeship (3-4 years). IMI qualifications.",ex:"Car mechanic, HGV technician, motorcycle mechanic, MOT tester",imp_t:"Keeps the vehicles that move people and goods safely on the road."},
+  {n:"EV / automotive engineer",s:"Automotive",ai:82,w:80,m:75,imp:85,em:1,why:"Designing electric vehicles and battery systems is a booming field requiring human engineers.",study:"Mechanical or electrical engineering degree + automotive specialisation.",ex:"EV powertrain engineer, battery engineer, autonomous systems engineer, NVH engineer",imp_t:"Designs the vehicles that will replace fossil fuel transport globally."},
+  {n:"Warehouse manager",s:"Logistics",ai:60,w:58,m:55,imp:68,em:0,why:"Team leadership, exception handling, and safety management require human oversight.",study:"Logistics or supply chain degree or worked up from operative role.",ex:"Distribution centre manager, 3PL manager, e-commerce warehouse manager",imp_t:"Ensures the goods people order arrive safely and on time."},
+  {n:"Freight / shipping broker",s:"Logistics",ai:62,w:65,m:58,imp:70,em:0,why:"Negotiating rates, managing exceptions, and building carrier relationships require human expertise.",study:"Logistics or business degree. CILT qualification.",ex:"Freight forwarder, customs broker, shipping agent, air freight broker",imp_t:"Moves goods across borders that keep global trade functioning."},
+  {n:"Supply chain director",s:"Logistics",ai:65,w:82,m:68,imp:80,em:0,why:"Geopolitical risk, supplier relationships, and resilience strategy require senior human judgment.",study:"Engineering, logistics, or business degree + MBA often. Long career progression.",ex:"Chief supply chain officer, VP procurement, global operations director",imp_t:"Ensures the flow of goods that stocks every supermarket, hospital, and factory."},
+  {n:"Hotel general manager",s:"Hospitality",ai:72,w:68,m:68,imp:65,em:0,why:"Guest experience, team culture, and crisis management require experienced human leadership.",study:"Hospitality management degree or worked up from front desk.",ex:"5-star hotel GM, boutique hotel owner, resort manager, hotel chain regional director",imp_t:"Creates the experience that makes travel memorable and builds tourism economies."},
+  {n:"Travel agent / tour operator",s:"Hospitality",ai:58,w:55,m:65,imp:62,em:0,why:"Complex itineraries, specialist destinations, and trusted advice keep human experts valuable.",study:"Tourism degree or travel industry training. IATA qualifications.",ex:"Luxury travel agent, adventure tour operator, corporate travel manager, cruise specialist",imp_t:"Enables people to experience the world. Tourism employs 10% of the global workforce."},
+  {n:"Event manager",s:"Hospitality",ai:68,w:60,m:72,imp:68,em:0,why:"On-the-ground coordination, supplier management, and real-time problem-solving are human.",study:"Events management degree or worked up from coordinator role.",ex:"Wedding planner, corporate events manager, festival director, conference organiser",imp_t:"Creates the gatherings where humans celebrate, connect, and do business."},
+  {n:"Optometrist",s:"Healthcare",ai:72,w:72,m:75,imp:78,em:0,why:"Clinical eye examination requires physical instruments and patient interaction AI cannot replace.",study:"Optometry degree (4 years) + pre-registration year.",ex:"High street optometrist, hospital optometrist, contact lens specialist, low vision specialist",imp_t:"Detects eye disease and provides vision correction for billions of people."},
+  {n:"Podiatrist",s:"Healthcare",ai:82,w:60,m:72,imp:72,em:0,why:"Foot care requires hands-on physical treatment that cannot be automated.",study:"Podiatry degree (3 years) + registration.",ex:"NHS podiatrist, private podiatrist, sports podiatrist, diabetic foot specialist",imp_t:"Prevents amputations and maintains mobility in diabetic and elderly patients."},
+  {n:"Radiographer",s:"Healthcare",ai:68,w:62,m:75,imp:80,em:0,why:"Patient positioning, scanner operation, and quality judgment require trained human radiographers.",study:"Radiography degree (3 years) + registration.",ex:"Diagnostic radiographer, therapeutic radiographer, MRI specialist",imp_t:"Produces the images that diagnose cancer, broken bones, and internal injuries."},
+  {n:"Corporate trainer",s:"Education",ai:65,w:65,m:72,imp:72,em:0,why:"Facilitation, group dynamics, and behaviour change require human trainers who read the room.",study:"Subject expertise + training qualification (CIPD L&D). No fixed degree.",ex:"Sales trainer, leadership development facilitator, onboarding specialist, skills coach",imp_t:"Develops the capabilities of workforces that drive organisational performance."},
+  {n:"Private tutor",s:"Education",ai:68,w:50,m:82,imp:78,em:0,why:"One-to-one learning is the most effective form of education. Human tutors adapt in real time.",study:"Subject degree + teaching experience. No formal qualification required.",ex:"Maths tutor, music teacher, language tutor, university entrance coach",imp_t:"Gives children personalised attention that transforms academic outcomes."},
+  {n:"Solicitor",s:"Legal",ai:62,w:80,m:68,imp:78,em:0,why:"Client-facing legal advice, contracts, and professional liability require human lawyers.",study:"Law degree + LPC/SQE + training contract.",ex:"Conveyancing solicitor, family law solicitor, commercial solicitor, notary public",imp_t:"Handles the legal transactions that underpin property, business, and family life."},
+  {n:"Paralegal",s:"Legal",ai:55,w:50,m:60,imp:68,em:0,why:"Research and document review automate fast. Client-facing and complex judgment work remains.",study:"Paralegal qualification or law degree. CILEX route.",ex:"Litigation paralegal, conveyancing paralegal, immigration paralegal",imp_t:"Supports the legal system that protects rights and resolves disputes."},
+  {n:"Compliance officer",s:"Legal",ai:62,w:72,m:62,imp:75,em:0,why:"Regulatory judgment, grey areas, and accountability require human compliance professionals.",study:"Law, finance, or business degree + compliance qualifications (ICA).",ex:"Financial compliance officer, data protection officer, healthcare compliance manager",imp_t:"Ensures organisations operate within the law and protect the public from harm."},
+  {n:"Copywriter",s:"Media",ai:42,w:55,m:65,imp:65,em:0,why:"Distinctive voice and original ideas survive. Generic content is heavily disrupted by AI.",study:"English, journalism, or marketing degree. Portfolio essential. Self-taught viable.",ex:"Advertising copywriter, content strategist, UX writer, technical writer",imp_t:"Words drive decisions. Great copywriting moves billions in consumer behaviour."},
+  {n:"Photographer",s:"Media",ai:65,w:50,m:78,imp:68,em:0,why:"Original vision, physical presence, and client relationships make photographers hard to replace.",study:"Photography degree or self-taught. Portfolio essential.",ex:"Wedding photographer, commercial photographer, photojournalist, portrait photographer",imp_t:"Documents human life and creates the images that shape culture and memory."},
+  {n:"Video editor / producer",s:"Media",ai:62,w:58,m:75,imp:72,em:0,why:"Storytelling judgment, pacing, and emotional arc require human creative instinct.",study:"Film or media degree or self-taught. Portfolio essential.",ex:"YouTube editor, broadcast producer, corporate video producer, documentary editor",imp_t:"Shapes the video content that now accounts for 80% of internet traffic."},
+  {n:"Animator",s:"Media",ai:60,w:65,m:78,imp:72,em:0,why:"Character, timing, and creative direction survive AI. Commodity animation is disrupted.",study:"Animation degree or self-taught with strong portfolio.",ex:"3D animator, motion graphics designer, VFX artist, game animator",imp_t:"Brings stories and data to life in film, games, and advertising."},
+  {n:"Geologist",s:"Science",ai:82,w:70,m:80,imp:82,em:0,why:"Reading rock formations and field sampling require physical presence and expert interpretation.",study:"Geology or earth science degree + fieldwork experience.",ex:"Mining geologist, oil and gas geologist, engineering geologist, hydrogeologist",imp_t:"Finds the mineral resources that underpin modern technology and construction."},
+  {n:"Research psychologist",s:"Science",ai:78,w:62,m:82,imp:82,em:0,why:"Designing experiments that understand human behaviour requires creative scientific thinking.",study:"Psychology degree + PhD for research roles.",ex:"Cognitive psychologist, social psychologist, developmental psychologist",imp_t:"Advances our understanding of the human mind that underpins education, health, and policy."},
+  {n:"Youth worker",s:"Social",ai:88,w:42,m:90,imp:85,em:0,why:"Building trusted relationships with young people in difficult circumstances is irreducibly human.",study:"Youth work degree or equivalent. Often part-time or voluntary entry.",ex:"Youth club worker, detached youth worker, school youth worker, gang intervention specialist",imp_t:"Keeps young people out of crime, exploitation, and danger during the most vulnerable years."},
+  {n:"Care home worker",s:"Social",ai:85,w:38,m:88,imp:85,em:0,why:"Physical care, emotional companionship, and dignity in old age are irreplaceable human work.",study:"Care certificate. No degree required. On-the-job training.",ex:"Residential care worker, dementia care specialist, palliative care assistant",imp_t:"Provides dignity and companionship to elderly people who can no longer live independently."},
+  {n:"Sport physiotherapist",s:"Sport",ai:85,w:65,m:82,imp:78,em:0,why:"Hands-on treatment, movement analysis, and athlete trust require human physiotherapists.",study:"Physiotherapy degree (3-4 years) + sports specialisation.",ex:"Premier League physio, Olympic team physio, clinic sports physio",imp_t:"Keeps athletes competing and helps them recover from career-threatening injuries."},
+  {n:"Gym owner / fitness entrepreneur",s:"Sport",ai:75,w:65,m:72,imp:68,em:0,why:"Community building, local trust, and service quality are human competitive advantages.",study:"Personal training qualification + business skills. Self-taught route common.",ex:"CrossFit box owner, boutique studio founder, online fitness platform founder",imp_t:"Creates communities around health that transform physical and mental wellbeing."},
+  {n:"Franchise owner",s:"Business",ai:72,w:70,m:65,imp:65,em:0,why:"Local leadership, team management, and community reputation require human ownership.",study:"No degree required. Franchise training provided. Business skills important.",ex:"Gym franchise owner, estate agency franchise, food franchise, cleaning franchise",imp_t:"Creates local employment and delivers services communities depend on."},
+  {n:"Livestock farmer",s:"Environment",ai:78,w:55,m:75,imp:82,em:0,why:"Animal husbandry, health assessment, and land management require human expertise and judgment.",study:"Agriculture degree or family farm experience. Land-based college courses.",ex:"Dairy farmer, sheep farmer, pig farmer, poultry farmer",imp_t:"Produces the meat, dairy, and eggs that feed populations globally."},
+  {n:"Horticulturist",s:"Environment",ai:75,w:52,m:75,imp:78,em:0,why:"Plant cultivation, pest management, and crop quality require expert human judgment.",study:"Horticulture degree or RHS qualifications. Apprenticeship route.",ex:"Commercial grower, market gardener, nursery manager, botanical garden curator",imp_t:"Grows the fruit, vegetables, and plants that feed people and beautify environments."},
+  {n:"Librarian / archivist",s:"Humanities",ai:72,w:48,m:80,imp:75,em:0,why:"Curating knowledge, supporting research, and preserving archives require expert human judgment.",study:"Library and information science degree. CILIP qualification.",ex:"Public librarian, university librarian, company archivist, digital preservation specialist",imp_t:"Preserves and provides access to the accumulated knowledge of human civilisation."},
+  {n:"Funeral director",s:"Social",ai:88,w:58,m:82,imp:78,em:0,why:"Grief support, family guidance, and ceremonial care are among the most human services that exist.",study:"Funeral directing qualification. Apprenticeship route common.",ex:"Funeral director, embalmer, celebrant, crematorium technician",imp_t:"Supports families through the most difficult experience of their lives with dignity."},
+  {n:"Tattooist",s:"Arts",ai:88,w:60,m:72,imp:58,em:0,why:"Artistic skill, client relationship, and physical precision make tattooing highly resistant to automation.",study:"Apprenticeship (2-3 years under experienced tattooist). Portfolio essential.",ex:"Fine line tattooist, traditional tattooist, medical tattooist, body piercer",imp_t:"Creates permanent art that helps people express identity and reclaim their bodies."},
+  {n:"Locksmith",s:"Trades",ai:88,w:60,m:58,imp:65,em:0,why:"Physical lock mechanisms in varied real-world contexts resist automation entirely.",study:"Locksmithing course. Master Locksmiths Association qualification.",ex:"Emergency locksmith, automotive locksmith, security consultant, safe engineer",imp_t:"Provides access and security to homes and businesses when people are locked out or at risk."},
+  {n:"Pest controller",s:"Trades",ai:80,w:55,m:52,imp:68,em:0,why:"Identifying and eliminating pests in real buildings requires physical investigation and judgment.",study:"RSPH pest control qualifications. On-the-job training.",ex:"Residential pest controller, commercial pest controller, agricultural pest management",imp_t:"Protects public health by controlling disease-carrying pests in homes and food facilities."},
+  {n:"Veterinary nurse",s:"Healthcare",ai:82,w:42,m:85,imp:72,em:0,why:"Hands-on animal care, anaesthesia monitoring, and client support are physical human work.",study:"Veterinary nursing degree or apprenticeship (3 years).",ex:"Small animal nurse, equine nurse, zoo animal care technician",imp_t:"Provides the clinical support that keeps animals alive through complex procedures."},
+  {n:"Optician (dispensing)",s:"Healthcare",ai:68,w:58,m:65,imp:70,em:0,why:"Fitting, adjusting, and advising on eyewear requires hands-on physical skill and patient empathy.",study:"Dispensing optician qualification (2-3 years). FBDO registration.",ex:"Dispensing optician, optical practice manager, low vision aid specialist",imp_t:"Ensures people can see clearly and comfortably every day of their lives."},
+  {n:"Dietitian",s:"Healthcare",ai:72,w:60,m:75,imp:78,em:0,why:"Clinical nutrition requires individual assessment and medical context apps cannot replicate.",study:"Dietetics degree (3-4 years) + HCPC registration.",ex:"NHS dietitian, renal dietitian, oncology dietitian, paediatric dietitian",imp_t:"Treats malnutrition, eating disorders, and diet-related disease across all ages."},
+  {n:"Dental technician",s:"Healthcare",ai:72,w:58,m:62,imp:68,em:0,why:"Crafting custom dental prosthetics by hand requires precision skill and aesthetic judgment.",study:"Dental technology degree or apprenticeship. GDC registration.",ex:"Crown and bridge technician, denture technician, orthodontic technician",imp_t:"Makes the crowns, bridges, and dentures that restore smiles and eating function."},
+  {n:"Ambulance technician",s:"Emergency",ai:82,w:48,m:82,imp:88,em:0,why:"Pre-hospital patient care and transport in real emergencies requires physical human intervention.",study:"Emergency medical technician qualification. NHS ambulance service training.",ex:"Emergency care assistant, ambulance technician, patient transport driver",imp_t:"Responds to 999 calls and transports patients safely to definitive care."},
+  {n:"Security guard / officer",s:"Emergency",ai:72,w:42,m:50,imp:65,em:0,why:"Physical deterrence, real-time judgment, and human presence are core to security work.",study:"SIA licence. Short training course. No degree required.",ex:"Retail security, door supervisor, CCTV operator, event security, close protection officer",imp_t:"Protects people, property, and events from theft, violence, and disorder."},
+  {n:"Social media manager",s:"Sales & Marketing",ai:52,w:58,m:62,imp:65,em:0,why:"Community management, real-time response, and creative voice keep humans relevant. Scheduling automates.",study:"Marketing or communication degree. Self-taught via platforms. Portfolio essential.",ex:"Brand social media manager, influencer manager, community manager, social media director",imp_t:"Shapes how brands communicate with millions of followers in real time."},
+  {n:"Recruitment consultant",s:"Sales & Marketing",ai:58,w:68,m:62,imp:70,em:0,why:"Candidate relationships, hiring manager trust, and judgment about fit are human skills.",study:"No formal degree required. Business or HR degree helpful. Learn on the job.",ex:"Tech recruiter, executive search consultant, in-house talent acquisition, headhunter",imp_t:"Matches people to jobs that transform their lives and companies to talent that defines them."},
+  {n:"Barber / hairdresser",s:"Wellbeing",ai:90,w:50,m:70,imp:62,em:0,why:"Physical cutting, styling, and trusted client relationship are entirely resistant to automation.",study:"NVQ hairdressing or barbering qualification. Apprenticeship route.",ex:"Barber, hair salon owner, session hairstylist, trichologist",imp_t:"Provides the regular human contact and confidence boost that millions depend on weekly."},
+  {n:"Tattoo artist",s:"Arts",ai:90,w:58,m:75,imp:60,em:0,why:"Custom art applied by hand to human skin. Among the most automation-proof skilled crafts.",study:"Apprenticeship (2-3 years). Portfolio and artistic ability essential.",ex:"Fine line artist, traditional tattooist, realism specialist, cosmetic tattoo artist",imp_t:"Creates permanent personal art that helps people express identity and heal from trauma."},
+  {n:"Antiques dealer / auctioneer",s:"Business",ai:72,w:65,m:75,imp:68,em:0,why:"Object authentication, provenance research, and client relationships require deep human expertise.",study:"No formal qualification. Art history degree helpful. Learn by trading.",ex:"Antiques dealer, auction house specialist, fine art auctioneer, valuations expert",imp_t:"Preserves and circulates objects of cultural and historical significance."},
+  {n:"Interpreter (live)",s:"Humanities",ai:55,w:62,m:72,imp:78,em:0,why:"Simultaneous interpretation under pressure in high-stakes settings requires extraordinary human skill.",study:"Languages degree + interpreter training. DPSI or conference interpreter qualification.",ex:"UN conference interpreter, court interpreter, medical interpreter, sign language interpreter",imp_t:"Enables justice, diplomacy, and healthcare to function across language barriers."}
+];
+
+var sectors=["All"];
+D.forEach(function(c){if(sectors.indexOf(c.s)===-1)sectors.push(c.s);});
+
+var sortKey="ai", sortDir="desc", emergingOnly=false, bookmarksOnly=false;
+var activeSector="All", openIdx=null;
+var compareMode=false, compareList=[];
+var bookmarks=JSON.parse(localStorage.getItem("cw_bookmarks")||"[]");
+var enrichCache={};
+
+// ── RENDER TABS ──
+function renderTabs(){
+  var el=document.getElementById("stabs");
+  el.innerHTML=sectors.map(function(s){
+    return'<button class="st'+(s===activeSector?" on":"")+'" data-sector="'+s.replace(/"/g,"&quot;")+'">'+s+'</button>';
+  }).join("");
+  el.querySelectorAll(".st").forEach(function(b){
+    b.addEventListener("click",function(){setSector(this.dataset.sector);});
+  });
+}
+
+function setSector(s){activeSector=s;openIdx=null;render();renderTabs();}
+
+// ── SORT ──
+function setSort(k){
+  sortKey=k;openIdx=null;
+  ["ai","w","m","imp","n"].forEach(function(x){
+    var b=document.getElementById("s-"+x);
+    if(b)b.className="sb"+(x===k?" on":"");
+  });
+  render();
+}
+
+var sortDirState="desc";
+function toggleDir(){
+  sortDirState=sortDirState==="desc"?"asc":"desc";
+  var btn=document.getElementById("s-dir");
+  if(btn){
+    btn.textContent=sortDirState==="desc"?"\u25bc High\u2192Low":"\u25b2 Low\u2192High";
+    btn.className="sb"+(sortDirState==="asc"?" on":"");
+  }
+  openIdx=null;render();
+}
+
+function toggleEmerging(){
+  emergingOnly=!emergingOnly;
+  var b=document.getElementById("s-em");
+  if(b)b.className="sb sb-em"+(emergingOnly?" on":"");
+  openIdx=null;render();
+}
+
+function toggleBookmarksOnly(){
+  bookmarksOnly=!bookmarksOnly;
+  var b=document.getElementById("s-bm");
+  if(b)b.className="sb sb-bm"+(bookmarksOnly?" on":"");
+  openIdx=null;render();
+}
+
+// ── BOOKMARKS ──
+function isBookmarked(n){return bookmarks.indexOf(n)>-1;}
+function toggleBookmark(n,e){
+  e.stopPropagation();
+  var i=bookmarks.indexOf(n);
+  if(i>-1)bookmarks.splice(i,1);else bookmarks.push(n);
+  localStorage.setItem("cw_bookmarks",JSON.stringify(bookmarks));
+  render();
+}
+
+// ── COMPARE ──
+function toggleCompareMode(){
+  compareMode=!compareMode;
+  var btn=document.getElementById("cmp-toggle");
+  btn.className="compare-btn"+(compareMode?" active":"");
+  btn.textContent=compareMode?"\u2715 Done":"\u2630 Compare";
+  if(!compareMode){clearCompare();}
+  openIdx=null;render();
+}
+
+function toggleCompare(n,e){
+  e.stopPropagation();
+  var i=compareList.indexOf(n);
+  if(i>-1){compareList.splice(i,1);}
+  else if(compareList.length<3){compareList.push(n);}
+  render();renderComparePanel();
+}
+
+function renderComparePanel(){
+  var panel=document.getElementById("compare-panel");
+  var slots=document.getElementById("cp-slots");
+  if(compareList.length===0){panel.className="compare-panel";return;}
+  panel.className="compare-panel visible";
+  slots.innerHTML=compareList.map(function(n,i){
+    return'<span class="cp-slot">'+n+'<span class="rm" data-cpi="'+i+'">&times;</span></span>';
+  }).join("");
+  slots.querySelectorAll('.rm').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      removeCompare(compareList[parseInt(this.dataset.cpi)]);
+    });
+  });
+}
+
+function removeCompare(n){
+  compareList=compareList.filter(function(x){return x!==n;});
+  render();renderComparePanel();
+}
+function clearCompare(){compareList=[];renderComparePanel();render();}
+
+function showCompare(){
+  if(compareList.length<2){alert("Pick at least 2 careers to compare.");return;}
+  document.getElementById("main-view").style.display="none";
+  document.getElementById("compare-panel").className="compare-panel";
+  var view=document.getElementById("compare-view");
+  view.className="compare-view visible";
+  buildCompareTable();
+}
+function hideCompare(){
+  document.getElementById("main-view").style.display="";
+  document.getElementById("compare-view").className="compare-view";
+}
+
+function buildCompareTable(){
+  var careers=compareList.map(function(n){return D.find(function(c){return c.n===n;});}).filter(Boolean);
+  var cols=careers.length+1;
+  var rows=[
+    {label:"Career",fn:function(c){return'<strong>'+c.n+'</strong><br><span style="font-size:11px;color:#888">'+c.s+'</span>';}  },
+    {label:"AI-proof",fn:function(c){return bar(c.ai,"#378ADD");}  },
+    {label:"Wealth",fn:function(c){return bar(c.w,"#639922");}  },
+    {label:"Meaning",fn:function(c){return bar(c.m,"#7F77DD");}  },
+    {label:"Impact",fn:function(c){return bar(c.imp,"#D85A30");}  },
+    {label:"Why AI won&#39;t replace",fn:function(c){return c.why;}  },
+    {label:"How to get there",fn:function(c){return c.study;}  },
+    {label:"Example roles",fn:function(c){return c.ex;}  },
+    {label:"Impact on world",fn:function(c){return c.imp_t;}  },
+  ];
+  function bar(v,col){
+    return'<div style="display:flex;align-items:center;gap:6px"><div style="flex:1;height:6px;background:#f0f0f0;border-radius:99px;overflow:hidden"><div style="width:'+v+'%;height:100%;background:'+col+';border-radius:99px"></div></div><span style="font-size:11px;color:#888">'+v+'</span></div>';
+  }
+  var html='<div class="compare-table" style="grid-template-columns:repeat('+cols+',1fr)">';
+  rows.forEach(function(row){
+    html+='<div class="compare-row" style="grid-template-columns:repeat('+cols+',1fr)">';
+    html+='<div class="compare-cell label">'+row.label+'</div>';
+    careers.forEach(function(c){html+='<div class="compare-cell">'+row.fn(c)+'</div>';});
+    html+='</div>';
+  });
+  html+='</div>';
+  document.getElementById("compare-table").innerHTML=html;
+}
+
+// ── ENRICH ──
+function enrich(idx){
+  var c=D[idx];
+  var key=c.n;
+  var container=document.getElementById("det-"+idx);
+  if(!container)return;
+
+  // Check browser cache first (sessionStorage)
+  var cached=sessionStorage.getItem("cw_"+key);
+  if(cached){
+    try{
+      renderEnriched(container,JSON.parse(cached),c);
+      return;
+    }catch(e){}
+  }
+
+  container.innerHTML='<div class="det-loading"><span class="spinner"></span>Generating deep analysis for '+c.n+'...</div>';
+
+  fetch("/.netlify/functions/enrich",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({n:c.n,s:c.s,ai:c.ai,w:c.w,m:c.m,imp:c.imp,why:c.why||"",study:c.study||""})
+  })
+  .then(function(r){return r.json();})
+  .then(function(resp){
+    if(resp.error){
+      if(document.getElementById("det-"+idx)){
+        document.getElementById("det-"+idx).innerHTML='<div class="det-loading" style="color:#c00">Could not load analysis: '+resp.error+'</div>';
+      }
+      return;
+    }
+    var data=resp.data;
+    // Cache in sessionStorage so re-opens are instant
+    try{sessionStorage.setItem("cw_"+key,JSON.stringify(data));}catch(e){}
+    enrichCache[key]=data;
+    if(document.getElementById("det-"+idx)){
+      renderEnriched(document.getElementById("det-"+idx),data,c);
+    }
+  })
+  .catch(function(err){
+    if(document.getElementById("det-"+idx)){
+      document.getElementById("det-"+idx).innerHTML='<div class="det-loading" style="color:#c00">Could not load deep analysis. Check your connection.</div>';
+    }
+  });
+}
+
+
+function renderEnriched(container,d,c){
+  var h="";
+
+  // FIT PROFILE
+  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#129300;</span>Fit Profile</div>';
+  h+='<div class="fit-tags">'+(d.fit.traits||[]).map(function(t){return'<span class="fit-tag">'+t+'</span>';}).join("")+'</div>';
+  h+='<div class="fit-meta">';
+  h+='<div class="fit-item"><strong>Style</strong>'+(d.fit.style||"")+'</div>';
+  h+='<div class="fit-item"><strong>Risk tolerance</strong>'+(d.fit.risk||"")+'</div>';
+  h+='<div class="fit-item"><strong>Payoff horizon</strong>'+(d.fit.horizon||"")+'</div>';
+  h+='</div></div>';
+
+  // REALITY CHECK
+  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#9888;</span>Reality Check</div>';
+  h+='<ul class="reality-list">'+(d.reality.downsides||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul>';
+  h+='<div class="reality-note">&#128683; <strong>Biggest barrier:</strong> '+(d.reality.barrier||"")+'<br>&#128683; <strong>Most common failure:</strong> '+(d.reality.failure||"")+'<br>&#128683; <strong>Market reality:</strong> '+(d.reality.market||"")+'</div></div>';
+
+  // TIMELINE
+  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#128337;</span>Time-to-Reward</div>';
+  h+='<div class="timeline">';
+  h+='<div class="tl-block"><div class="tl-label">0&ndash;3 years</div><div class="tl-sal">'+(d.timeline.sal_early||"")+'</div><div class="tl-desc">'+(d.timeline.y0_3||"")+'</div></div>';
+  h+='<div class="tl-block"><div class="tl-label">3&ndash;7 years</div><div class="tl-sal">'+(d.timeline.sal_mid||"")+'</div><div class="tl-desc">'+(d.timeline.y3_7||"")+'</div></div>';
+  h+='<div class="tl-block"><div class="tl-label">7+ years</div><div class="tl-sal">'+(d.timeline.sal_top||"")+'</div><div class="tl-desc">'+(d.timeline.y7plus||"")+'</div></div>';
+  h+='</div></div>';
+
+  // WEALTH BREAKDOWN
+  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#128176;</span>Wealth Breakdown</div>';
+  h+='<div class="wealth-grid">';
+  h+='<div class="wealth-block"><div class="wl">Early career</div><div class="wv">'+(d.wealth.early||"")+'</div></div>';
+  h+='<div class="wealth-block"><div class="wl">Mid career</div><div class="wv">'+(d.wealth.mid||"")+'</div></div>';
+  h+='<div class="wealth-block"><div class="wl">Top potential</div><div class="wv">'+(d.wealth.top||"")+'</div></div>';
+  h+='</div>';
+  h+='<div class="variance-note">Variance: <strong>'+(d.wealth.variance||"")+'</strong> &mdash; '+(d.wealth.variance_note||"")+'</div></div>';
+
+  // ENTRY PATHS
+  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#128218;</span>How to Get There</div>';
+  h+='<div class="paths-list">';
+  h+='<div class="path-item"><strong>Academic:</strong> '+(d.paths.academic||"")+'</div>';
+  h+='<div class="path-item"><strong>Alternative:</strong> '+(d.paths.alternative||"")+'</div>';
+  if(d.paths.subjects&&d.paths.subjects.length){
+    h+='<div class="subject-tags">'+(d.paths.subjects||[]).map(function(s){return'<span class="subject-tag">'+s+'</span>';}).join("")+'</div>';
+  }
+  h+='</div></div>';
+
+  // ADJACENT CAREERS
+  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#8618;</span>Adjacent Careers</div>';
+  h+='<div class="adj-list">';
+  (d.adjacent||[]).forEach(function(r){
+    h+='<span class="adj-tag" data-search="'+r.replace(/"/g,'&quot;')+'" title="Search for this career">'+r+'</span>';
+  });
+  h+='</div></div>';
+
+  // WHERE YOU WORK
+  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#127970;</span>Where You Work</div>';
+  h+='<div class="where-grid">';
+  h+='<div class="where-block"><div class="wl">Companies</div><ul class="where-list">'+(d.where.companies||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='<div class="where-block"><div class="wl">Industries</div><ul class="where-list">'+(d.where.industries||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='</div></div>';
+
+  // AI DETAIL
+  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#129302;</span>Why AI Won&#8217;t Replace This</div>';
+  h+='<div class="ai-blocks">';
+  h+='<div class="ai-block cant"><strong>Cannot do today</strong>'+(d.ai_detail.cant_do||"")+'</div>';
+  h+='<div class="ai-block future"><strong>Will automate in 5 years</strong>'+(d.ai_detail.near_future||"")+'</div>';
+  h+='<div class="ai-block augment"><strong>AI will make you more powerful</strong>'+(d.ai_detail.augment||"")+'</div>';
+  h+='</div></div>';
+
+  // 5 STEPS
+  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#9989;</span>Next 5 Steps — Start This Year</div>';
+  h+='<ol class="steps-list">'+(d.steps||[]).map(function(s){return'<li>'+s+'</li>';}).join("")+'</ol></div>';
+
+  // DECISION BLOCK
+  h+='<div class="det-section"><div class="det-title"><span class="det-title-icon">&#127919;</span>Should You Choose This?</div>';
+  h+='<div class="decision">';
+  h+='<div class="dec-block yes"><div class="dec-label">&#10003; Choose this if...</div><ul class="dec-list">'+(d.choose_if||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='<div class="dec-block no"><div class="dec-label">&#10007; Avoid this if...</div><ul class="dec-list">'+(d.avoid_if||[]).map(function(x){return'<li>'+x+'</li>';}).join("")+'</ul></div>';
+  h+='</div></div>';
+
+  container.innerHTML=h;
+}
+
+// ── RENDER ──
+function render(){
+  var q=(document.getElementById("search").value||"").toLowerCase().trim();
+  var list=D.filter(function(c){
+    if(activeSector!=="All"&&c.s!==activeSector)return false;
+    if(emergingOnly&&!c.em)return false;
+    if(bookmarksOnly&&!isBookmarked(c.n))return false;
+    if(!q)return true;
+    return c.n.toLowerCase().indexOf(q)>-1||c.s.toLowerCase().indexOf(q)>-1||c.ex.toLowerCase().indexOf(q)>-1;
+  });
+
+  if(sortKey==="n"){
+    list.sort(function(a,b){var r=a.n.localeCompare(b.n);return sortDirState==="asc"?-r:r;});
+  }else{
+    list.sort(function(a,b){return sortDirState==="desc"?b[sortKey]-a[sortKey]:a[sortKey]-b[sortKey];});
+  }
+
+  document.getElementById("cnt").textContent=list.length+" career"+(list.length!==1?"s":"")+(q?' matching "'+q+'"':"");
+
+  var html="";
+  for(var i=0;i<list.length;i++){
+    var c=list[i];
+    var idx=D.indexOf(c);
+    var open=openIdx===idx;
+    var bm=isBookmarked(c.n);
+    var inCmp=compareList.indexOf(c.n)>-1;
+    html+='<div class="card'+(open?" open":"")+(c.em?" emerging":"")+(bm?" bookmarked":"")+(inCmp&&compareMode?" comparing":"")+'" data-idx="'+idx+'">';
+    html+='<div class="ch"><div class="ch-left">';
+    html+='<div class="ct">'+c.n+(c.em?'<span class="etag" style="margin-left:6px">New</span>':'')+'</div>';
+    html+='<div class="cs">'+c.s+'</div>';
+    html+='</div><div class="ch-right">';
+    if(compareMode){html+='<div class="cmp-check">'+(inCmp?"&#10003;":"")+'</div>';}
+    html+='<span class="bm-dot"></span>';
+    html+='<span class="tog">'+(open?"&#8722;":"&#43;")+'</span>';
+    html+='</div></div>';
+
+    // Bars
+    html+='<div class="bars">';
+    html+='<div class="br"><span class="bl">AI-proof</span><div class="bt"><div class="bf" style="width:'+c.ai+'%;background:#378ADD"></div></div><span class="bv">'+c.ai+'</span></div>';
+    html+='<div class="br"><span class="bl">Wealth</span><div class="bt"><div class="bf" style="width:'+c.w+'%;background:#639922"></div></div><span class="bv">'+c.w+'</span></div>';
+    html+='<div class="br"><span class="bl">Meaning</span><div class="bt"><div class="bf" style="width:'+c.m+'%;background:#7F77DD"></div></div><span class="bv">'+c.m+'</span></div>';
+    html+='<div class="br"><span class="bl">Impact</span><div class="bt"><div class="bf" style="width:'+c.imp+'%;background:#D85A30"></div></div><span class="bv">'+c.imp+'</span></div>';
+    html+='</div>';
+
+    // Open detail
+    if(open){
+      var ytUrl="https://www.youtube.com/results?search_query=day+in+the+life+"+encodeURIComponent(c.n);
+      var bmClass="bm-btn"+(bm?" saved":"");
+      var bmLabel=bm?"&#9733; Saved":"&#9733; Save";
+      html+='<div class="det" id="det-'+idx+'"><div class="det-loading"><span class="spinner"></span>Generating deep analysis...</div></div>';
+      html+='<div class="card-footer">';
+      html+='<div class="video-wrap" id="vwrap-'+idx+'">';
+      html+='<a class="vlink" id="vlink-'+idx+'" href="'+ytUrl+'" target="_blank" onclick="event.stopPropagation()">&#9654; Day in the life on YouTube</a>';
+      html+='</div>';
+      html+='<button class="'+bmClass+'" data-bm="'+idx+'" onclick="event.stopPropagation();bmClick('+idx+')">'+bmLabel+'</button>';
+      if(compareMode){
+        var cmpClass="cmp-btn"+(inCmp?" added":"");
+        var cmpLabel=inCmp?"&#10003; Added":"&#43; Compare";
+        html+='<button class="'+cmpClass+'" data-cmp="'+idx+'" onclick="event.stopPropagation();cmpClick('+idx+')">'+cmpLabel+'</button>';
+      }
+      html+='</div>';
+    }
+
+    html+='</div>';
+  }
+  document.getElementById("grid").innerHTML=html;
+
+  // Trigger enrichment after render
+  if(openIdx!==null){
+    setTimeout(function(){enrich(openIdx);},50);
+    setTimeout(function(){loadVideo(openIdx);},100);
+  }
+}
+
+function toggle(idx){
+  openIdx=openIdx===idx?null:idx;
+  render();
+}
+
+function searchFor(term){
+  document.getElementById("search").value=term;
+  openIdx=null;
+  render();
+}
+
+// ── VIDEO FUNCTIONS ──
+function loadVideo(idx){
+  var c=D[idx];
+  fetch("/.netlify/functions/video?career="+encodeURIComponent(c.n))
+  .then(function(r){return r.json();})
+  .then(function(resp){
+    if(resp.video && resp.video.youtube_url){
+      var wrap=document.getElementById("vwrap-"+idx);
+      if(!wrap)return;
+      var videoId=resp.video.youtube_url.match(/(?:v=|youtu\.be\/)([\w-]+)/);
+      if(videoId){
+        wrap.innerHTML=
+          '<a class="vlink community" href="'+resp.video.youtube_url+'" target="_blank" onclick="event.stopPropagation()">'+
+          '<img src="https://img.youtube.com/vi/'+videoId[1]+'/mqdefault.jpg" style="width:100%;border-radius:6px;display:block;margin-bottom:6px">'+
+          '&#9654; Community pick &mdash; Watch on YouTube</a>'+
+          '<button class="submit-video-btn" data-idx="'+idx+'" onclick="event.stopPropagation();showVideoInput('+idx+')">&#128279; Suggest a better video</button>';
+      }
+    } else {
+      var wrap=document.getElementById("vwrap-"+idx);
+      if(wrap){
+        var existing=wrap.querySelector(".vlink");
+        if(existing){
+          var btn=document.createElement("button");
+          btn.className="submit-video-btn";
+          btn.dataset.idx=idx;
+          btn.setAttribute("onclick","event.stopPropagation();showVideoInput("+idx+")");
+          btn.textContent="&#128279; Paste a better YouTube video";
+          wrap.appendChild(btn);
+        }
+      }
+    }
+  })
+  .catch(function(){});
+}
+
+function showVideoInput(idx){
+  var wrap=document.getElementById("vwrap-"+idx);
+  if(!wrap)return;
+  var existing=wrap.querySelector(".video-input-row");
+  if(existing){existing.remove();return;}
+  var row=document.createElement("div");
+  row.className="video-input-row";
+  row.onclick=function(e){e.stopPropagation();};
+  row.innerHTML='<input type="text" class="video-input" placeholder="Paste YouTube URL here..." />'+
+    '<button class="video-submit-btn" onclick="event.stopPropagation();submitVideo('+idx+')">Save</button>';
+  wrap.appendChild(row);
+  row.querySelector("input").focus();
+}
+
+function submitVideo(idx){
+  var wrap=document.getElementById("vwrap-"+idx);
+  if(!wrap)return;
+  var input=wrap.querySelector(".video-input");
+  if(!input)return;
+  var url=input.value.trim();
+  if(!url){alert("Please paste a YouTube URL");return;}
+  var c=D[idx];
+  input.disabled=true;
+  fetch("/.netlify/functions/video",{
+    method:"POST",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({career_name:c.n,youtube_url:url})
+  })
+  .then(function(r){return r.json();})
+  .then(function(resp){
+    if(resp.error){alert("Error: "+resp.error);input.disabled=false;return;}
+    // Reload the video section
+    wrap.innerHTML='<div class="det-loading" style="color:#27500A">&#10003; Video saved! Reloading...</div>';
+    setTimeout(function(){loadVideo(idx);},800);
+  })
+  .catch(function(e){alert("Could not save video. Try again.");input.disabled=false;});
+}
+
+// ── CLICK HELPERS (avoid inline quote issues) ──
+function bmClick(idx){ toggleBookmark(D[idx].n, {stopPropagation:function(){}}); }
+function cmpClick(idx){ toggleCompare(D[idx].n, {stopPropagation:function(){}}); }
+
+// ── EVENT LISTENERS ──
+document.getElementById("search").addEventListener("input",function(){openIdx=null;render();});
+
+document.querySelector(".toolbar").addEventListener("click",function(e){
+  var s=e.target.closest("[data-sort]");if(s){setSort(s.dataset.sort);return;}
+  var d=e.target.closest("[data-dir]");if(d){toggleDir();return;}
+  var em=e.target.closest("#s-em");if(em){toggleEmerging();return;}
+  var bm=e.target.closest("#s-bm");if(bm){toggleBookmarksOnly();return;}
+});
+
+document.getElementById("stabs").addEventListener("click",function(e){
+  var b=e.target.closest(".st");if(b)setSector(b.dataset.sector);
+});
+
+document.getElementById("grid").addEventListener("click",function(e){
+  if(e.target.tagName==="A"||e.target.closest("a"))return;
+  if(e.target.closest("button"))return;
+  var adj=e.target.closest(".adj-tag");
+  if(adj){searchFor(adj.dataset.search||adj.textContent);return;}
+  var card=e.target.closest(".card");
+  if(!card)return;
+  var idx=parseInt(card.dataset.idx);
+  if(!isNaN(idx)){
+    if(compareMode){toggleCompare(D[idx].n,e);}
+    else{toggle(idx);}
+  }
+});
+
+renderTabs();
+render();
+</script>
+</body>
+</html>
