@@ -1141,6 +1141,37 @@ document.getElementById("search").addEventListener("input",function(){render();}
 applyLang();
 renderTabs();
 render();
+
+// Auto-open career from quiz result
+(function(){
+  try {
+    var careerName = localStorage.getItem("cw_discover_career");
+    var ts = parseInt(localStorage.getItem("cw_discover_ts")||"0");
+    var fresh = (Date.now() - ts) < 30000; // within 30 seconds
+    if(careerName && fresh && window.location.hash === "#discover"){
+      localStorage.removeItem("cw_discover_career");
+      localStorage.removeItem("cw_discover_ts");
+      // Find the career index
+      var idx = D.findIndex ? D.findIndex(function(c){return c.n===careerName;}) : -1;
+      if(idx === -1) {
+        for(var i=0;i<D.length;i++){if(D[i].n===careerName){idx=i;break;}}
+      }
+      if(idx > -1){
+        // Clear any filters so the card is visible
+        document.getElementById("search").value = careerName;
+        render();
+        // Small delay to let render complete
+        setTimeout(function(){
+          var card = document.querySelector("[data-cidx=\""+idx+"\"]");
+          if(card){
+            card.closest(".card").scrollIntoView({behavior:"smooth",block:"center"});
+            setTimeout(function(){ openDeep(idx); }, 400);
+          }
+        }, 300);
+      }
+    }
+  } catch(e) {}
+})();
 </script>
 </body>
 </html>

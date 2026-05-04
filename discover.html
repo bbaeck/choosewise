@@ -1055,10 +1055,16 @@ function calculate() {
       return { career: c, score: total, pct: pct, whyTag: whyTag };
     });
 
-    scored.sort(function(a, b) { return b.score - a.score; });
-    var top10 = scored.slice(0, 10);
+    // Boost score for emerging careers
+    scored.forEach(function(item){
+      if(item.career.em) item.score += 15; // emerging bonus
+      item.score += (item.career.ai / 100) * 8; // AI-proof bonus
+    });
 
-    renderResults(top10);
+    scored.sort(function(a, b) { return b.score - a.score; });
+    var top15 = scored.slice(0, 15);
+
+    renderResults(top15);
     showQ(8);
     document.getElementById("prog").style.width = "100%";
   }, 1800);
@@ -1084,11 +1090,11 @@ function renderResults(top10) {
     var c = item.career;
     var rankClass = i < 3 ? " top" : "";
     var whyText = tagLabels[item.whyTag] || "";
-    html += '<a class="result-card" href="careers.html" onclick="storeMatch(\''+c.n.replace(/'/g,' ')+'\')">';
+    html += '<a class="result-card" href="careers.html#discover" data-career="'+c.n.replace(/"/g,'&quot;')+'" onclick="pickCareer(event,this.dataset.career)">';
     html += '<div class="result-rank'+rankClass+'">'+(i+1)+'</div>';
     html += '<div class="result-info">';
     html += '<div class="result-name">'+(lang==="nl"&&NL_TITLES[c.n]?NL_TITLES[c.n]:c.n)+'</div>';
-    html += '<div class="result-sector">'+c.s+'</div>';
+    html += '<div class="result-sector">'+c.s+(c.em?' <span style="font-size:9px;background:#EAF3DE;color:#27500A;padding:2px 5px;border-radius:3px;font-weight:700">NEW</span>':'')+'</div>';
     html += '<div class="result-bars">';
     html += '<div class="result-bar-row"><span class="result-bar-label">AI-proof</span><div class="result-bar-track"><div class="result-bar-fill" style="width:'+c.ai+'%;background:#378ADD"></div></div><span class="result-score">'+c.ai+'</span></div>';
     html += '<div class="result-bar-row"><span class="result-bar-label">Inkomen</span><div class="result-bar-track"><div class="result-bar-fill" style="width:'+c.w+'%;background:#639922"></div></div><span class="result-score">'+c.w+'</span></div>';
@@ -1107,8 +1113,14 @@ function renderResults(top10) {
   }
 }
 
-function storeMatch(name) {
-  try { localStorage.setItem("cw_discover_career", name); } catch(e) {}
+function pickCareer(e, name) {
+  e.preventDefault();
+  var realName = name.replace(/__/g, "'");
+  try {
+    localStorage.setItem("cw_discover_career", realName);
+    localStorage.setItem("cw_discover_ts", Date.now().toString());
+  } catch(err) {}
+  window.location.href = "careers.html#discover";
 }
 
 function goToCareers() {
@@ -1159,11 +1171,29 @@ function applyLang() {
   var timeEl = document.getElementById("s0-time");
   if(timeEl) timeEl.innerHTML = "&#9200; " + t("s0_time");
 
+  // Update question titles and subtitles
+  var qmap = {
+    "q1-title":"q1_title","q1-sub":"q1_sub",
+    "q2-title":"q2_title","q2-sub":"q2_sub",
+    "q3-title":"q3_title","q3-sub":"q3_sub",
+    "q4-title":"q4_title","q4-sub":"q4_sub",
+    "q5-title":"q5_title","q5-sub":"q5_sub",
+    "q6-title":"q6_title","q6-sub":"q6_sub"
+  };
+  Object.keys(qmap).forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.textContent=t(qmap[id]);
+  });
   // Re-render tiles if on a tile question
   if(currentQ === 1) renderTiles("q1-tiles", Q1, "q1");
   if(currentQ === 2) renderTiles("q2-tiles", Q2, "q2");
   if(currentQ === 3) renderTiles("q3-tiles", Q3, "q3");
   if(currentQ === 4) renderTiles("q4-tiles", Q4, "q4");
+  // Update btn-next labels
+  ["q1","q2","q3","q4"].forEach(function(q){
+    var btn=document.getElementById(q+"-next");
+    if(btn) btn.textContent=t("next");
+  });
 }
 
 function toggleLang() {
