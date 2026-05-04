@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ontdek jouw beroep — Choose Wise</title>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0e0e0e;--paper:#faf8f3;--cream:#f2ede3;--gold:#c9a84c;--gold-dark:#9a7530;
+  --green:#2d5016;--green-light:#eaf3de;--red:#c0392b;
+  --blue:#1a56a0;--blue-light:#e8f0fb;
+  --r:16px;--r-sm:10px;
+}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);min-height:100vh;overflow-x:hidden}
+
+/* ── NAV ── */
+.nav{padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;background:rgba(250,248,243,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(0,0,0,.06)}
+.nav-brand{font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
+.nav-back{font-size:13px;color:#888;text-decoration:none;display:flex;align-items:center;gap:4px}
+.nav-back:hover{color:var(--ink)}
+.lang-btn{font-size:12px;font-weight:600;padding:5px 12px;border:1.5px solid rgba(0,0,0,.15);border-radius:99px;background:transparent;color:#666;cursor:pointer;transition:all .15s}
+.lang-btn:hover{border-color:var(--ink);color:var(--ink)}
+.lang-btn.nl{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* ── PROGRESS ── */
+.progress-wrap{padding:0 24px;max-width:640px;margin:0 auto}
+.progress-bar{width:100%;height:3px;background:rgba(0,0,0,.08);border-radius:99px;overflow:hidden;margin-bottom:0}
+.progress-fill{height:100%;background:var(--gold);border-radius:99px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.step-label{font-size:11px;color:#aaa;text-align:right;margin-top:6px;letter-spacing:.04em}
+
+/* ── SCREENS ── */
+.screen{display:none;min-height:calc(100vh - 60px);padding:32px 24px 48px;max-width:640px;margin:0 auto}
+.screen.active{display:block;animation:fadeUp .4s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── INTRO ── */
+.intro-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.intro-title{font-family:'Fraunces',serif;font-size:clamp(32px,7vw,52px);font-weight:700;line-height:1.05;margin-bottom:20px;color:var(--ink)}
+.intro-title em{color:var(--gold);font-style:normal}
+.intro-body{font-size:16px;color:#555;line-height:1.7;margin-bottom:32px}
+.intro-time{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#888;background:var(--cream);padding:6px 14px;border-radius:99px;margin-bottom:32px}
+.btn-start{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:#fff;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:600;padding:16px 32px;border-radius:var(--r);border:none;cursor:pointer;transition:all .2s;letter-spacing:-.01em}
+.btn-start:hover{background:#333;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.btn-start svg{transition:transform .2s}
+.btn-start:hover svg{transform:translateX(4px)}
+.intro-note{font-size:12px;color:#aaa;margin-top:16px}
+
+/* ── QUESTION ── */
+.q-num{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.q-title{font-family:'Fraunces',serif;font-size:clamp(22px,5vw,32px);font-weight:600;line-height:1.2;margin-bottom:8px;color:var(--ink)}
+.q-sub{font-size:14px;color:#777;margin-bottom:28px;line-height:1.5}
+
+/* tile grid */
+.tiles{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-bottom:32px}
+.tile{position:relative;background:#fff;border:2px solid rgba(0,0,0,.07);border-radius:var(--r);padding:18px 14px;cursor:pointer;transition:all .2s;text-align:center;user-select:none}
+.tile:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.tile.sel{border-color:var(--ink);background:var(--ink);color:#fff;transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.15)}
+.tile-icon{font-size:32px;display:block;margin-bottom:10px;line-height:1}
+.tile-label{font-size:13px;font-weight:500;line-height:1.3}
+.tile.sel .tile-label{color:#fff}
+.tile-check{position:absolute;top:8px;right:8px;width:18px;height:18px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;color:#fff;opacity:0;transition:opacity .15s}
+.tile.sel .tile-check{opacity:1}
+
+/* slider question */
+.slider-wrap{margin-bottom:32px}
+.slider-labels{display:flex;justify-content:space-between;margin-bottom:10px}
+.slider-label-l,.slider-label-r{font-size:13px;color:#666;max-width:45%;line-height:1.4}
+.slider-label-r{text-align:right}
+.slider{width:100%;-webkit-appearance:none;appearance:none;height:6px;border-radius:99px;background:linear-gradient(to right,var(--ink) 50%,rgba(0,0,0,.12) 50%);outline:none;cursor:pointer;margin:8px 0}
+.slider::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:26px;height:26px;border-radius:50%;background:#fff;border:3px solid var(--ink);box-shadow:0 2px 8px rgba(0,0,0,.15);cursor:pointer;transition:transform .15s}
+.slider::-webkit-slider-thumb:hover{transform:scale(1.1)}
+.slider::-moz-range-thumb{width:24px;height:24px;border-radius:50%;background:#fff;border:3px solid var(--ink);cursor:pointer}
+.slider-val{text-align:center;font-size:13px;color:#888;margin-top:6px}
+
+/* nav buttons */
+.q-nav{display:flex;gap:10px;align-items:center}
+.btn-next{flex:1;background:var(--ink);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;padding:14px 24px;border-radius:var(--r-sm);border:none;cursor:pointer;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:8px}
+.btn-next:hover{background:#333;transform:translateY(-1px)}
+.btn-next:disabled{background:#ccc;cursor:not-allowed;transform:none}
+.btn-back{background:transparent;color:#888;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;padding:14px 16px;border-radius:var(--r-sm);border:1.5px solid rgba(0,0,0,.1);cursor:pointer;transition:all .15s}
+.btn-back:hover{border-color:rgba(0,0,0,.25);color:var(--ink)}
+.q-hint{font-size:12px;color:#aaa;text-align:center;margin-top:12px}
+
+/* ── RESULTS ── */
+.results-header{margin-bottom:32px}
+.results-eyebrow{font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.results-title{font-family:'Fraunces',serif;font-size:clamp(24px,5vw,36px);font-weight:700;line-height:1.1;margin-bottom:12px}
+.results-sub{font-size:15px;color:#666;line-height:1.6}
+.results-list{display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.result-card{background:#fff;border:1.5px solid rgba(0,0,0,.07);border-radius:var(--r);padding:16px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .2s;text-decoration:none;color:inherit}
+.result-card:hover{border-color:var(--gold);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.08)}
+.result-rank{font-family:'Fraunces',serif;font-size:24px;font-weight:700;color:rgba(0,0,0,.12);width:32px;flex-shrink:0;text-align:center}
+.result-rank.top{color:var(--gold)}
+.result-info{flex:1;min-width:0}
+.result-name{font-size:15px;font-weight:600;margin-bottom:3px;color:var(--ink)}
+.result-sector{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:#aaa;margin-bottom:8px}
+.result-bars{display:flex;flex-direction:column;gap:3px}
+.result-bar-row{display:flex;align-items:center;gap:6px}
+.result-bar-label{font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:#bbb;width:48px;flex-shrink:0}
+.result-bar-track{flex:1;height:4px;background:rgba(0,0,0,.06);border-radius:99px;overflow:hidden}
+.result-bar-fill{height:100%;border-radius:99px}
+.result-score{font-size:10px;color:#bbb;width:18px;text-align:right;flex-shrink:0}
+.result-match{display:flex;flex-direction:column;align-items:flex-end;flex-shrink:0;gap:4px}
+.match-pct{font-family:'Fraunces',serif;font-size:22px;font-weight:700;color:var(--ink);line-height:1}
+.match-label{font-size:10px;text-transform:uppercase;letter-spacing:.06em;color:#aaa}
+.match-why{font-size:11px;color:var(--gold-dark);background:#FDF8EC;padding:3px 8px;border-radius:99px;white-space:nowrap;max-width:100px;overflow:hidden;text-overflow:ellipsis}
+.result-arrow{color:#ccc;font-size:16px;flex-shrink:0}
+.btn-explore{width:100%;background:var(--gold);color:#fff;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:600;padding:16px;border-radius:var(--r-sm);border:none;cursor:pointer;transition:all .2s;margin-bottom:12px}
+.btn-explore:hover{background:var(--gold-dark);transform:translateY(-1px)}
+.btn-restart{width:100%;background:transparent;color:#888;font-family:'DM Sans',sans-serif;font-size:14px;padding:12px;border-radius:var(--r-sm);border:1.5px solid rgba(0,0,0,.1);cursor:pointer;transition:all .15s}
+.btn-restart:hover{border-color:rgba(0,0,0,.25);color:var(--ink)}
+
+/* loading */
+.loading-screen{text-align:center;padding:60px 20px}
+.loading-spinner{width:40px;height:40px;border:3px solid rgba(0,0,0,.08);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;margin:0 auto 20px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-title{font-family:'Fraunces',serif;font-size:22px;font-weight:600;margin-bottom:8px}
+.loading-sub{font-size:14px;color:#888}
+
+@media(max-width:480px){
+  .tiles{grid-template-columns:repeat(2,1fr)}
+  .screen{padding:24px 16px 40px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-back">&#8592; <span id="nav-back-txt">Startpagina</span></a>
+  <a href="index.html" class="nav-brand">Choose Wise</a>
+  <button class="lang-btn nl" id="lang-btn" onclick="toggleLang()">EN</button>
+</nav>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="prog" style="width:0%"></div></div>
+  <div class="step-label" id="step-label"></div>
+</div>
+
+<!-- SCREEN 0: INTRO -->
+<div class="screen active" id="s0">
+  <div class="intro-eyebrow" id="s0-eyebrow">Jouw toekomst</div>
+  <h1 class="intro-title" id="s0-title">Welk beroep<br>past bij <em>jou</em>?</h1>
+  <p class="intro-body" id="s0-body">Geen saaie lijst van 235 beroepen. Vertel ons wat jou fascineert — en wij tonen je de beroepen die echt bij jou passen.</p>
+  <div class="intro-time" id="s0-time">&#9200; 2 minuten &middot; 6 vragen &middot; geen verkeerde antwoorden</div>
+  <br>
+  <button class="btn-start" onclick="showQ(1)">
+    <span id="s0-btn">Begin de quiz</span>
+    <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <p class="intro-note" id="s0-note">Geen account nodig &middot; Jouw antwoorden worden niet opgeslagen</p>
+</div>
+
+<!-- SCREEN 1: WAT FASCINEERT JE -->
+<div class="screen" id="s1">
+  <div class="q-num" id="q1-num">Vraag 1 van 6</div>
+  <h2 class="q-title" id="q1-title">Wat fascineert jou het meest?</h2>
+  <p class="q-sub" id="q1-sub">Kies alles wat je aanspreekt — meerdere antwoorden zijn oké.</p>
+  <div class="tiles" id="q1-tiles"></div>
+  <div class="q-nav">
+    <button class="btn-back" onclick="showQ(0)">&#8592;</button>
+    <button class="btn-next" id="q1-next" onclick="showQ(2)">Volgende &#8594;</button>
+  </div>
+  <p class="q-hint" id="q1-hint">Kies minstens 1 optie</p>
+</div>
+
+<!-- SCREEN 2: WAARMEE SPEELDE JE -->
+<div class="screen" id="s2">
+  <div class="q-num" id="q2-num">Vraag 2 van 6</div>
+  <h2 class="q-title" id="q2-title">Waarmee speelde je vroeger het liefst?</h2>
+  <p class="q-sub" id="q2-sub">Denk terug aan wat je als kind uren kon doen.</p>
+  <div class="tiles" id="q2-tiles"></div>
+  <div class="q-nav">
+    <button class="btn-back" onclick="showQ(1)">&#8592;</button>
+    <button class="btn-next" id="q2-next" onclick="showQ(3)">Volgende &#8594;</button>
+  </div>
+  <p class="q-hint" id="q2-hint">Kies minstens 1 optie</p>
+</div>
+
+<!-- SCREEN 3: WIE KIJK JE NAAR OP -->
+<div class="screen" id="s3">
+  <div class="q-num" id="q3-num">Vraag 3 van 6</div>
+  <h2 class="q-title" id="q3-title">Wie kijk je naar op?</h2>
+  <p class="q-sub" id="q3-sub">Niet wie je kent — maar welk type persoon je bewondert.</p>
+  <div class="tiles" id="q3-tiles"></div>
+  <div class="q-nav">
+    <button class="btn-back" onclick="showQ(2)">&#8592;</button>
+    <button class="btn-next" id="q3-next" onclick="showQ(4)">Volgende &#8594;</button>
+  </div>
+  <p class="q-hint" id="q3-hint">Kies minstens 1 optie</p>
+</div>
+
+<!-- SCREEN 4: HOE WERK JE GRAAG -->
+<div class="screen" id="s4">
+  <div class="q-num" id="q4-num">Vraag 4 van 6</div>
+  <h2 class="q-title" id="q4-title">Hoe werk je het liefst?</h2>
+  <p class="q-sub" id="q4-sub">Er is geen goed of fout — dit gaat over wat energie geeft.</p>
+  <div class="tiles" id="q4-tiles"></div>
+  <div class="q-nav">
+    <button class="btn-back" onclick="showQ(3)">&#8592;</button>
+    <button class="btn-next" id="q4-next" onclick="showQ(5)">Volgende &#8594;</button>
+  </div>
+  <p class="q-hint" id="q4-hint">Kies minstens 1 optie</p>
+</div>
+
+<!-- SCREEN 5: VERDIENEN VS ZINVOL -->
+<div class="screen" id="s5">
+  <div class="q-num" id="q5-num">Vraag 5 van 6</div>
+  <h2 class="q-title" id="q5-title">Wat is belangrijker voor jou?</h2>
+  <p class="q-sub" id="q5-sub">Sleep de schuifbalk naar wat het beste past.</p>
+  <div class="slider-wrap">
+    <div class="slider-labels">
+      <div class="slider-label-l" id="q5-left">&#128176; Veel geld verdienen</div>
+      <div class="slider-label-r" id="q5-right">&#128149; Zinvol werk doen</div>
+    </div>
+    <input type="range" class="slider" id="slider-money" min="0" max="100" value="50" oninput="updateSlider(this,'money')">
+    <div class="slider-val" id="slider-money-val">Evenwicht</div>
+  </div>
+  <div class="q-nav">
+    <button class="btn-back" onclick="showQ(4)">&#8592;</button>
+    <button class="btn-next" onclick="showQ(6)">Volgende &#8594;</button>
+  </div>
+</div>
+
+<!-- SCREEN 6: RISICO -->
+<div class="screen" id="s6">
+  <div class="q-num" id="q6-num">Vraag 6 van 6</div>
+  <h2 class="q-title" id="q6-title">Hoe sta je tegenover onzekerheid?</h2>
+  <p class="q-sub" id="q6-sub">Denk aan je toekomstige loopbaan — wat klinkt beter?</p>
+  <div class="slider-wrap">
+    <div class="slider-labels">
+      <div class="slider-label-l" id="q6-left">&#128274; Stabiel werk, vaste job, zekerheid</div>
+      <div class="slider-label-r" id="q6-right">&#127908; Eigen baas, risico, grote beloning</div>
+    </div>
+    <input type="range" class="slider" id="slider-risk" min="0" max="100" value="50" oninput="updateSlider(this,'risk')">
+    <div class="slider-val" id="slider-risk-val">Tussenpositie</div>
+  </div>
+  <div class="q-nav">
+    <button class="btn-back" onclick="showQ(5)">&#8592;</button>
+    <button class="btn-next" onclick="calculate()">Bereken mijn matches &#8594;</button>
+  </div>
+</div>
+
+<!-- SCREEN 7: LOADING -->
+<div class="screen" id="s7">
+  <div class="loading-screen">
+    <div class="loading-spinner"></div>
+    <div class="loading-title" id="loading-title">Jouw profiel analyseren...</div>
+    <div class="loading-sub" id="loading-sub">We zoeken de beste matches uit 235 beroepen</div>
+  </div>
+</div>
+
+<!-- SCREEN 8: RESULTS -->
+<div class="screen" id="s8">
+  <div class="results-header">
+    <div class="results-eyebrow" id="r-eyebrow">Jouw matches</div>
+    <h2 class="results-title" id="r-title">Jouw top 10 beroepen</h2>
+    <p class="results-sub" id="r-sub">Op basis van wat jij fascineert, hoe je werkt en wat je waardeert.</p>
+  </div>
+  <div class="results-list" id="results-list"></div>
+  <button class="btn-explore" onclick="goToCareers()" id="btn-explore">Bekijk alle 235 beroepen &#8594;</button>
+  <button class="btn-restart" onclick="restart()" id="btn-restart">&#8635; Doe de quiz opnieuw</button>
+</div>
+
+<script>
+var CAREERS = [{n:"AI engineer",s:"Technology",ai:92,w:92,m:80,imp:95,em:1,tags:["handen","alleen","lego","machines","wetenschapper","wetenschap","ondernemer","ruimte","ingenieur","scherm","cijfers","games"],why:"Builds AI systems - people who understand these tools will always be needed to direct them.",imp_t:"Shapes the most transformative technology in human history."},
+{n:"AI safety researcher",s:"Technology",ai:95,w:78,m:90,imp:98,em:1,tags:["alleen","lego","machines","wetenschapper","wetenschap","ondernemer","ruimte","ingenieur","scherm","cijfers","games"],why:"Ensures AI doesn t go wrong at scale. The field barely exists yet - huge demand coming.",imp_t:"Could be the most important job of the 21st century."},
+{n:"Software engineer",s:"Technology",ai:80,w:90,m:72,imp:85,em:0,tags:["handen","alleen","lego","machines","wetenschapper","wetenschap","ondernemer","ruimte","ingenieur","scherm","cijfers","games"],why:"AI assists coding but can t own systems, architecture, or client relationships.",imp_t:"Builds the tools billions use every day."},
+{n:"Cybersecurity specialist",s:"Technology",ai:90,w:85,m:72,imp:88,em:0,tags:["alleen","lego","machines","wetenschapper","wetenschap","ondernemer","ruimte","ingenieur","scherm","cijfers","games"],why:"Attackers and defenders constantly evolve. Human creativity is essential on both sides.",imp_t:"Protects hospitals, banks, governments, and critical infrastructure."},
+{n:"Robotics engineer",s:"Technology",ai:90,w:85,m:82,imp:90,em:0,tags:["handen","alleen","lego","machines","wetenschapper","wetenschap","ondernemer","ruimte","ingenieur","scherm","cijfers","games"],why:"Designing machines for physical space requires judgment no AI can replicate alone.",imp_t:"Automates dangerous physical work - frees humans for better things."},
+{n:"Data scientist",s:"Technology",ai:72,w:85,m:68,imp:80,em:0,tags:["alleen","lego","machines","wetenschapper","wetenschap","ondernemer","ruimte","ingenieur","scherm","cijfers","games"],why:"Interpretation, storytelling, and domain expertise keep humans relevant. Pure analysis at risk.",imp_t:"Turns raw data into decisions that affect millions of people."},
+{n:"UX designer",s:"Technology",ai:75,w:78,m:80,imp:78,em:0,tags:["alleen","lego","machines","wetenschapper","wetenschap","ondernemer","kunstenaar","ruimte","ingenieur","scherm","kunst","tekenen","cijfers","games","muziek"],why:"Human behaviour understanding, empathy and taste are deeply human skills.",imp_t:"Makes technology usable and humane for billions of people."},
+{n:"Quantum computing researcher",s:"Technology",ai:98,w:80,m:88,imp:95,em:1,tags:["alleen","lego","machines","wetenschapper","wetenschap","ondernemer","ruimte","ingenieur","scherm","cijfers","games"],why:"Entirely new field of physics and computation. No AI replaces theoretical breakthroughs.",imp_t:"Could solve currently impossible problems in drug discovery, climate, cryptography."},
+{n:"Brain-computer interface engineer",s:"Technology",ai:92,w:85,m:88,imp:95,em:1,tags:["handen","alleen","lego","machines","wetenschapper","wetenschap","ondernemer","ruimte","ingenieur","scherm","cijfers","games"],why:"Merging human and machine cognition is the most profound engineering frontier that exists.",imp_t:"Could restore speech to paralysed people. Redefine what it means to think."},
+{n:"Blockchain developer",s:"Technology",ai:82,w:80,m:65,imp:72,em:1,tags:["alleen","lego","machines","wetenschapper","wetenschap","ondernemer","ruimte","ingenieur","scherm","cijfers","games"],why:"Cryptographic systems and decentralised architecture require specialist human expertise.",imp_t:"Building new financial and governance systems from scratch."},
+{n:"Edge computing engineer",s:"Technology",ai:85,w:82,m:68,imp:80,em:1,tags:["handen","alleen","lego","machines","wetenschapper","wetenschap","ondernemer","ruimte","ingenieur","scherm","cijfers","games"],why:"Running AI inference locally on devices requires new hardware and software architectures.",imp_t:"Brings AI capabilities to remote areas, hospitals, and devices without internet."},
+{n:"Surgeon",s:"Healthcare",ai:92,w:92,m:95,imp:95,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Physical precision in unpredictable environments. AI assists but cannot operate.",imp_t:"Saves lives directly with your hands."},
+{n:"General practitioner",s:"Healthcare",ai:80,w:82,m:90,imp:88,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Diagnosis requires listening, trust, and context AI cannot replicate.",imp_t:"Primary health contact for entire communities across lifetimes."},
+{n:"Psychiatrist",s:"Healthcare",ai:88,w:85,m:95,imp:92,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Mental health requires deep human relationship and judgment. Cannot be automated.",imp_t:"Treats invisible illness that destroys lives when left untreated."},
+{n:"Nurse",s:"Healthcare",ai:85,w:60,m:90,imp:90,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Physical care, emotional presence, and hands-on treatment cannot be replicated by machines.",imp_t:"The backbone of healthcare. Patients remember nurses more than doctors."},
+{n:"Physiotherapist",s:"Healthcare",ai:88,w:65,m:85,imp:82,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Hands-on rehabilitation, movement analysis, and motivation. Profoundly physical work.",imp_t:"Restores mobility and independence to people after injury or illness."},
+{n:"Radiologist",s:"Healthcare",ai:55,w:88,m:70,imp:82,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"AI reads scans well - radiologists who work with AI will thrive; those who don t are at risk.",imp_t:"Finds cancer, injury, and disease before it becomes fatal."},
+{n:"Dentist",s:"Healthcare",ai:82,w:80,m:72,imp:78,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Manual dexterity inside the human mouth. Highly resistant to automation.",imp_t:"Oral health directly affects overall health and quality of life."},
+{n:"Veterinarian",s:"Healthcare",ai:85,w:72,m:88,imp:80,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Animal medicine needs hands, judgment, and empathy across species that can t communicate.",imp_t:"Cares for animals and the human bonds people have with them."},
+{n:"Genetic counsellor",s:"Healthcare",ai:78,w:72,m:88,imp:88,em:1,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"As genome sequencing becomes universal, humans are needed to interpret results with empathy.",imp_t:"Helps families understand and prepare for genetic conditions."},
+{n:"Longevity researcher",s:"Healthcare",ai:90,w:80,m:88,imp:95,em:1,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Targeting the biology of ageing is an entirely new field. Decades of human insight needed.",imp_t:"Could add decades of healthy life to the human lifespan."},
+{n:"Pharmacist",s:"Healthcare",ai:68,w:72,m:72,imp:80,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Dispensing automates; clinical pharmacists who advise on complex drug interactions are safer.",imp_t:"Prevents dangerous drug errors. Advises on medication for millions."},
+{n:"Lawyer",s:"Legal",ai:65,w:85,m:70,imp:82,em:0,tags:["activist","mensen","verhalen"],why:"AI reads contracts; lawyers argue, judge, and navigate ethics and advocacy.",imp_t:"Defends rights and shapes the rules society lives by."},
+{n:"Judge",s:"Legal",ai:80,w:78,m:82,imp:88,em:0,tags:["activist","mensen","verhalen"],why:"Judicial discretion, contextual wisdom, and accountability require human responsibility.",imp_t:"Decides who is innocent, who gets custody, who is compensated."},
+{n:"Forensic scientist",s:"Legal",ai:72,w:68,m:78,imp:85,em:0,tags:["activist","verhalen"],why:"Physical evidence analysis and courtroom expertise require human judgment.",imp_t:"Finds truth when people lie. Exonerates the innocent."},
+{n:"Legal tech lawyer",s:"Legal",ai:90,w:88,m:72,imp:80,em:1,tags:["machines","activist","mensen","verhalen","scherm","cijfers","games"],why:"The intersection of law and technology is booming. Lawyers who understand AI are rare.",imp_t:"Shapes the legal framework governing the most powerful technology ever built."},
+{n:"Policy analyst",s:"Legal",ai:72,w:65,m:78,imp:88,em:0,tags:["activist","mensen","verhalen"],why:"Policy requires judgment, stakeholder navigation, and democratic accountability.",imp_t:"Writes the rules that govern how millions of people live."},
+{n:"Primary school teacher",s:"Education",ai:82,w:52,m:92,imp:90,em:0,tags:["mensen","verhalen","verzorging","helpen","leraar"],why:"Child development, mentoring, and classroom management are profoundly human skills.",imp_t:"Shapes the formative years of every child who passes through a classroom."},
+{n:"Secondary school teacher",s:"Education",ai:75,w:55,m:90,imp:88,em:0,tags:["mensen","verhalen","verzorging","helpen","leraar"],why:"Inspiring teenagers through a difficult period is irreplaceable human work.",imp_t:"The person who changes the direction of a young person s life."},
+{n:"University professor",s:"Education",ai:72,w:70,m:85,imp:85,em:0,tags:["mensen","verhalen","verzorging","helpen","leraar"],why:"Original research, deep mentorship, and academic leadership cannot be automated.",imp_t:"Advances human knowledge and trains the next generation of experts."},
+{n:"Special needs educator",s:"Education",ai:92,w:55,m:95,imp:90,em:0,tags:["mensen","verhalen","verzorging","helpen","leraar"],why:"Adapting to highly individual needs requires extraordinary human sensitivity.",imp_t:"Unlocks potential in children who would otherwise be left behind."},
+{n:"Educational psychologist",s:"Education",ai:85,w:68,m:88,imp:85,em:0,tags:["mensen","verhalen","verzorging","helpen","leraar"],why:"Assessing learning needs and designing interventions is deeply human and contextual.",imp_t:"Identifies why children struggle and gives them a path forward."},
+{n:"Learning experience designer",s:"Education",ai:75,w:72,m:78,imp:80,em:1,tags:["kunstenaar","mensen","verhalen","verzorging","helpen","leraar","kunst","tekenen","muziek"],why:"Designing AI-powered but human-led learning experiences is an entirely new field.",imp_t:"Makes knowledge accessible at scale to people who could not otherwise afford it."},
+{n:"Architect",s:"Design",ai:72,w:75,m:85,imp:85,em:0,tags:["alleen","kunstenaar","ondernemer","scherm","kunst","tekenen","games"],why:"AI generates options; architects decide what communities need and bear legal responsibility.",imp_t:"Shapes the built environment people spend 90% of their lives inside."},
+{n:"Urban planner",s:"Design",ai:75,w:68,m:82,imp:88,em:0,tags:["alleen","kunstenaar","ondernemer","scherm","kunst","tekenen","games"],why:"Planning cities requires democratic processes, stakeholder negotiation, and long-term vision.",imp_t:"Decides how cities grow, where people live, how they move."},
+{n:"Industrial designer",s:"Design",ai:70,w:72,m:78,imp:78,em:0,tags:["alleen","kunstenaar","ondernemer","scherm","kunst","tekenen","games","muziek"],why:"Physical product design for manufacturing requires material knowledge and human taste.",imp_t:"Every object you touch was designed by someone. Good design is invisible."},
+{n:"Game designer",s:"Design",ai:72,w:72,m:82,imp:78,em:0,tags:["alleen","kunstenaar","ondernemer","scherm","kunst","tekenen","games","muziek"],why:"Game systems, player psychology, and cultural storytelling are human creative domains.",imp_t:"Games are the dominant entertainment medium - they shape culture and behaviour."},
+{n:"Fashion designer",s:"Design",ai:68,w:65,m:78,imp:65,em:0,tags:["alleen","kunstenaar","ondernemer","scherm","kunst","tekenen","games","muziek"],why:"Cultural relevance, taste, and trend intuition are resistant to automation.",imp_t:"Clothes are identity. Fashion shapes how billions express themselves."},
+{n:"Sustainable design engineer",s:"Design",ai:80,w:72,m:85,imp:92,em:1,tags:["handen","alleen","lego","machines","kunstenaar","ondernemer","scherm","kunst","tekenen","games","muziek"],why:"Designing low-carbon materials and circular systems is an entirely new engineering discipline.",imp_t:"Redesigning how humanity builds and makes things to avoid climate collapse."},
+{n:"VR / spatial designer",s:"Design",ai:80,w:78,m:82,imp:80,em:1,tags:["alleen","kunstenaar","ondernemer","scherm","kunst","tekenen","games","muziek"],why:"Designing virtual and augmented reality environments is a new creative profession.",imp_t:"Designs the immersive environments billions of people will increasingly inhabit."},
+{n:"Civil engineer",s:"Engineering",ai:78,w:78,m:78,imp:88,em:0,tags:["handen","lego","team","machines","ingenieur"],why:"Site management, safety responsibility, and community context require human engineers.",imp_t:"Builds the infrastructure billions depend on - roads, bridges, clean water."},
+{n:"Electrical engineer",s:"Engineering",ai:80,w:80,m:75,imp:85,em:0,tags:["handen","lego","team","machines","ingenieur"],why:"Power systems, circuit design, and grid management require human oversight.",imp_t:"Keeps the lights on. Powers hospitals, schools, and every device you own."},
+{n:"Aerospace engineer",s:"Engineering",ai:85,w:85,m:82,imp:88,em:0,tags:["handen","lego","team","machines","wetenschap","ruimte","ingenieur"],why:"Safety-critical design with extreme consequences. Human certification required.",imp_t:"Makes flight safe and enables humanity s expansion beyond Earth."},
+{n:"Nuclear engineer",s:"Engineering",ai:90,w:85,m:78,imp:92,em:0,tags:["handen","lego","team","machines","wetenschap","ruimte","ingenieur"],why:"Safety-critical work with legal and physical consequences. Cannot be delegated to AI.",imp_t:"Could provide unlimited clean energy. Also carries civilisational risk if mishandled."},
+{n:"Biomedical engineer",s:"Engineering",ai:85,w:82,m:88,imp:92,em:0,tags:["handen","lego","team","machines","mensen","verzorging","helpen","dokter","ingenieur"],why:"Designing medical devices requires clinical knowledge no AI can substitute.",imp_t:"Invents the tools that diagnose and treat disease."},
+{n:"Climate / energy engineer",s:"Engineering",ai:85,w:80,m:88,imp:98,em:1,tags:["handen","buiten","lego","team","machines","natuur","wetenschap","ingenieur"],why:"Decarbonising the global energy system is the defining engineering challenge of this century.",imp_t:"Prevents civilisational climate collapse. The most important engineering job."},
+{n:"Materials scientist",s:"Engineering",ai:85,w:78,m:80,imp:90,em:0,tags:["handen","lego","team","machines","ingenieur"],why:"Discovering new materials requires physical intuition and creative experimentation.",imp_t:"New materials enable every other technology - batteries, chips, medicines."},
+{n:"Mechanical engineer",s:"Engineering",ai:78,w:78,m:72,imp:82,em:0,tags:["handen","lego","team","machines","ingenieur"],why:"Physical systems, manufacturing, and real-world tolerances require hands-on expertise.",imp_t:"Makes machines that do human work - from cars to medical devices."},
+{n:"Neuroscientist",s:"Science",ai:88,w:68,m:90,imp:95,em:0,tags:["alleen","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"Brain science requires physical experiments, animal models, and creative hypothesis generation.",imp_t:"Unlocking the brain is key to treating depression, Alzheimer s, and addiction."},
+{n:"Climate scientist",s:"Science",ai:85,w:65,m:88,imp:98,em:0,tags:["alleen","buiten","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"Interpreting complex Earth systems data requires physical intuition and domain expertise.",imp_t:"Provides the data governments need to act on the climate crisis."},
+{n:"Biochemist",s:"Science",ai:85,w:70,m:85,imp:90,em:0,tags:["alleen","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"Lab work, hypothesis generation, and experimental design require human creativity.",imp_t:"Understands the chemical machinery of life. Foundation of medicine and biotech."},
+{n:"Epidemiologist",s:"Science",ai:80,w:68,m:85,imp:95,em:0,tags:["alleen","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"Disease tracking requires field work, population judgment, and government communication.",imp_t:"Tracks and stops outbreaks before they become pandemics."},
+{n:"Synthetic biologist",s:"Science",ai:88,w:82,m:88,imp:95,em:1,tags:["alleen","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"Engineering biology to produce medicines, materials, and food is entirely new science.",imp_t:"Could eliminate disease, grow meat without animals, and clean up pollution."},
+{n:"Astrophysicist",s:"Science",ai:88,w:62,m:88,imp:80,em:0,tags:["alleen","lego","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"Original theory and observation of the cosmos require human intellectual creativity.",imp_t:"Answers the deepest questions about the origin and fate of the universe."},
+{n:"Marine biologist",s:"Science",ai:82,w:55,m:85,imp:88,em:0,tags:["alleen","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"Ocean fieldwork, species identification, and ecosystem understanding need humans on the water.",imp_t:"Monitors and protects ocean ecosystems that produce half the world s oxygen."},
+{n:"Bioinformatician",s:"Science",ai:88,w:80,m:85,imp:92,em:1,tags:["alleen","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"Analysing genomic data at scale requires both biological knowledge and computational skill.",imp_t:"Finds the genetic causes of disease. Enables personalised medicine."},
+{n:"Computational drug designer",s:"Science",ai:88,w:85,m:88,imp:95,em:1,tags:["alleen","dieren","natuur","wetenschapper","wetenschap","tekenen","kunstenaar","ruimte","kunst","dokter","cijfers","muziek"],why:"AI-accelerated drug discovery is revolutionising medicine. Humans direct the search.",imp_t:"Discovers medicines in months that previously took decades."},
+{n:"Entrepreneur",s:"Business",ai:82,w:90,m:88,imp:90,em:0,tags:["cijfers","team","ondernemer"],why:"Vision, risk-taking, team leadership, and creativity are deeply human. AI is a leverage tool.",imp_t:"Creates jobs, products, and wealth. Changes industries that were stuck."},
+{n:"Investment banker",s:"Business",ai:58,w:95,m:50,imp:65,em:0,tags:["cijfers","team","ondernemer"],why:"Relationship-driven deals and client trust remain human. Routine analysis automates fast.",imp_t:"Allocates capital that funds the companies and infrastructure of tomorrow."},
+{n:"Venture capitalist",s:"Business",ai:72,w:92,m:68,imp:82,em:0,tags:["cijfers","team","ondernemer"],why:"Pattern recognition about people and markets. Judgment requiring lived experience.",imp_t:"Funds the companies that change the world - or doesn t, if they get it wrong."},
+{n:"Accountant",s:"Business",ai:48,w:72,m:52,imp:65,em:0,tags:["cijfers","team","ondernemer"],why:"Bookkeeping automates fast. Tax strategy, advisory, and complex audit remain human.",imp_t:"Keeps businesses solvent and honest. Finds fraud that costs societies billions."},
+{n:"ESG analyst",s:"Business",ai:75,w:72,m:85,imp:90,em:1,tags:["cijfers","team","ondernemer"],why:"New field measuring corporate environmental and social impact. Growing fast with regulation.",imp_t:"Redirects capital from harmful to beneficial activities at global scale."},
+{n:"Financial planner",s:"Business",ai:65,w:75,m:72,imp:72,em:0,tags:["cijfers","team","ondernemer"],why:"Trusted relationships and life-stage complexity keep humans relevant.",imp_t:"Helps ordinary people build security and avoid devastating financial mistakes."},
+{n:"Management consultant",s:"Business",ai:62,w:88,m:58,imp:70,em:0,tags:["cijfers","team","ondernemer"],why:"Strategic advice, stakeholder trust, and organisational change require human credibility.",imp_t:"Helps large organisations change direction."},
+{n:"Product manager",s:"Business",ai:72,w:82,m:72,imp:78,em:0,tags:["cijfers","team","ondernemer"],why:"Customer understanding, trade-off judgment, and team coordination need human leaders.",imp_t:"Decides what gets built. PM decisions affect millions of end users."},
+{n:"Journalist",s:"Media",ai:58,w:52,m:82,imp:85,em:0,tags:["team","kunstenaar","verhalen","scherm","kunst","tekenen","games","muziek"],why:"Investigation, source relationships, and editorial judgment remain human. Commodity writing automates.",imp_t:"Holds power to account. Without journalism, corruption goes unchecked."},
+{n:"Documentary filmmaker",s:"Media",ai:72,w:58,m:85,imp:82,em:0,tags:["team","kunstenaar","verhalen","scherm","kunst","tekenen","games","muziek"],why:"Storytelling, subject trust, and visual narrative are human creative skills.",imp_t:"Changes public opinion and policy. The best documentaries reshape society."},
+{n:"Science communicator",s:"Media",ai:75,w:60,m:85,imp:88,em:1,tags:["team","kunstenaar","verhalen","scherm","kunst","tekenen","games","muziek"],why:"Public understanding of science has never mattered more. Humans do this with authenticity.",imp_t:"Bridges the gap between researchers and the public."},
+{n:"Podcast / video creator",s:"Media",ai:68,w:65,m:78,imp:72,em:0,tags:["team","kunstenaar","verhalen","scherm","kunst","tekenen","games","muziek"],why:"Audience relationship, editorial voice, and authenticity are resistant to AI.",imp_t:"Educates and entertains audiences traditional media can t reach."},
+{n:"PR / communications director",s:"Media",ai:58,w:75,m:62,imp:70,em:0,tags:["team","kunstenaar","verhalen","scherm","kunst","tekenen","games","muziek"],why:"Crisis management, stakeholder relationships, and message strategy need human judgment.",imp_t:"Shapes how organisations and governments communicate in critical moments."},
+{n:"Psychologist / therapist",s:"Social",ai:88,w:68,m:95,imp:92,em:0,tags:["activist","mensen","verhalen","verzorging","leraar","helpen"],why:"Mental health requires trust, nuance, and human relationship. AI tools exist but cannot substitute.",imp_t:"Treats invisible illness that ruins lives when untreated."},
+{n:"Social worker",s:"Social",ai:82,w:48,m:90,imp:92,em:0,tags:["activist","mensen","verhalen","verzorging","leraar","helpen"],why:"Child protection and crisis support require physical presence and authority.",imp_t:"Protects the most vulnerable people in society."},
+{n:"Humanitarian worker",s:"Social",ai:85,w:42,m:95,imp:95,em:0,tags:["activist","mensen","verhalen","verzorging","leraar","helpen"],why:"Crisis response, community trust, and field logistics require humans on the ground.",imp_t:"Saves lives in the most desperate circumstances on Earth."},
+{n:"Behavioural economist",s:"Social",ai:75,w:75,m:78,imp:85,em:0,tags:["activist","mensen","verhalen","verzorging","leraar","helpen"],why:"Understanding irrational human behaviour requires creative experimental design.",imp_t:"Designs interventions that make millions of people healthier and safer."},
+{n:"Community organiser",s:"Social",ai:90,w:45,m:90,imp:85,em:0,tags:["activist","mensen","verhalen","verzorging","leraar","helpen"],why:"Building trust and mobilising people require authentic human relationships.",imp_t:"Gives ordinary people power to change the systems that govern their lives."},
+{n:"Diplomat",s:"Government",ai:88,w:68,m:82,imp:92,em:0,tags:["activist","mensen","verhalen"],why:"Negotiation, cultural intelligence, and political judgment are entirely human domains.",imp_t:"Prevents wars, builds alliances, and manages relations between nations."},
+{n:"Intelligence analyst",s:"Government",ai:78,w:72,m:75,imp:90,em:0,tags:["activist","mensen"],why:"Synthesising ambiguous information and making judgments under uncertainty needs human minds.",imp_t:"Protects countries from terrorism, espionage, and hostile state actors."},
+{n:"Military officer",s:"Government",ai:85,w:65,m:78,imp:88,em:0,tags:["activist","mensen"],why:"Leadership under extreme pressure and ethical decision-making are human skills.",imp_t:"Defends national security and responds to disasters and humanitarian crises."},
+{n:"Civil servant",s:"Government",ai:62,w:60,m:72,imp:82,em:0,tags:["activist","mensen"],why:"Policy implementation, democratic accountability, and stakeholder management need humans.",imp_t:"Runs the machinery of the state that provides education, healthcare, and safety."},
+{n:"Electrician",s:"Trades",ai:96,w:72,m:68,imp:85,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Physical, context-dependent work in varied environments. Extremely difficult to automate.",imp_t:"Society literally stops functioning without electricians."},
+{n:"Plumber",s:"Trades",ai:95,w:68,m:65,imp:82,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Complex real-world pipe systems in different buildings. Robots cannot navigate this.",imp_t:"Clean water and sanitation - the most important public health interventions in history."},
+{n:"Construction worker",s:"Trades",ai:88,w:60,m:62,imp:82,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Construction sites are chaotic, varied environments. Full automation is decades away.",imp_t:"Builds the hospitals, schools, homes, and infrastructure society depends on."},
+{n:"Quantity surveyor",s:"Trades",ai:68,w:72,m:62,imp:75,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Cost management of complex projects requires negotiation and site judgment.",imp_t:"Controls the budgets of the hospitals and infrastructure being built."},
+{n:"EV / clean tech installer",s:"Trades",ai:88,w:80,m:80,imp:92,em:1,tags:["handen","buiten","lego","games","machines","buiten2","scherm","cijfers","ingenieur"],why:"Electrifying transport and buildings is the defining infrastructure project of the next 30 years.",imp_t:"Accelerates the transition away from fossil fuels."},
+{n:"Site manager",s:"Trades",ai:82,w:72,m:68,imp:80,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Managing crews, resolving problems, and keeping sites safe needs experienced human leadership.",imp_t:"Delivers the physical projects that shape cities and communities."},
+{n:"Chef",s:"Food",ai:82,w:62,m:75,imp:70,em:0,tags:["natuur"],why:"Taste, creativity, and craft are human. Automation exists in fast food; craft food thrives on human skill.",imp_t:"Food is culture, comfort, and connection. Great chefs shape how people experience life."},
+{n:"Food scientist",s:"Food",ai:80,w:72,m:72,imp:82,em:0,tags:["natuur"],why:"Developing new food products and ensuring food safety requires human expertise.",imp_t:"Feeds the world more safely and nutritiously. Reduces food waste."},
+{n:"Alt-protein founder",s:"Food",ai:85,w:82,m:85,imp:95,em:1,tags:["natuur"],why:"Replacing animal agriculture with sustainable protein is one of the most impactful new industries.",imp_t:"Could eliminate factory farming and dramatically reduce carbon emissions from food."},
+{n:"Hospitality manager",s:"Food",ai:72,w:62,m:68,imp:68,em:0,tags:["natuur"],why:"Guest experience, team leadership, and crisis management need human judgment and warmth.",imp_t:"Creates the experiences that make travel, celebration, and rest memorable."},
+{n:"Commercial pilot",s:"Transport",ai:65,w:78,m:68,imp:75,em:0,tags:["machines"],why:"Regulatory and safety requirements keep humans flying for the foreseeable future.",imp_t:"Moves millions of people and billions in goods safely across the world."},
+{n:"Air traffic controller",s:"Transport",ai:72,w:75,m:72,imp:85,em:0,tags:["machines"],why:"Real-time judgment in safety-critical environments. AI assists but human accountability remains.",imp_t:"Prevents mid-air collisions. Manages the flow of global aviation."},
+{n:"Logistics manager",s:"Transport",ai:65,w:72,m:60,imp:78,em:0,tags:["machines"],why:"Disruption, supplier relationships, and geopolitical judgment need human expertise.",imp_t:"Keeps goods flowing. COVID showed what happens when supply chains fail."},
+{n:"Autonomous vehicle engineer",s:"Transport",ai:92,w:88,m:78,imp:88,em:1,tags:["handen","lego","machines"],why:"Building self-driving systems is one of the hardest engineering problems of our time.",imp_t:"Could eliminate 90% of road deaths caused by human error."},
+{n:"Drone fleet manager",s:"Transport",ai:80,w:65,m:62,imp:75,em:1,tags:["machines"],why:"Urban air mobility and delivery drones are an emerging industry needing skilled humans.",imp_t:"Transforms last-mile delivery and emergency medical supply in remote areas."},
+{n:"Farmer / agronomist",s:"Environment",ai:75,w:58,m:78,imp:88,em:0,tags:["buiten","activist","dieren","natuur","buiten2"],why:"Precision agriculture and AI tools make farming more efficient, not obsolete.",imp_t:"Feeds the world. One of the most fundamental human activities."},
+{n:"Environmental scientist",s:"Environment",ai:82,w:62,m:88,imp:95,em:0,tags:["buiten","activist","dieren","natuur","wetenschap","buiten2"],why:"Field sampling, ecosystem assessment, and environmental advocacy need human scientists.",imp_t:"Monitors and protects the ecosystems that make life on Earth possible."},
+{n:"Rewilding specialist",s:"Environment",ai:88,w:52,m:90,imp:95,em:1,tags:["buiten","activist","dieren","natuur","buiten2"],why:"Restoring damaged ecosystems is a booming field with enormous environmental stakes.",imp_t:"Brings species back from the brink of extinction. Rebuilds biodiversity."},
+{n:"Water engineer",s:"Environment",ai:85,w:72,m:82,imp:95,em:0,tags:["handen","buiten","lego","machines","activist","dieren","natuur","buiten2"],why:"Water scarcity is the defining humanitarian crisis of the coming decades.",imp_t:"Provides clean water to communities. Prevents catastrophic drought and flood damage."},
+{n:"Vertical farm engineer",s:"Environment",ai:82,w:75,m:80,imp:88,em:1,tags:["handen","buiten","lego","machines","activist","dieren","natuur","buiten2"],why:"Growing food in cities without soil or seasons is a new industry solving food security.",imp_t:"Grows food anywhere on Earth, regardless of climate."},
+{n:"Climate tech entrepreneur",s:"Environment",ai:85,w:82,m:90,imp:98,em:1,tags:["buiten","machines","activist","dieren","natuur","wetenschap","buiten2","scherm","cijfers","games"],why:"Building the companies that solve climate change requires technical founders more than ever.",imp_t:"Builds the companies that have a chance of preventing catastrophic climate change."},
+{n:"Space systems engineer",s:"Space",ai:88,w:85,m:85,imp:90,em:0,tags:["handen","lego","machines","natuur","wetenschapper","wetenschap","ruimte"],why:"Spacecraft design and systems integration require human creativity and safety responsibility.",imp_t:"Builds the systems that provide GPS, weather forecasting, and climate monitoring."},
+{n:"Astronaut",s:"Space",ai:90,w:75,m:95,imp:88,em:0,tags:["lego","natuur","wetenschapper","wetenschap","ruimte"],why:"Human presence in space for science, exploration, and emergency response. Cannot be replaced.",imp_t:"Extends humanity beyond Earth. The most important long-term human project."},
+{n:"Fusion energy scientist",s:"Space",ai:92,w:80,m:88,imp:98,em:1,tags:["lego","natuur","wetenschapper","wetenschap","ruimte"],why:"Fusion power could provide unlimited clean energy. The field is finally becoming commercially real.",imp_t:"If fusion works, energy poverty ends. Climate change becomes solvable."},
+{n:"Nanotechnology researcher",s:"Space",ai:90,w:78,m:85,imp:92,em:1,tags:["machines","natuur","wetenschapper","wetenschap","ruimte","scherm","cijfers","games"],why:"Engineering at the atomic scale is a nascent field with enormous medical and materials applications.",imp_t:"Could deliver drugs directly to cancer cells. Build computers thousands of times smaller."},
+{n:"Musician / composer",s:"Arts",ai:70,w:52,m:88,imp:78,em:0,tags:["handen","alleen","kunstenaar","kunst","tekenen","muziek"],why:"Authentic human emotion and cultural context in music cannot be faked by AI for audiences who care.",imp_t:"Music is the most universal language. It heals, unites, and defines cultures."},
+{n:"Visual artist",s:"Arts",ai:58,w:50,m:85,imp:72,em:0,tags:["handen","alleen","kunstenaar","kunst","tekenen","muziek"],why:"Original vision and cultural voice survive. Commodity illustration is heavily disrupted by AI.",imp_t:"Art shapes how societies understand themselves and their history."},
+{n:"Film director",s:"Arts",ai:72,w:68,m:88,imp:80,em:0,tags:["handen","alleen","kunstenaar","kunst","tekenen","muziek"],why:"Vision, leadership, and storytelling authority are human. AI generates assets, not films.",imp_t:"Films shape culture, empathy, and political opinion at massive scale."},
+{n:"Author / novelist",s:"Arts",ai:60,w:48,m:88,imp:78,em:0,tags:["handen","alleen","kunstenaar","kunst","tekenen","muziek"],why:"Distinctive voice, lived experience, and original ideas separate great writers from AI text.",imp_t:"Books change minds. The best ones reshape entire civilisations."},
+{n:"Sports coach",s:"Sport",ai:85,w:55,m:82,imp:75,em:0,tags:["atleet","buiten","buiten2","sport"],why:"Motivation, psychological insight, and real-time human observation cannot be automated.",imp_t:"Shapes elite performance and the development of young people through sport."},
+{n:"Sports medicine doctor",s:"Sport",ai:82,w:78,m:80,imp:78,em:0,tags:["buiten","atleet","mensen","buiten2","verzorging","helpen","dokter","sport"],why:"Clinical judgment for athletes in complex biomechanical situations requires human expertise.",imp_t:"Keeps athletes performing safely and extends careers that inspire millions."},
+{n:"Performance data analyst",s:"Sport",ai:65,w:65,m:68,imp:72,em:1,tags:["buiten","machines","atleet","buiten2","scherm","cijfers","games","sport"],why:"AI processes data but humans interpret what it means for specific athletes and tactics.",imp_t:"Provides the marginal gains that decide championships."},
+{n:"Firefighter",s:"Emergency",ai:95,w:58,m:88,imp:92,em:0,tags:["buiten","buiten2","sport"],why:"Unpredictable physical environments, life-or-death decisions. Cannot be automated.",imp_t:"Saves lives from fire, flood, and industrial disasters."},
+{n:"Paramedic",s:"Emergency",ai:88,w:55,m:88,imp:92,em:0,tags:["buiten","buiten2","sport"],why:"Pre-hospital emergency care requires clinical judgment and physical intervention in chaotic settings.",imp_t:"The first clinical contact in a life-threatening emergency."},
+{n:"Police detective",s:"Emergency",ai:80,w:58,m:78,imp:85,em:0,tags:["buiten","buiten2","sport"],why:"Investigation requires human intuition, interview skills, and community relationships.",imp_t:"Finds the truth when people have been harmed and ensures perpetrators face justice."},
+{n:"Search and rescue specialist",s:"Emergency",ai:92,w:55,m:90,imp:90,em:0,tags:["buiten","buiten2","sport"],why:"Physical rescue in mountain, sea, or disaster environments. Requires human courage and adaptability.",imp_t:"Pulls people out of situations they cannot escape from alone."},
+{n:"Personal trainer",s:"Wellbeing",ai:85,w:55,m:80,imp:72,em:0,tags:["atleet","mensen","verzorging","helpen","muziek","sport"],why:"Motivation, physical coaching, and genuine human relationship drive results AI apps cannot replicate.",imp_t:"Improves physical health and confidence of individuals."},
+{n:"Mental health counsellor",s:"Wellbeing",ai:88,w:52,m:92,imp:88,em:0,tags:["atleet","mensen","verzorging","helpen","dokter","muziek","sport"],why:"Counselling requires unconditional positive regard and authentic human empathy.",imp_t:"Provides talking therapy to people before they reach crisis point."},
+{n:"Nutritionist / dietitian",s:"Wellbeing",ai:72,w:55,m:72,imp:75,em:0,tags:["atleet","mensen","verzorging","helpen","muziek","sport"],why:"Clinical nutrition requires individual context and medical knowledge. Apps replace generic advice only.",imp_t:"Diet is the foundation of health. Good nutritional guidance prevents chronic disease."},
+{n:"Sleep scientist",s:"Wellbeing",ai:82,w:65,m:78,imp:80,em:1,tags:["atleet","mensen","verzorging","helpen","muziek","sport"],why:"Sleep research is an exploding field as its role in health and longevity becomes clear.",imp_t:"Treating sleep disorders reduces heart disease, depression, and dementia."},
+{n:"Philosopher / ethicist",s:"Humanities",ai:85,w:52,m:88,imp:88,em:0,tags:["verhalen","leraar","kunst"],why:"Original thought about how we should live and govern AI is more important than ever.",imp_t:"Provides the frameworks societies use to decide what is right and wrong."},
+{n:"Historian",s:"Humanities",ai:80,w:52,m:80,imp:78,em:0,tags:["verhalen","leraar","kunst"],why:"Archival research, narrative construction, and contextual interpretation remain human work.",imp_t:"Preserves collective memory. Prevents the repetition of catastrophic mistakes."},
+{n:"Archaeologist",s:"Humanities",ai:80,w:48,m:80,imp:78,em:0,tags:["verhalen","leraar","kunst"],why:"Physical excavation, artefact interpretation, and site management require human presence.",imp_t:"Recovers the lost knowledge of human civilisations that would otherwise be gone forever."},
+{n:"Linguist / translator",s:"Humanities",ai:52,w:55,m:72,imp:75,em:0,tags:["verhalen","leraar","kunst"],why:"Machine translation is very good. Literary translation and endangered language work remain human.",imp_t:"Enables communication across cultures. Preserves dying languages and their knowledge."},
+{n:"CEO / executive leader",s:"Business",ai:78,w:90,m:75,imp:85,em:0,tags:["cijfers","team","ondernemer"],why:"Vision, culture, accountability, and human motivation are irreducibly human leadership skills.",imp_t:"The decisions of a few hundred people in these roles affect millions of employees and communities."},
+{n:"HR director",s:"Business",ai:65,w:72,m:72,imp:75,em:0,tags:["cijfers","team","ondernemer"],why:"Organisational culture, talent judgment, and conflict resolution require human wisdom.",imp_t:"Shapes how hundreds or thousands of people experience their working lives."},
+{n:"Actuary",s:"Business",ai:60,w:85,m:58,imp:75,em:0,tags:["cijfers","team","ondernemer"],why:"Insurance pricing automates; actuaries who work with AI on novel risk models are safe.",imp_t:"Quantifies risk that underpins insurance, pensions, and financial stability."},
+{n:"Optical / photonics engineer",s:"Deep Tech",ai:90,w:80,m:78,imp:88,em:1,tags:["handen","lego","machines","wetenschapper","wetenschap","ruimte","ingenieur","cijfers","games"],why:"Photonic computing and optical communications are replacing electronics in some applications.",imp_t:"Builds the light-based systems that will underpin next-generation computing and communications."},
+{n:"Digital twin architect",s:"Deep Tech",ai:85,w:82,m:72,imp:85,em:1,tags:["lego","machines","wetenschapper","wetenschap","ruimte","ingenieur","cijfers","games"],why:"Building virtual replicas of physical systems for simulation is a new specialism.",imp_t:"Optimises hospitals, factories, and cities before changes are made in the real world."},
+{n:"Quantum sensor engineer",s:"Deep Tech",ai:92,w:82,m:80,imp:90,em:1,tags:["handen","lego","machines","wetenschapper","wetenschap","ruimte","ingenieur","cijfers","games"],why:"Quantum sensing for navigation, medical imaging, and geology is an entirely new hardware field.",imp_t:"Could replace GPS, revolutionise brain imaging, and find underground minerals without drilling."},
+{n:"Space mining engineer",s:"Deep Tech",ai:88,w:85,m:82,imp:88,em:1,tags:["handen","lego","machines","wetenschapper","wetenschap","ruimte","ingenieur","cijfers","games"],why:"Extracting resources from asteroids and the Moon is an entirely new engineering domain.",imp_t:"Could provide unlimited rare earth metals without destroying Earths ecosystems."},
+{n:"Neuromorphic chip designer",s:"Deep Tech",ai:92,w:88,m:80,imp:92,em:1,tags:["lego","machines","wetenschapper","wetenschap","kunstenaar","ruimte","ingenieur","kunst","tekenen","cijfers","games","muziek"],why:"Building chips that mimic the brain architecture is a frontier with no clear AI substitute.",imp_t:"Could make AI 1000x more energy efficient. Critical for sustainable computing."},
+{n:"Synthetic media researcher",s:"Deep Tech",ai:80,w:75,m:72,imp:80,em:1,tags:["lego","machines","wetenschapper","wetenschap","ruimte","ingenieur","cijfers","games"],why:"Understanding and detecting synthetic media requires human creativity and adversarial thinking.",imp_t:"Fights disinformation and protects democratic processes from manipulated media."},
+{n:"Nurse practitioner",s:"Healthcare",ai:82,w:68,m:88,imp:88,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Advanced clinical judgment and autonomous practice require deep human expertise and trust.",imp_t:"Expands access to healthcare in areas with few doctors."},
+{n:"Midwife",s:"Healthcare",ai:88,w:60,m:92,imp:88,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Birth is one of the most intimate and unpredictable human experiences. Cannot be automated.",imp_t:"Supports mothers and newborns through one of the most critical moments of life."},
+{n:"Occupational therapist",s:"Healthcare",ai:86,w:62,m:85,imp:82,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Adapting environments and activities to individual needs requires deep human judgment.",imp_t:"Restores independence to people who have lost function through illness or injury."},
+{n:"Speech and language therapist",s:"Healthcare",ai:85,w:62,m:88,imp:85,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Diagnosing and treating communication disorders requires nuanced human interaction.",imp_t:"Gives a voice to people who have lost or never had the ability to communicate."},
+{n:"Palliative care doctor",s:"Healthcare",ai:85,w:75,m:98,imp:92,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"End of life care is one of the most profound human responsibilities. Cannot be delegated.",imp_t:"Ensures people die with dignity, comfort, and the people they love around them."},
+{n:"Public health official",s:"Healthcare",ai:75,w:68,m:82,imp:95,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Population-level health decisions require political judgment and community trust.",imp_t:"Protects entire populations from disease. COVID showed the stakes."},
+{n:"Immunologist",s:"Science",ai:85,w:75,m:85,imp:92,em:0,tags:["alleen","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"The immune system is extraordinarily complex. Creative experimental design is essential.",imp_t:"Develops vaccines and cancer treatments that save millions of lives."},
+{n:"Geneticist",s:"Science",ai:85,w:75,m:85,imp:92,em:0,tags:["alleen","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"Interpreting genomes, designing gene therapies, and making ethical decisions require human expertise.",imp_t:"Unlocks the code of life. Enables treatments for genetic diseases that currently have none."},
+{n:"Psychopharmacologist",s:"Science",ai:82,w:78,m:85,imp:90,em:1,tags:["alleen","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"Designing drugs that target the brain requires deep understanding of both chemistry and behaviour.",imp_t:"Developing new treatments for depression, PTSD, and addiction affecting hundreds of millions."},
+{n:"Volcanologist",s:"Science",ai:85,w:62,m:85,imp:82,em:0,tags:["alleen","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"Real-time monitoring and interpretation of volcanic systems requires human expertise in the field.",imp_t:"Saves lives by predicting eruptions and enabling evacuations."},
+{n:"Graphic designer",s:"Design",ai:55,w:60,m:72,imp:68,em:0,tags:["alleen","kunstenaar","ondernemer","scherm","kunst","tekenen","games","muziek"],why:"Original creative direction and brand strategy survive. Execution-only design is heavily disrupted.",imp_t:"Visual communication shapes how people perceive organisations, products, and ideas."},
+{n:"Sound designer",s:"Design",ai:68,w:62,m:80,imp:72,em:0,tags:["alleen","kunstenaar","ondernemer","scherm","kunst","tekenen","games","muziek"],why:"Emotional impact through sound requires deep human artistic judgment and cultural sensitivity.",imp_t:"Sound shapes 50% of the emotional experience of film, games, and virtual reality."},
+{n:"Landscape architect",s:"Design",ai:75,w:68,m:80,imp:82,em:0,tags:["alleen","kunstenaar","ondernemer","scherm","kunst","tekenen","games"],why:"Designing outdoor spaces requires understanding ecology, culture, and community needs.",imp_t:"Creates the parks, gardens, and green spaces that improve mental and physical health."},
+{n:"Welder / fabricator",s:"Trades",ai:82,w:62,m:60,imp:78,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Precision welding in varied environments is extremely difficult to automate reliably.",imp_t:"Joins the structures that hold bridges, ships, buildings, and aircraft together."},
+{n:"HVAC engineer",s:"Trades",ai:82,w:68,m:60,imp:78,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Heating, ventilation, and air conditioning systems in varied buildings require hands-on expertise.",imp_t:"Controls the temperature and air quality in hospitals, offices, and homes."},
+{n:"Railway engineer",s:"Trades",ai:80,w:72,m:68,imp:82,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Complex safety-critical infrastructure with regulatory accountability requires human engineers.",imp_t:"Keeps trains running safely. One of the most important transport systems on Earth."},
+{n:"Tax inspector",s:"Government",ai:65,w:62,m:60,imp:78,em:0,tags:["activist","mensen"],why:"Complex tax investigation, judgment calls, and legal proceedings require human expertise.",imp_t:"Collects the revenue that funds schools, hospitals, and public services."},
+{n:"Urban economist",s:"Government",ai:72,w:70,m:75,imp:82,em:0,tags:["activist","mensen"],why:"Modelling city economies and advising on housing, transport, and growth requires human judgment.",imp_t:"Shapes decisions about where homes get built and how cities afford to grow."},
+{n:"Elite athlete",s:"Sport",ai:98,w:62,m:85,imp:75,em:0,tags:["atleet","buiten","buiten2","sport"],why:"The human body competing is the point. Cannot be replaced by machines. That would be a different sport.",imp_t:"Inspires entire nations and generations of young people to pursue physical excellence."},
+{n:"Sports journalist",s:"Sport",ai:58,w:55,m:72,imp:68,em:0,tags:["atleet","buiten","buiten2","sport"],why:"Athlete relationships, insider access, and storytelling remain human. Match reports automate.",imp_t:"Connects fans to the sports they love and holds sporting institutions to account."},
+{n:"Coast guard / maritime rescue",s:"Emergency",ai:90,w:55,m:88,imp:90,em:0,tags:["buiten","buiten2","sport"],why:"Open water rescue in unpredictable conditions requires human judgment and physical presence.",imp_t:"Saves sailors, swimmers, and migrants at sea in life-threatening conditions."},
+{n:"Disaster risk manager",s:"Emergency",ai:80,w:65,m:82,imp:90,em:0,tags:["buiten","buiten2","sport"],why:"Coordinating multi-agency disaster response requires human leadership and improvisation.",imp_t:"Plans the systems that save thousands of lives when earthquakes, floods, or pandemics strike."},
+{n:"Addiction counsellor",s:"Wellbeing",ai:88,w:50,m:90,imp:88,em:0,tags:["atleet","mensen","verzorging","helpen","muziek","sport"],why:"Recovery from addiction requires sustained human relationship, trust, and lived experience empathy.",imp_t:"Helps people escape addiction that destroys health, relationships, and life chances."},
+{n:"Life coach",s:"Wellbeing",ai:72,w:55,m:75,imp:68,em:0,tags:["buiten","atleet","mensen","verzorging","helpen","muziek","sport"],why:"Accountability, challenge, and genuine human relationship drive coaching outcomes.",imp_t:"Helps people make difficult transitions and live more intentionally."},
+{n:"Music therapist",s:"Arts",ai:90,w:50,m:90,imp:82,em:0,tags:["handen","alleen","kunstenaar","kunst","tekenen","muziek"],why:"Using music to treat neurological and psychological conditions requires trained human judgment.",imp_t:"Reaches patients who cannot be reached by conventional therapy including dementia and autism."},
+{n:"Theatre director",s:"Arts",ai:80,w:52,m:88,imp:75,em:0,tags:["handen","alleen","kunstenaar","kunst","tekenen","muziek"],why:"Live performance, actor relationships, and spatial storytelling are irreducibly human arts.",imp_t:"Live theatre is one of the few remaining communal cultural experiences."},
+{n:"Choreographer",s:"Arts",ai:85,w:48,m:88,imp:72,em:0,tags:["handen","alleen","kunstenaar","kunst","tekenen","muziek"],why:"Creating movement that communicates human emotion is an embodied creative practice.",imp_t:"Communicates human emotion and cultural identity through the body."},
+{n:"Maritime officer",s:"Transport",ai:75,w:68,m:62,imp:78,em:0,tags:["machines"],why:"Command of vessels in international waters requires licensed human officers for safety and law.",imp_t:"Moves 90% of global trade. Without maritime shipping, the global economy collapses."},
+{n:"Hydrologist",s:"Environment",ai:82,w:65,m:80,imp:90,em:0,tags:["buiten","activist","dieren","natuur","buiten2"],why:"Understanding and managing water cycles requires field measurement and complex modelling.",imp_t:"Manages the water resources that billions of people depend on for drinking, farming, and industry."},
+{n:"Soil scientist",s:"Environment",ai:82,w:60,m:78,imp:88,em:0,tags:["buiten","activist","dieren","natuur","buiten2"],why:"Soil health is the foundation of all agriculture. Field assessment requires physical expertise.",imp_t:"Healthy soil feeds the world and stores carbon. Degraded soil leads to famine."},
+{n:"Wildlife ranger",s:"Environment",ai:90,w:42,m:85,imp:88,em:0,tags:["buiten","activist","dieren","natuur","wetenschap","buiten2"],why:"Protecting wildlife in the field requires physical presence and local knowledge no AI can substitute.",imp_t:"Protects species from poaching and habitat destruction. The last line of defence for wildlife."},
+{n:"Carbon market specialist",s:"Environment",ai:72,w:75,m:78,imp:88,em:1,tags:["buiten","activist","dieren","natuur","buiten2"],why:"Designing and verifying carbon offset markets requires human judgment about complex ecological systems.",imp_t:"Directs billions of dollars toward the projects that absorb carbon from the atmosphere."},
+{n:"Sales representative",s:"Sales & Marketing",ai:62,w:72,m:62,imp:68,em:0,tags:[""],why:"Trust, persuasion, and relationship-building are human. AI qualifies leads but cannot close complex deals.",imp_t:"Without sales, no company survives. Every job in every company depends on someone selling."},
+{n:"Account manager",s:"Sales & Marketing",ai:60,w:75,m:65,imp:70,em:0,tags:[""],why:"Long-term client relationships, renewals, and upselling require genuine human connection and trust.",imp_t:"Keeps businesses running by retaining the customers that took years to win."},
+{n:"Marketing manager",s:"Sales & Marketing",ai:58,w:75,m:70,imp:75,em:0,tags:[""],why:"Brand strategy, cultural intuition, and creative judgment survive AI. Campaign execution automates.",imp_t:"Shapes how millions of people perceive and choose products and organisations."},
+{n:"Digital marketing specialist",s:"Sales & Marketing",ai:52,w:65,m:62,imp:68,em:0,tags:[""],why:"Technical execution is automating fast. Strategy, creative, and audience insight keep humans relevant.",imp_t:"Connects products to the right people at scale."},
+{n:"Brand strategist",s:"Sales & Marketing",ai:68,w:78,m:75,imp:75,em:0,tags:[""],why:"Cultural relevance, storytelling, and taste cannot be automated. Brand is fundamentally human.",imp_t:"Defines how organisations are perceived and perception drives billions in value."},
+{n:"Real estate agent",s:"Sales & Marketing",ai:62,w:72,m:65,imp:68,em:0,tags:[""],why:"Buying a home is the biggest decision of most lives. Trust and local knowledge are irreplaceable.",imp_t:"Helps families find homes. One of the most emotional transactions in a human life."},
+{n:"Financial controller",s:"Finance & Accounting",ai:55,w:80,m:60,imp:72,em:0,tags:["cijfers","alleen","scherm"],why:"Financial oversight, audit judgment, and regulatory accountability require human responsibility.",imp_t:"Ensures the financial integrity of organisations that employ thousands of people."},
+{n:"CFO / finance director",s:"Finance & Accounting",ai:65,w:90,m:68,imp:80,em:0,tags:["cijfers","alleen","scherm"],why:"Capital allocation strategy, investor relations, and board-level judgment are irreducibly human.",imp_t:"Steers the financial health of organisations that define communities and economies."},
+{n:"Tax adviser",s:"Finance & Accounting",ai:58,w:82,m:58,imp:70,em:0,tags:["cijfers","alleen","scherm"],why:"Complex tax structuring, grey-area judgment, and client relationships survive automation.",imp_t:"Legally optimises tax for businesses and individuals. Shapes government revenue policy."},
+{n:"Auditor",s:"Finance & Accounting",ai:52,w:75,m:55,imp:72,em:0,tags:["cijfers","alleen","scherm"],why:"Professional skepticism, judgment calls, and legal accountability keep humans essential.",imp_t:"Provides the trust that underpins every financial market and investor decision."},
+{n:"Bookkeeper",s:"Finance & Accounting",ai:28,w:45,m:42,imp:55,em:0,tags:["cijfers","alleen","scherm"],why:"Highly automatable. AI bookkeeping tools already handle most of this. Specialisation or advisory pivot needed.",imp_t:"Keeps small businesses financially organised. Unglamorous but essential."},
+{n:"Insurance broker",s:"Finance & Accounting",ai:60,w:70,m:58,imp:68,em:0,tags:["cijfers","alleen","scherm"],why:"Complex risk assessment for unusual cases and client relationship management keep humans relevant.",imp_t:"Protects businesses and individuals against risks that would otherwise be catastrophic."},
+{n:"Mortgage adviser",s:"Finance & Accounting",ai:58,w:65,m:62,imp:68,em:0,tags:["cijfers","alleen","scherm"],why:"Major life decision requiring trust, complex product knowledge, and regulated advice.",imp_t:"Helps people buy homes. Often the most consequential financial decision of their lives."},
+{n:"Private equity analyst",s:"Finance & Accounting",ai:62,w:92,m:60,imp:72,em:0,tags:["cijfers","alleen","scherm"],why:"Deal sourcing, management assessment, and value creation judgment require human expertise.",imp_t:"Allocates large amounts of capital to transform underperforming businesses."},
+{n:"Real estate developer",s:"Real Estate",ai:72,w:88,m:70,imp:80,em:0,tags:[""],why:"Site acquisition, planning negotiation, and development risk judgment are deeply human skills.",imp_t:"Creates the homes, offices, and spaces where people live and work."},
+{n:"Property manager",s:"Real Estate",ai:62,w:60,m:58,imp:65,em:0,tags:[""],why:"Tenant relationships, maintenance coordination, and conflict resolution require human presence.",imp_t:"Maintains the quality and safety of the buildings millions of people live and work in."},
+{n:"Property surveyor",s:"Real Estate",ai:68,w:72,m:62,imp:70,em:0,tags:[""],why:"Physical inspection of buildings and professional liability require human surveyors.",imp_t:"Protects buyers from purchasing properties with hidden defects."},
+{n:"Real estate investment analyst",s:"Real Estate",ai:60,w:82,m:62,imp:70,em:0,tags:[""],why:"Market judgment, deal underwriting, and investor relationships keep humans relevant.",imp_t:"Directs billions of institutional capital into the built environment."},
+{n:"Carpenter / joiner",s:"Trades",ai:90,w:65,m:72,imp:78,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Precision woodwork in varied environments. Custom work requires creativity and skill robots cannot match.",imp_t:"Builds the kitchens, staircases, windows, and roofs inside every building."},
+{n:"Bricklayer / mason",s:"Trades",ai:88,w:62,m:65,imp:78,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Laying brick and stone in varied conditions with precision is enormously difficult to automate.",imp_t:"Builds and restores the walls of every structure in the built environment."},
+{n:"Plasterer",s:"Trades",ai:88,w:60,m:60,imp:72,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Achieving a perfect finish on irregular surfaces in real buildings requires skilled human hands.",imp_t:"Creates the smooth finished surfaces inside every home, school, and hospital."},
+{n:"Painter / decorator",s:"Trades",ai:82,w:52,m:58,imp:65,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Prep work, colour matching, and finishing in occupied spaces requires human judgment.",imp_t:"Protects and beautifies the built environment billions of people inhabit."},
+{n:"Roofer",s:"Trades",ai:88,w:62,m:58,imp:72,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Working at height in variable weather on different roof types resists automation.",imp_t:"Keeps every building weatherproof. Critical for energy efficiency and structural integrity."},
+{n:"Scaffolder",s:"Trades",ai:85,w:62,m:55,imp:72,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Erecting safe temporary structures in complex environments requires human judgment and teamwork.",imp_t:"Makes it possible to build and repair every structure above ground level."},
+{n:"Landscape gardener",s:"Trades",ai:82,w:55,m:70,imp:70,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Designing and maintaining outdoor spaces in varied conditions requires physical skill and aesthetic judgment.",imp_t:"Creates and maintains green spaces that improve mental health and biodiversity."},
+{n:"Vehicle mechanic",s:"Automotive",ai:72,w:62,m:65,imp:72,em:0,tags:["handen","lego","machines"],why:"Diagnosing complex faults in real vehicles requires physical skill and creative troubleshooting.",imp_t:"Keeps the vehicles that move people and goods safely on the road."},
+{n:"EV / automotive engineer",s:"Automotive",ai:82,w:80,m:75,imp:85,em:1,tags:["handen","lego","machines"],why:"Designing electric vehicles and battery systems is a booming field requiring human engineers.",imp_t:"Designs the vehicles that will replace fossil fuel transport globally."},
+{n:"Warehouse manager",s:"Logistics",ai:60,w:58,m:55,imp:68,em:0,tags:[""],why:"Team leadership, exception handling, and safety management require human oversight.",imp_t:"Ensures the goods people order arrive safely and on time."},
+{n:"Freight / shipping broker",s:"Logistics",ai:62,w:65,m:58,imp:70,em:0,tags:[""],why:"Negotiating rates, managing exceptions, and building carrier relationships require human expertise.",imp_t:"Moves goods across borders that keep global trade functioning."},
+{n:"Supply chain director",s:"Logistics",ai:65,w:82,m:68,imp:80,em:0,tags:[""],why:"Geopolitical risk, supplier relationships, and resilience strategy require senior human judgment.",imp_t:"Ensures the flow of goods that stocks every supermarket, hospital, and factory."},
+{n:"Hotel general manager",s:"Hospitality",ai:72,w:68,m:68,imp:65,em:0,tags:["mensen"],why:"Guest experience, team culture, and crisis management require experienced human leadership.",imp_t:"Creates the experience that makes travel memorable and builds tourism economies."},
+{n:"Travel agent / tour operator",s:"Hospitality",ai:58,w:55,m:65,imp:62,em:0,tags:["mensen"],why:"Complex itineraries, specialist destinations, and trusted advice keep human experts valuable.",imp_t:"Enables people to experience the world. Tourism employs 10% of the global workforce."},
+{n:"Event manager",s:"Hospitality",ai:68,w:60,m:72,imp:68,em:0,tags:["mensen"],why:"On-the-ground coordination, supplier management, and real-time problem-solving are human.",imp_t:"Creates the gatherings where humans celebrate, connect, and do business."},
+{n:"Optometrist",s:"Healthcare",ai:72,w:72,m:75,imp:78,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Clinical eye examination requires physical instruments and patient interaction AI cannot replace.",imp_t:"Detects eye disease and provides vision correction for billions of people."},
+{n:"Podiatrist",s:"Healthcare",ai:82,w:60,m:72,imp:72,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Foot care requires hands-on physical treatment that cannot be automated.",imp_t:"Prevents amputations and maintains mobility in diabetic and elderly patients."},
+{n:"Radiographer",s:"Healthcare",ai:68,w:62,m:75,imp:80,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Patient positioning, scanner operation, and quality judgment require trained human radiographers.",imp_t:"Produces the images that diagnose cancer, broken bones, and internal injuries."},
+{n:"Corporate trainer",s:"Education",ai:65,w:65,m:72,imp:72,em:0,tags:["mensen","verhalen","verzorging","helpen","leraar"],why:"Facilitation, group dynamics, and behaviour change require human trainers who read the room.",imp_t:"Develops the capabilities of workforces that drive organisational performance."},
+{n:"Private tutor",s:"Education",ai:68,w:50,m:82,imp:78,em:0,tags:["mensen","verhalen","verzorging","helpen","leraar"],why:"One-to-one learning is the most effective form of education. Human tutors adapt in real time.",imp_t:"Gives children personalised attention that transforms academic outcomes."},
+{n:"Solicitor",s:"Legal",ai:62,w:80,m:68,imp:78,em:0,tags:["activist","verhalen"],why:"Client-facing legal advice, contracts, and professional liability require human lawyers.",imp_t:"Handles the legal transactions that underpin property, business, and family life."},
+{n:"Paralegal",s:"Legal",ai:55,w:50,m:60,imp:68,em:0,tags:["activist","verhalen"],why:"Research and document review automate fast. Client-facing and complex judgment work remains.",imp_t:"Supports the legal system that protects rights and resolves disputes."},
+{n:"Compliance officer",s:"Legal",ai:62,w:72,m:62,imp:75,em:0,tags:["activist","verhalen"],why:"Regulatory judgment, grey areas, and accountability require human compliance professionals.",imp_t:"Ensures organisations operate within the law and protect the public from harm."},
+{n:"Copywriter",s:"Media",ai:42,w:55,m:65,imp:65,em:0,tags:["team","kunstenaar","verhalen","scherm","kunst","tekenen","games","muziek"],why:"Distinctive voice and original ideas survive. Generic content is heavily disrupted by AI.",imp_t:"Words drive decisions. Great copywriting moves billions in consumer behaviour."},
+{n:"Photographer",s:"Media",ai:65,w:50,m:78,imp:68,em:0,tags:["team","kunstenaar","verhalen","scherm","kunst","tekenen","games","muziek"],why:"Original vision, physical presence, and client relationships make photographers hard to replace.",imp_t:"Documents human life and creates the images that shape culture and memory."},
+{n:"Video editor / producer",s:"Media",ai:62,w:58,m:75,imp:72,em:0,tags:["team","kunstenaar","verhalen","scherm","kunst","tekenen","games","muziek"],why:"Storytelling judgment, pacing, and emotional arc require human creative instinct.",imp_t:"Shapes the video content that now accounts for 80% of internet traffic."},
+{n:"Animator",s:"Media",ai:60,w:65,m:78,imp:72,em:0,tags:["team","kunstenaar","verhalen","scherm","kunst","tekenen","games","muziek"],why:"Character, timing, and creative direction survive AI. Commodity animation is disrupted.",imp_t:"Brings stories and data to life in film, games, and advertising."},
+{n:"Geologist",s:"Science",ai:82,w:70,m:80,imp:82,em:0,tags:["alleen","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"Reading rock formations and field sampling require physical presence and expert interpretation.",imp_t:"Finds the mineral resources that underpin modern technology and construction."},
+{n:"Research psychologist",s:"Science",ai:78,w:62,m:82,imp:82,em:0,tags:["alleen","dieren","natuur","wetenschapper","wetenschap","ruimte","dokter","cijfers"],why:"Designing experiments that understand human behaviour requires creative scientific thinking.",imp_t:"Advances our understanding of the human mind that underpins education, health, and policy."},
+{n:"Youth worker",s:"Social",ai:88,w:42,m:90,imp:85,em:0,tags:["activist","mensen","verhalen","verzorging","leraar","helpen"],why:"Building trusted relationships with young people in difficult circumstances is irreducibly human.",imp_t:"Keeps young people out of crime, exploitation, and danger during the most vulnerable years."},
+{n:"Care home worker",s:"Social",ai:85,w:38,m:88,imp:85,em:0,tags:["activist","mensen","verhalen","verzorging","leraar","helpen"],why:"Physical care, emotional companionship, and dignity in old age are irreplaceable human work.",imp_t:"Provides dignity and companionship to elderly people who can no longer live independently."},
+{n:"Sport physiotherapist",s:"Sport",ai:85,w:65,m:82,imp:78,em:0,tags:["buiten","atleet","mensen","buiten2","verzorging","helpen","dokter","sport"],why:"Hands-on treatment, movement analysis, and athlete trust require human physiotherapists.",imp_t:"Keeps athletes competing and helps them recover from career-threatening injuries."},
+{n:"Gym owner / fitness entrepreneur",s:"Sport",ai:75,w:65,m:72,imp:68,em:0,tags:["atleet","buiten","buiten2","sport"],why:"Community building, local trust, and service quality are human competitive advantages.",imp_t:"Creates communities around health that transform physical and mental wellbeing."},
+{n:"Franchise owner",s:"Business",ai:72,w:70,m:65,imp:65,em:0,tags:["cijfers","team","ondernemer"],why:"Local leadership, team management, and community reputation require human ownership.",imp_t:"Creates local employment and delivers services communities depend on."},
+{n:"Livestock farmer",s:"Environment",ai:78,w:55,m:75,imp:82,em:0,tags:["buiten","activist","dieren","natuur","buiten2"],why:"Animal husbandry, health assessment, and land management require human expertise and judgment.",imp_t:"Produces the meat, dairy, and eggs that feed populations globally."},
+{n:"Horticulturist",s:"Environment",ai:75,w:52,m:75,imp:78,em:0,tags:["buiten","activist","dieren","natuur","buiten2"],why:"Plant cultivation, pest management, and crop quality require expert human judgment.",imp_t:"Grows the fruit, vegetables, and plants that feed people and beautify environments."},
+{n:"Librarian / archivist",s:"Humanities",ai:72,w:48,m:80,imp:75,em:0,tags:["verhalen","leraar","kunst"],why:"Curating knowledge, supporting research, and preserving archives require expert human judgment.",imp_t:"Preserves and provides access to the accumulated knowledge of human civilisation."},
+{n:"Funeral director",s:"Social",ai:88,w:58,m:82,imp:78,em:0,tags:["activist","mensen","verhalen","verzorging","leraar","helpen"],why:"Grief support, family guidance, and ceremonial care are among the most human services that exist.",imp_t:"Supports families through the most difficult experience of their lives with dignity."},
+{n:"Tattooist",s:"Arts",ai:88,w:60,m:72,imp:58,em:0,tags:["handen","alleen","kunstenaar","kunst","tekenen","muziek"],why:"Artistic skill, client relationship, and physical precision make tattooing highly resistant to automation.",imp_t:"Creates permanent art that helps people express identity and reclaim their bodies."},
+{n:"Locksmith",s:"Trades",ai:88,w:60,m:58,imp:65,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Physical lock mechanisms in varied real-world contexts resist automation entirely.",imp_t:"Provides access and security to homes and businesses when people are locked out or at risk."},
+{n:"Pest controller",s:"Trades",ai:80,w:55,m:52,imp:68,em:0,tags:["handen","buiten","lego","machines","buiten2","ingenieur"],why:"Identifying and eliminating pests in real buildings requires physical investigation and judgment.",imp_t:"Protects public health by controlling disease-carrying pests in homes and food facilities."},
+{n:"Veterinary nurse",s:"Healthcare",ai:82,w:42,m:85,imp:72,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Hands-on animal care, anaesthesia monitoring, and client support are physical human work.",imp_t:"Provides the clinical support that keeps animals alive through complex procedures."},
+{n:"Optician (dispensing)",s:"Healthcare",ai:68,w:58,m:65,imp:70,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Fitting, adjusting, and advising on eyewear requires hands-on physical skill and patient empathy.",imp_t:"Ensures people can see clearly and comfortably every day of their lives."},
+{n:"Dietitian",s:"Healthcare",ai:72,w:60,m:75,imp:78,em:0,tags:["handen","team","dieren","natuur","atleet","wetenschap","mensen","verzorging","helpen","dokter","sport"],why:"Clinical nutrition requires individual assessment and medical context apps cannot replicate.",imp_t:"Treats malnutrition, eating disorders, and diet-related disease across all ages."},
+{n:"Dental technician",s:"Healthcare",ai:72,w:58,m:62,imp:68,em:0,tags:["handen","team","machines","dieren","natuur","atleet","wetenschap","mensen","scherm","verzorging","helpen","dokter","cijfers","games","sport"],why:"Crafting custom dental prosthetics by hand requires precision skill and aesthetic judgment.",imp_t:"Makes the crowns, bridges, and dentures that restore smiles and eating function."},
+{n:"Ambulance technician",s:"Emergency",ai:82,w:48,m:82,imp:88,em:0,tags:["buiten","machines","buiten2","scherm","cijfers","games","sport"],why:"Pre-hospital patient care and transport in real emergencies requires physical human intervention.",imp_t:"Responds to 999 calls and transports patients safely to definitive care."},
+{n:"Security guard / officer",s:"Emergency",ai:72,w:42,m:50,imp:65,em:0,tags:["buiten","buiten2","sport"],why:"Physical deterrence, real-time judgment, and human presence are core to security work.",imp_t:"Protects people, property, and events from theft, violence, and disorder."},
+{n:"Social media manager",s:"Sales & Marketing",ai:52,w:58,m:62,imp:65,em:0,tags:[""],why:"Community management, real-time response, and creative voice keep humans relevant. Scheduling automates.",imp_t:"Shapes how brands communicate with millions of followers in real time."},
+{n:"Recruitment consultant",s:"Sales & Marketing",ai:58,w:68,m:62,imp:70,em:0,tags:[""],why:"Candidate relationships, hiring manager trust, and judgment about fit are human skills.",imp_t:"Matches people to jobs that transform their lives and companies to talent that defines them."},
+{n:"Barber / hairdresser",s:"Wellbeing",ai:90,w:50,m:70,imp:62,em:0,tags:["atleet","mensen","verzorging","helpen","muziek","sport"],why:"Physical cutting, styling, and trusted client relationship are entirely resistant to automation.",imp_t:"Provides the regular human contact and confidence boost that millions depend on weekly."},
+{n:"Tattoo artist",s:"Arts",ai:90,w:58,m:75,imp:60,em:0,tags:["handen","alleen","kunstenaar","kunst","tekenen","muziek"],why:"Custom art applied by hand to human skin. Among the most automation-proof skilled crafts.",imp_t:"Creates permanent personal art that helps people express identity and heal from trauma."},
+{n:"Antiques dealer / auctioneer",s:"Business",ai:72,w:65,m:75,imp:68,em:0,tags:["cijfers","team","ondernemer"],why:"Object authentication, provenance research, and client relationships require deep human expertise.",imp_t:"Preserves and circulates objects of cultural and historical significance."},
+{n:"Interpreter (live)",s:"Humanities",ai:55,w:62,m:72,imp:78,em:0,tags:["verhalen","leraar","kunst"],why:"Simultaneous interpretation under pressure in high-stakes settings requires extraordinary human skill.",imp_t:"Enables justice, diplomacy, and healthcare to function across language barriers."}];
+
+var lang = localStorage.getItem("cw_lang") || "nl";
+var answers = { q1:[], q2:[], q3:[], q4:[], moneyVsMeaning:50, riskTolerance:50 };
+
+var TX = {
+  nl:{
+    nav_back:"Startpagina",
+    s0_eyebrow:"Jouw toekomst",
+    s0_title:"Welk beroep\npast bij jou?",
+    s0_body:"Geen saaie lijst van 235 beroepen. Vertel ons wat jou fascineert — en wij tonen je de beroepen die echt bij jou passen.",
+    s0_time:"2 minuten · 6 vragen · geen verkeerde antwoorden",
+    s0_btn:"Begin de quiz",
+    s0_note:"Geen account nodig · Jouw antwoorden worden niet opgeslagen",
+    q1_num:"Vraag 1 van 6", q1_title:"Wat fascineert jou het meest?", q1_sub:"Kies alles wat je aanspreekt — meerdere antwoorden zijn oké.",
+    q2_num:"Vraag 2 van 6", q2_title:"Waarmee speelde je vroeger het liefst?", q2_sub:"Denk terug aan wat je als kind uren kon doen.",
+    q3_num:"Vraag 3 van 6", q3_title:"Wie kijk je naar op?", q3_sub:"Niet wie je kent — maar welk type persoon je bewondert.",
+    q4_num:"Vraag 4 van 6", q4_title:"Hoe werk je het liefst?", q4_sub:"Er is geen goed of fout — dit gaat over wat energie geeft.",
+    q5_num:"Vraag 5 van 6", q5_title:"Wat is belangrijker voor jou?", q5_sub:"Sleep de schuifbalk naar wat het beste past.",
+    q5_left:"💰 Veel geld verdienen", q5_right:"💙 Zinvol werk doen",
+    q6_num:"Vraag 6 van 6", q6_title:"Hoe sta je tegenover onzekerheid?", q6_sub:"Denk aan je toekomstige loopbaan — wat klinkt beter?",
+    q6_left:"🔒 Stabiel werk, vaste job, zekerheid", q6_right:"🎤 Eigen baas, risico, grote beloning",
+    hint:"Kies minstens 1 optie",
+    loading_title:"Jouw profiel analyseren...", loading_sub:"We zoeken de beste matches uit 235 beroepen",
+    r_eyebrow:"Jouw matches", r_title:"Jouw top 10 beroepen", r_sub:"Op basis van wat jij fascineert, hoe je werkt en wat je waardeert.",
+    match_label:"match",
+    explore:"Bekijk alle 235 beroepen →",
+    restart:"↺ Doe de quiz opnieuw",
+    next:"Volgende →", back:"←", calc:"Bereken mijn matches →",
+    step:"Vraag",
+    money_labels:["Veel geld","Iets meer geld","Evenwicht","Iets meer zinvol","Zinvol werk"],
+    risk_labels:["Heel stabiel","Eerder stabiel","Tussenpositie","Eerder avontuurlijk","Avontuurlijk"],
+    why_prefix:"Waarom: "
+  },
+  en:{
+    nav_back:"Home",
+    s0_eyebrow:"Your future",
+    s0_title:"Which career\nfits you?",
+    s0_body:"No boring list of 235 careers. Tell us what fascinates you — and we'll show you the careers that truly fit.",
+    s0_time:"2 minutes · 6 questions · no wrong answers",
+    s0_btn:"Start the quiz",
+    s0_note:"No account needed · Your answers are not saved",
+    q1_num:"Question 1 of 6", q1_title:"What fascinates you most?", q1_sub:"Pick everything that appeals to you — multiple answers are fine.",
+    q2_num:"Question 2 of 6", q2_title:"What did you love playing with as a kid?", q2_sub:"Think back to what you could do for hours as a child.",
+    q3_num:"Question 3 of 6", q3_title:"Who do you look up to?", q3_sub:"Not someone you know — but what type of person you admire.",
+    q4_num:"Question 4 of 6", q4_title:"How do you prefer to work?", q4_sub:"No right or wrong — this is about what gives you energy.",
+    q5_num:"Question 5 of 6", q5_title:"What matters more to you?", q5_sub:"Drag the slider to what fits best.",
+    q5_left:"💰 Earn a lot of money", q5_right:"💙 Do meaningful work",
+    q6_num:"Question 6 of 6", q6_title:"How do you feel about uncertainty?", q6_sub:"Think about your future career — what sounds better?",
+    q6_left:"🔒 Stable job, security, predictability", q6_right:"🎤 Own boss, risk, big reward",
+    hint:"Pick at least 1 option",
+    loading_title:"Analysing your profile...", loading_sub:"Finding your best matches from 235 careers",
+    r_eyebrow:"Your matches", r_title:"Your top 10 careers", r_sub:"Based on what fascinates you, how you work and what you value.",
+    match_label:"match",
+    explore:"Explore all 235 careers →",
+    restart:"↺ Retake the quiz",
+    next:"Next →", back:"←", calc:"Find my matches →",
+    step:"Question",
+    money_labels:["Much money","More money","Balance","More meaningful","Meaningful work"],
+    risk_labels:["Very stable","Fairly stable","In between","Fairly adventurous","Adventurous"],
+    why_prefix:"Why: "
+  }
+};
+
+function t(k){ return TX[lang][k] || TX.en[k] || k; }
+
+// ── QUESTION DATA ──
+var Q1 = [
+  {icon:"🧑‍🤝‍🧑",nl:"Mensen",en:"People",tag:"mensen"},
+  {icon:"⚙️",nl:"Machines",en:"Machines",tag:"machines"},
+  {icon:"🌿",nl:"Natuur",en:"Nature",tag:"natuur"},
+  {icon:"🔢",nl:"Cijfers",en:"Numbers",tag:"cijfers"},
+  {icon:"🎨",nl:"Kunst",en:"Art",tag:"kunst"},
+  {icon:"📖",nl:"Verhalen",en:"Stories",tag:"verhalen"},
+  {icon:"🐾",nl:"Dieren",en:"Animals",tag:"dieren"},
+  {icon:"🚀",nl:"Ruimte",en:"Space",tag:"ruimte"}
+];
+
+var Q2 = [
+  {icon:"🧱",nl:"Lego / bouwen",en:"Lego / building",tag:"lego"},
+  {icon:"🧸",nl:"Zorgen voor anderen",en:"Caring for others",tag:"verzorging"},
+  {icon:"🎮",nl:"Games / computers",en:"Games / computers",tag:"games"},
+  {icon:"⚽",nl:"Sport / bewegen",en:"Sport / movement",tag:"sport"},
+  {icon:"✏️",nl:"Tekenen / knutselen",en:"Drawing / crafting",tag:"tekenen"},
+  {icon:"🔬",nl:"Experimenten",en:"Experiments",tag:"wetenschap"},
+  {icon:"🎸",nl:"Muziek",en:"Music",tag:"muziek"},
+  {icon:"🌳",nl:"Buiten spelen",en:"Playing outside",tag:"buiten"}
+];
+
+var Q3 = [
+  {icon:"🩺",nl:"Dokter / verpleegkundige",en:"Doctor / nurse",tag:"dokter"},
+  {icon:"💼",nl:"Ondernemer",en:"Entrepreneur",tag:"ondernemer"},
+  {icon:"🏅",nl:"Topsporter",en:"Elite athlete",tag:"atleet"},
+  {icon:"🎭",nl:"Kunstenaar",en:"Artist",tag:"kunstenaar"},
+  {icon:"🔭",nl:"Wetenschapper",en:"Scientist",tag:"wetenschapper"},
+  {icon:"📚",nl:"Leraar",en:"Teacher",tag:"leraar"},
+  {icon:"🏗️",nl:"Ingenieur",en:"Engineer",tag:"ingenieur"},
+  {icon:"✊",nl:"Activist / politicus",en:"Activist / politician",tag:"activist"}
+];
+
+var Q4 = [
+  {icon:"🧘",nl:"Alleen, in mijn eigen tempo",en:"Alone, at my own pace",tag:"alleen"},
+  {icon:"🤝",nl:"In een team",en:"In a team",tag:"team"},
+  {icon:"💬",nl:"Met mensen praten en helpen",en:"Talking to and helping people",tag:"helpen"},
+  {icon:"🔧",nl:"Met mijn handen",en:"With my hands",tag:"handen"},
+  {icon:"💻",nl:"Achter een scherm",en:"Behind a screen",tag:"scherm"},
+  {icon:"🌄",nl:"Buiten, in de natuur",en:"Outside, in nature",tag:"buiten2"}
+];
+
+// ── RENDER TILES ──
+function renderTiles(containerId, items, qKey) {
+  var el = document.getElementById(containerId);
+  el.innerHTML = items.map(function(item) {
+    var sel = answers[qKey].indexOf(item.tag) > -1 ? " sel" : "";
+    var label = lang === "nl" ? item.nl : item.en;
+    return '<div class="tile'+sel+'" data-tag="'+item.tag+'" onclick="toggleTile(this,\''+qKey+'\')">' +
+      '<div class="tile-check">✓</div>' +
+      '<span class="tile-icon">'+item.icon+'</span>' +
+      '<span class="tile-label">'+label+'</span>' +
+      '</div>';
+  }).join("");
+}
+
+function toggleTile(el, qKey) {
+  var tag = el.dataset.tag;
+  var i = answers[qKey].indexOf(tag);
+  if(i > -1) {
+    answers[qKey].splice(i, 1);
+    el.classList.remove("sel");
+  } else {
+    answers[qKey].push(tag);
+    el.classList.add("sel");
+  }
+  // Enable/disable next button
+  var nextBtn = document.getElementById(qKey.replace("q","q") + "-next");
+  if(nextBtn) nextBtn.disabled = answers[qKey].length === 0;
+}
+
+// ── SLIDER ──
+function updateSlider(input, type) {
+  var val = parseInt(input.value);
+  if(type === "money") {
+    answers.moneyVsMeaning = val;
+    var labels = t("money_labels");
+    var idx = Math.round(val / 25);
+    document.getElementById("slider-money-val").textContent = labels[idx] || labels[2];
+    var pct = val + "%";
+    input.style.background = "linear-gradient(to right,var(--ink) "+pct+",rgba(0,0,0,.12) "+pct+")";
+  } else {
+    answers.riskTolerance = val;
+    var labels2 = t("risk_labels");
+    var idx2 = Math.round(val / 25);
+    document.getElementById("slider-risk-val").textContent = labels2[idx2] || labels2[2];
+    var pct2 = val + "%";
+    input.style.background = "linear-gradient(to right,var(--ink) "+pct2+",rgba(0,0,0,.12) "+pct2+")";
+  }
+}
+
+// ── NAVIGATION ──
+var currentQ = 0;
+function showQ(n) {
+  // Validate before proceeding
+  if(n > currentQ) {
+    if(n === 2 && answers.q1.length === 0) return;
+    if(n === 3 && answers.q2.length === 0) return;
+    if(n === 4 && answers.q3.length === 0) return;
+    if(n === 5 && answers.q4.length === 0) return;
+  }
+  currentQ = n;
+  document.querySelectorAll(".screen").forEach(function(s) { s.classList.remove("active"); });
+  var screen = document.getElementById("s" + n);
+  if(screen) screen.classList.add("active");
+
+  // Progress
+  var pct = n === 0 ? 0 : Math.round((n / 6) * 100);
+  document.getElementById("prog").style.width = pct + "%";
+  var stepEl = document.getElementById("step-label");
+  if(n > 0 && n < 7) stepEl.textContent = t("step") + " " + n + " / 6";
+  else stepEl.textContent = "";
+
+  // Render tiles
+  if(n === 1) { renderTiles("q1-tiles", Q1, "q1"); document.getElementById("q1-next").disabled = answers.q1.length === 0; }
+  if(n === 2) { renderTiles("q2-tiles", Q2, "q2"); document.getElementById("q2-next").disabled = answers.q2.length === 0; }
+  if(n === 3) { renderTiles("q3-tiles", Q3, "q3"); document.getElementById("q3-next").disabled = answers.q3.length === 0; }
+  if(n === 4) { renderTiles("q4-tiles", Q4, "q4"); document.getElementById("q4-next").disabled = answers.q4.length === 0; }
+
+  window.scrollTo(0, 0);
+}
+
+// ── CALCULATE MATCHES ──
+function calculate() {
+  showQ(7);
+  setTimeout(function() {
+    var allTags = answers.q1.concat(answers.q2).concat(answers.q3).concat(answers.q4);
+    var tagWeights = {};
+    allTags.forEach(function(tag) { tagWeights[tag] = (tagWeights[tag] || 0) + 1; });
+
+    var scored = CAREERS.map(function(c) {
+      var score = 0;
+      var maxScore = 0;
+      var matchedTags = [];
+
+      // Tag matching (60% of score)
+      var careerTags = c.tags || [];
+      allTags.forEach(function(tag) {
+        maxScore += tagWeights[tag] || 1;
+        if(careerTags.indexOf(tag) > -1) {
+          score += (tagWeights[tag] || 1);
+          if(matchedTags.indexOf(tag) === -1) matchedTags.push(tag);
+        }
+      });
+      var tagScore = maxScore > 0 ? (score / maxScore) * 60 : 0;
+
+      // Wealth preference (20% of score)
+      var moneyPref = answers.moneyVsMeaning / 100; // 0=money, 1=meaning
+      var wealthScore = moneyPref < 0.5
+        ? (c.w / 100) * (1 - moneyPref * 2) * 20
+        : (c.m / 100) * ((moneyPref - 0.5) * 2) * 20;
+
+      // Risk tolerance (20% of score)
+      var riskPref = answers.riskTolerance / 100; // 0=stable, 1=risky
+      // High AI-proof = stable; Low AI-proof + high wealth = risky
+      var stabilityScore = (c.ai / 100);
+      var riskScore2 = riskPref < 0.5
+        ? stabilityScore * (1 - riskPref * 2) * 20
+        : ((1 - stabilityScore) * 0.5 + c.w / 200) * (riskPref - 0.5) * 2 * 20;
+
+      var total = tagScore + wealthScore + riskScore2;
+      var pct = Math.round(Math.min(99, Math.max(20, total)));
+
+      // Pick best matched tag for "why" label
+      var whyTag = matchedTags[0] || "";
+
+      return { career: c, score: total, pct: pct, whyTag: whyTag };
+    });
+
+    scored.sort(function(a, b) { return b.score - a.score; });
+    var top10 = scored.slice(0, 10);
+
+    renderResults(top10);
+    showQ(8);
+    document.getElementById("prog").style.width = "100%";
+  }, 1800);
+}
+
+var tagLabels = {
+  mensen:"Werkt met mensen", machines:"Technisch talent", natuur:"Liefde voor natuur",
+  cijfers:"Analytisch denken", kunst:"Creatief ingesteld", verhalen:"Goed in communiceren",
+  dieren:"Dierenliefde", ruimte:"Wetenschappelijke geest",
+  lego:"Bouwer en maker", verzorging:"Zorgzame natuur", games:"Digitaal talent",
+  sport:"Sportief ingesteld", tekenen:"Visueel talent", wetenschap:"Wetenschappelijke nieuwsgierigheid",
+  muziek:"Muzikaal talent", buiten:"Avonturier",
+  dokter:"Bewondert zorgverleners", ondernemer:"Ondernemersgeest", atleet:"Sportieve ambitie",
+  kunstenaar:"Artistieke ziel", wetenschapper:"Wetenschappelijke ambitie",
+  leraar:"Wil anderen helpen leren", ingenieur:"Ingenieursmindset", activist:"Wil de wereld veranderen",
+  alleen:"Werkt graag zelfstandig", team:"Teamspeler", helpen:"Wil mensen helpen",
+  handen:"Werkt met de handen", scherm:"Digitaal werker", buiten2:"Houdt van buiten zijn"
+};
+
+function renderResults(top10) {
+  var html = "";
+  top10.forEach(function(item, i) {
+    var c = item.career;
+    var rankClass = i < 3 ? " top" : "";
+    var whyText = tagLabels[item.whyTag] || "";
+    html += '<a class="result-card" href="careers.html" onclick="storeMatch(\''+c.n.replace(/'/g,' ')+'\')">';
+    html += '<div class="result-rank'+rankClass+'">'+(i+1)+'</div>';
+    html += '<div class="result-info">';
+    html += '<div class="result-name">'+c.n+'</div>';
+    html += '<div class="result-sector">'+c.s+'</div>';
+    html += '<div class="result-bars">';
+    html += '<div class="result-bar-row"><span class="result-bar-label">AI-proof</span><div class="result-bar-track"><div class="result-bar-fill" style="width:'+c.ai+'%;background:#378ADD"></div></div><span class="result-score">'+c.ai+'</span></div>';
+    html += '<div class="result-bar-row"><span class="result-bar-label">Inkomen</span><div class="result-bar-track"><div class="result-bar-fill" style="width:'+c.w+'%;background:#639922"></div></div><span class="result-score">'+c.w+'</span></div>';
+    html += '</div>';
+    if(whyText) html += '<div class="match-why" style="margin-top:6px">'+whyText+'</div>';
+    html += '</div>';
+    html += '<div class="result-match"><div class="match-pct">'+item.pct+'%</div><div class="match-label">'+t("match_label")+'</div></div>';
+    html += '<div class="result-arrow">&#8250;</div>';
+    html += '</a>';
+  });
+  document.getElementById("results-list").innerHTML = html;
+
+  // Store top match for careers page
+  if(top10.length > 0) {
+    try { localStorage.setItem("cw_top_match", top10[0].career.n); } catch(e) {}
+  }
+}
+
+function storeMatch(name) {
+  try { localStorage.setItem("cw_discover_career", name); } catch(e) {}
+}
+
+function goToCareers() {
+  window.location.href = "careers.html";
+}
+
+function restart() {
+  answers = { q1:[], q2:[], q3:[], q4:[], moneyVsMeaning:50, riskTolerance:50 };
+  document.getElementById("slider-money").value = 50;
+  document.getElementById("slider-risk").value = 50;
+  updateSlider(document.getElementById("slider-money"), "money");
+  updateSlider(document.getElementById("slider-risk"), "risk");
+  showQ(0);
+}
+
+// ── LANGUAGE ──
+function applyLang() {
+  var btn = document.getElementById("lang-btn");
+  var back = document.getElementById("nav-back-txt");
+  if(btn) { btn.textContent = lang === "nl" ? "EN" : "NL"; btn.className = "lang-btn" + (lang === "nl" ? " nl" : ""); }
+  if(back) back.textContent = t("nav_back");
+
+  // Update all text
+  var map = {
+    "s0-eyebrow":"s0_eyebrow","s0-body":"s0_body","s0-btn":"s0_btn","s0-note":"s0_note",
+    "q1-num":"q1_num","q1-hint":"hint","q2-num":"q2_num","q2-hint":"hint",
+    "q3-num":"q3_num","q3-hint":"hint","q4-num":"q4_num","q4-hint":"hint",
+    "q5-num":"q5_num","q5-left":"q5_left","q5-right":"q5_right",
+    "q6-num":"q6_num","q6-left":"q6_left","q6-right":"q6_right",
+    "loading-title":"loading_title","loading-sub":"loading_sub",
+    "r-eyebrow":"r_eyebrow","r-title":"r_title","r-sub":"r_sub",
+    "btn-explore":"explore","btn-restart":"restart"
+  };
+  Object.keys(map).forEach(function(id) {
+    var el = document.getElementById(id);
+    if(el) el.textContent = t(map[id]);
+  });
+
+  // Title special handling (has line break)
+  var titleEl = document.getElementById("s0-title");
+  if(titleEl) {
+    var titleTxt = t("s0_title");
+    var parts = titleTxt.split("\n");
+    titleEl.innerHTML = parts[0] + (parts[1] ? '<br>' + parts[1].replace("jou","<em>jou</em>").replace("you","<em>you</em>") : "");
+  }
+
+  var timeEl = document.getElementById("s0-time");
+  if(timeEl) timeEl.innerHTML = "&#9200; " + t("s0_time");
+
+  // Re-render tiles if on a tile question
+  if(currentQ === 1) renderTiles("q1-tiles", Q1, "q1");
+  if(currentQ === 2) renderTiles("q2-tiles", Q2, "q2");
+  if(currentQ === 3) renderTiles("q3-tiles", Q3, "q3");
+  if(currentQ === 4) renderTiles("q4-tiles", Q4, "q4");
+}
+
+function toggleLang() {
+  lang = lang === "nl" ? "en" : "nl";
+  localStorage.setItem("cw_lang", lang);
+  applyLang();
+}
+
+// ── INIT ──
+applyLang();
+updateSlider(document.getElementById("slider-money"), "money");
+updateSlider(document.getElementById("slider-risk"), "risk");
+</script>
+</body>
+</html>
