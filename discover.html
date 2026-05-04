@@ -21,6 +21,8 @@ body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);m
 .nav-brand{font-family:'Fraunces',serif;font-size:14px;font-weight:700;color:var(--gold);letter-spacing:.06em;text-transform:uppercase;text-decoration:none}
 .nav-back{font-size:13px;color:#888;text-decoration:none;display:flex;align-items:center;gap:4px}
 .nav-back:hover{color:var(--ink)}
+.nav-careers-link{font-family:"DM Sans",sans-serif;font-size:12px;font-weight:600;padding:5px 12px;border:1.5px solid rgba(0,0,0,.15);border-radius:99px;color:#666;text-decoration:none;transition:all .15s;white-space:nowrap}
+.nav-careers-link:hover{border-color:var(--ink);color:var(--ink)}
 .lang-btn{font-size:12px;font-weight:600;padding:5px 12px;border:1.5px solid rgba(0,0,0,.15);border-radius:99px;background:transparent;color:#666;cursor:pointer;transition:all .15s}
 .lang-btn:hover{border-color:var(--ink);color:var(--ink)}
 .lang-btn.nl{background:var(--red);color:#fff;border-color:var(--red)}
@@ -131,7 +133,10 @@ body{font-family:'DM Sans',sans-serif;background:var(--paper);color:var(--ink);m
 <nav class="nav">
   <a href="index.html" class="nav-back">&#8592; <span id="nav-back-txt">Startpagina</span></a>
   <a href="index.html" class="nav-brand">Choose Wise</a>
-  <button class="lang-btn nl" id="lang-btn" onclick="toggleLang()">EN</button>
+  <div style="display:flex;align-items:center;gap:8px">
+    <a href="careers.html" class="nav-careers-link">&#128218; <span id="nav-careers-txt">Beroepen</span></a>
+    <button class="lang-btn nl" id="lang-btn" onclick="toggleLang()">EN</button>
+  </div>
 </nav>
 
 <div class="progress-wrap">
@@ -808,6 +813,8 @@ function restart() {
 function applyLang() {
   var btn = document.getElementById("lang-btn");
   var back = document.getElementById("nav-back-txt");
+  var careersLink = document.getElementById("nav-careers-txt");
+  if(careersLink) careersLink.textContent = lang === "nl" ? "Beroepen" : "Careers";
   if(btn) { btn.textContent = lang === "nl" ? "EN" : "NL"; btn.className = "lang-btn" + (lang === "nl" ? " nl" : ""); }
   if(back) back.textContent = t("nav_back");
 
